@@ -1,0 +1,424 @@
+{
+  "1": {
+    "type_arg": 1,
+    "pointLocations": [4, 9, 15],
+    "pattern": [
+      { "colors": [4, 3, 3], "position": 0, "allowCube": false },
+      { "colors": [1], "position": 3, "allowCube": false },
+      { "colors": [1], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "2": {
+    "type_arg": 2,
+    "pointLocations": [4, 10, 16],
+    "pattern": [
+      { "colors": [2], "position": 0, "allowCube": false },
+      { "colors": [2], "position": 4, "allowCube": false },
+      { "colors": [1], "position": 2, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "3": {
+    "type_arg": 3,
+    "pointLocations": [3, 6, 10, 16],
+    "pattern": [
+      { "colors": [2, 2, 2], "position": 0, "allowCube": false },
+      { "colors": [1], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "4": {
+    "type_arg": 4,
+    "pointLocations": [5, 10, 16],
+    "pattern": [
+      { "colors": [4], "position": 0, "allowCube": false },
+      { "colors": [4], "position": 3, "allowCube": false },
+      { "colors": [1], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "5": {
+    "type_arg": 5,
+    "pointLocations": [2, 4, 6, 10, 15],
+    "pattern": [
+      { "colors": [4], "position": 0, "allowCube": false },
+      { "colors": [1], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "6": {
+    "type_arg": 6,
+    "pointLocations": [2, 4, 8, 13],
+    "pattern": [
+      { "colors": [6, 7], "position": 0, "allowCube": false },
+      { "colors": [1], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "7": {
+    "type_arg": 7,
+    "pointLocations": [4, 10, 16],
+    "pattern": [
+      { "colors": [5], "position": 0, "allowCube": false },
+      { "colors": [1], "position": 3, "allowCube": true },
+      { "colors": [5], "position": 5, "allowCube": false }
+    ],
+    "isSpirit": false
+  },
+  "8": {
+    "type_arg": 8,
+    "pointLocations": [5, 10, 16],
+    "pattern": [
+      { "colors": [5], "position": 0, "allowCube": false },
+      { "colors": [5], "position": 3, "allowCube": false },
+      { "colors": [6, 7], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "9": {
+    "type_arg": 9,
+    "pointLocations": [5, 10, 17],
+    "pattern": [
+      { "colors": [5], "position": 0, "allowCube": false },
+      { "colors": [6, 7], "position": 2, "allowCube": true },
+      { "colors": [5], "position": 3, "allowCube": false }
+    ],
+    "isSpirit": false
+  },
+  "10": {
+    "type_arg": 10,
+    "pointLocations": [5, 10, 17],
+    "pattern": [
+      { "colors": [1], "position": 0, "allowCube": false },
+      { "colors": [6, 7], "position": 2, "allowCube": true },
+      { "colors": [1], "position": 3, "allowCube": false }
+    ],
+    "isSpirit": false
+  },
+  "11": {
+    "type_arg": 11,
+    "pointLocations": [4, 9, 15],
+    "pattern": [
+      { "colors": [4, 3, 3], "position": 0, "allowCube": false },
+      { "colors": [6, 7], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "12": {
+    "type_arg": 12,
+    "pointLocations": [5, 12],
+    "pattern": [
+      { "colors": [4, 3], "position": 0, "allowCube": false },
+      { "colors": [6, 7], "position": 3, "allowCube": true },
+      { "colors": [4, 3], "position": 5, "allowCube": false }
+    ],
+    "isSpirit": false
+  },
+  "13": {
+    "type_arg": 13,
+    "pointLocations": [8, 18],
+    "pattern": [
+      { "colors": [5], "position": 0, "allowCube": false },
+      { "colors": [4, 3], "position": 2, "allowCube": true },
+      { "colors": [5], "position": 4, "allowCube": false },
+      { "colors": [5], "position": 2, "allowCube": false }
+    ],
+    "isSpirit": false
+  },
+  "14": {
+    "type_arg": 14,
+    "pointLocations": [5, 11],
+    "pattern": [
+      { "colors": [2, 2], "position": 0, "allowCube": false },
+      { "colors": [4], "position": 3, "allowCube": true },
+      { "colors": [2, 2], "position": 5, "allowCube": false }
+    ],
+    "isSpirit": false
+  },
+  "15": {
+    "type_arg": 15,
+    "pointLocations": [5, 10, 17],
+    "pattern": [
+      { "colors": [6, 7], "position": 0, "allowCube": false },
+      { "colors": [4], "position": 3, "allowCube": false },
+      { "colors": [4], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "16": {
+    "type_arg": 16,
+    "pointLocations": [4, 9, 14],
+    "pattern": [
+      { "colors": [1], "position": 0, "allowCube": false },
+      { "colors": [4, 3], "position": 3, "allowCube": true },
+      { "colors": [1], "position": 5, "allowCube": false }
+    ],
+    "isSpirit": false
+  },
+  "17": {
+    "type_arg": 17,
+    "pointLocations": [4, 8, 13],
+    "pattern": [
+      { "colors": [6, 7], "position": 0, "allowCube": false },
+      { "colors": [4, 3], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "18": {
+    "type_arg": 18,
+    "pointLocations": [3, 6, 10, 15],
+    "pattern": [
+      { "colors": [4], "position": 0, "allowCube": false },
+      { "colors": [4, 3], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "19": {
+    "type_arg": 19,
+    "pointLocations": [4, 10, 16],
+    "pattern": [
+      { "colors": [5], "position": 0, "allowCube": false },
+      { "colors": [4, 3, 3], "position": 3, "allowCube": true },
+      { "colors": [5], "position": 5, "allowCube": false }
+    ],
+    "isSpirit": false
+  },
+  "20": {
+    "type_arg": 20,
+    "pointLocations": [5, 11, 18],
+    "pattern": [
+      { "colors": [1], "position": 0, "allowCube": false },
+      { "colors": [4, 3, 3], "position": 2, "allowCube": true },
+      { "colors": [1], "position": 3, "allowCube": false }
+    ],
+    "isSpirit": false
+  },
+  "21": {
+    "type_arg": 21,
+    "pointLocations": [4, 10, 16],
+    "pattern": [
+      { "colors": [1], "position": 0, "allowCube": false },
+      { "colors": [2], "position": 2, "allowCube": true },
+      { "colors": [1], "position": 3, "allowCube": false }
+    ],
+    "isSpirit": false
+  },
+  "22": {
+    "type_arg": 22,
+    "pointLocations": [3, 6, 10, 15],
+    "pattern": [
+      { "colors": [4, 3, 3], "position": 0, "allowCube": false },
+      { "colors": [2], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "23": {
+    "type_arg": 23,
+    "pointLocations": [4, 9, 16],
+    "pattern": [
+      { "colors": [5], "position": 0, "allowCube": false },
+      { "colors": [2], "position": 3, "allowCube": false },
+      { "colors": [2], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "24": {
+    "type_arg": 24,
+    "pointLocations": [5, 11],
+    "pattern": [
+      { "colors": [1], "position": 0, "allowCube": false },
+      { "colors": [2, 2], "position": 3, "allowCube": true },
+      { "colors": [1], "position": 5, "allowCube": false }
+    ],
+    "isSpirit": false
+  },
+  "25": {
+    "type_arg": 25,
+    "pointLocations": [5, 11],
+    "pattern": [
+      { "colors": [5], "position": 0, "allowCube": false },
+      { "colors": [2, 2, 2], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "26": {
+    "type_arg": 26,
+    "pointLocations": [2, 5, 9, 14],
+    "pattern": [
+      { "colors": [5], "position": 0, "allowCube": false },
+      { "colors": [2], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "27": {
+    "type_arg": 27,
+    "pointLocations": [4, 9],
+    "pattern": [
+      { "colors": [6, 7], "position": 0, "allowCube": false },
+      { "colors": [5], "position": 2, "allowCube": true },
+      { "colors": [6, 7], "position": 3, "allowCube": false }
+    ],
+    "isSpirit": false
+  },
+  "28": {
+    "type_arg": 28,
+    "pointLocations": [5, 12],
+    "pattern": [
+      { "colors": [2, 2], "position": 0, "allowCube": false },
+      { "colors": [5], "position": 3, "allowCube": false },
+      { "colors": [5], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "29": {
+    "type_arg": 29,
+    "pointLocations": [5, 10, 17],
+    "pattern": [
+      { "colors": [4, 3], "position": 0, "allowCube": false },
+      { "colors": [5], "position": 2, "allowCube": true },
+      { "colors": [4, 3], "position": 3, "allowCube": false }
+    ],
+    "isSpirit": false
+  },
+  "30": {
+    "type_arg": 30,
+    "pointLocations": [6, 12],
+    "pattern": [
+      { "colors": [1], "position": 0, "allowCube": false },
+      { "colors": [5], "position": 2, "allowCube": true },
+      { "colors": [1], "position": 4, "allowCube": false },
+      { "colors": [1], "position": 2, "allowCube": false }
+    ],
+    "isSpirit": false
+  },
+  "31": {
+    "type_arg": 31,
+    "pointLocations": [2, 5, 8, 12, 17],
+    "pattern": [
+      { "colors": [4], "position": 0, "allowCube": false },
+      { "colors": [5], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "32": {
+    "type_arg": 32,
+    "pointLocations": [5, 11],
+    "pattern": [
+      { "colors": [4, 3], "position": 0, "allowCube": false },
+      { "colors": [4, 3], "position": 3, "allowCube": false },
+      { "colors": [5], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": false
+  },
+  "33": {
+    "type_arg": 33,
+    "pointLocations": [0],
+    "pattern": [
+      { "colors": [4, 3], "position": 0, "allowCube": false },
+      { "colors": [5], "position": 3, "allowCube": true },
+      { "colors": [5], "position": 3, "allowCube": false }
+    ],
+    "isSpirit": true,
+    "spiritScoringLogic": "Gain 10 points for each group of 3 fields tokens or more, 2 otherwise"
+  },
+  "34": {
+    "type_arg": 34,
+    "pointLocations": [0],
+    "pattern": [
+      { "colors": [5], "position": 0, "allowCube": false },
+      { "colors": [1], "position": 2, "allowCube": false },
+      { "colors": [1], "position": 4, "allowCube": false },
+      { "colors": [5], "position": 2, "allowCube": true }
+    ],
+    "isSpirit": true,
+    "spiritScoringLogic": "Gain 5 points for each group of 1 field token or more "
+  },
+  "35": {
+    "type_arg": 35,
+    "pointLocations": [0],
+    "pattern": [
+      { "colors": [4, 3, 3], "position": 0, "allowCube": false },
+      { "colors": [4, 3], "position": 3, "allowCube": true },
+      { "colors": [4], "position": 3, "allowCube": false }
+    ],
+    "isSpirit": true,
+    "spiritScoringLogic": "Gain 4 points for each tree of height 2 or 3"
+  },
+  "36": {
+    "type_arg": 36,
+    "pointLocations": [0],
+    "pattern": [
+      { "colors": [4], "position": 0, "allowCube": false },
+      { "colors": [4, 3, 3], "position": 3, "allowCube": true },
+      { "colors": [4], "position": 5, "allowCube": false }
+    ],
+    "isSpirit": true,
+    "spiritScoringLogic": "Gain 3 points for each tree of height 1 or 2, 1 point for each tree of height 3"
+  },
+  "37": {
+    "type_arg": 37,
+    "pointLocations": [0],
+    "pattern": [
+      { "colors": [6, 7], "position": 0, "allowCube": false },
+      { "colors": [4], "position": 3, "allowCube": false },
+      { "colors": [6, 7], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": true,
+    "spiritScoringLogic": "Gain 4 points for each group of 1 building or more"
+  },
+  "38": {
+    "type_arg": 38,
+    "pointLocations": [0],
+    "pattern": [
+      { "colors": [5], "position": 0, "allowCube": false },
+      { "colors": [6, 7], "position": 3, "allowCube": false },
+      { "colors": [6, 7], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": true,
+    "spiritScoringLogic": "Gain 6 points for each group of 2 buildings or more"
+  },
+  "39": {
+    "type_arg": 39,
+    "pointLocations": [0],
+    "pattern": [
+      { "colors": [2, 2], "position": 0, "allowCube": false },
+      { "colors": [2, 2, 2], "position": 3, "allowCube": true }
+    ],
+    "isSpirit": true,
+    "spiritScoringLogic": "Gain 4 points for each mountain of height 2 or 3"
+  },
+  "40": {
+    "type_arg": 40,
+    "pointLocations": [0],
+    "pattern": [
+      { "colors": [2], "position": 0, "allowCube": false },
+      { "colors": [2, 2], "position": 2, "allowCube": true },
+      { "colors": [2], "position": 3, "allowCube": false }
+    ],
+    "isSpirit": true,
+    "spiritScoringLogic": "Gain 3 points for each mountain of height 1 or 2, 1 otherwise"
+  },
+  "41": {
+    "type_arg": 41,
+    "pointLocations": [0],
+    "pattern": [
+      { "colors": [4, 3], "position": 0, "allowCube": false },
+      { "colors": [1], "position": 3, "allowCube": true },
+      { "colors": [4, 3], "position": 3, "allowCube": false }
+    ],
+    "isSpirit": true,
+    "spiritScoringLogic": "Gain 7 points for each group of 2 water tokens or more"
+  },
+  "42": {
+    "type_arg": 42,
+    "pointLocations": [0],
+    "pattern": [
+      { "colors": [2, 2], "position": 0, "allowCube": false },
+      { "colors": [1], "position": 3, "allowCube": true },
+      { "colors": [1], "position": 3, "allowCube": false }
+    ],
+    "isSpirit": true,
+    "spiritScoringLogic": "Gain 2 points for each water token"
+  }
+}

@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Web application
+node_modules/
+dist/
+test-results/
+playwright-report/
+*.tsbuildinfo
