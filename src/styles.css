@@ -250,27 +250,16 @@ select {
   transform: translateY(-5px);
   box-shadow: 0 8px 15px #2039262b;
 }
-.card-name {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 18px 5px 7px;
-  background: linear-gradient(transparent, #102e24e0);
-  color: white;
-  text-align: center;
-  font-size: 11px;
-  letter-spacing: 2px;
-  font-family: var(--serif);
-}
 .card-cube {
   position: absolute;
-  width: 10%;
-  aspect-ratio: 1;
-  right: 5%;
+  width: 9%;
+  height: 5.232558%;
+  left: 90%;
   background: linear-gradient(135deg, #ffdf99, #da882d);
-  box-shadow: 1px 2px 2px #45250d85;
-  transform: rotate(30deg);
+  box-shadow:
+    inset 1px 1px 1px #fff3cc99,
+    0 1px 1px #45250d66;
+  transform: translate(-50%, -50%);
   border: 1px solid #f7dc9d;
   border-radius: 1px;
 }
@@ -389,9 +378,6 @@ select {
 }
 .hero-cards .animal-card:nth-child(3) {
   transform: rotate(15deg) translate(127px, 7px);
-}
-.hero-cards .card-name {
-  display: none;
 }
 .story-foot {
   display: flex;
@@ -763,31 +749,6 @@ select {
   font-size: 9px;
   color: #a5ad92;
 }
-.market-note {
-  margin-left: auto;
-  width: 300px;
-  padding-left: 38px;
-  border-left: 1px solid #dce0ce;
-  color: #93a083;
-  align-self: center;
-}
-.market-note > svg {
-  color: #879c73;
-  margin-bottom: 9px;
-}
-.market-note p {
-  font-family: var(--serif);
-  font-size: 15px;
-  line-height: 2;
-  letter-spacing: 2px;
-}
-.market-note small {
-  font-size: 10px;
-  display: block;
-  margin-top: 15px;
-  color: #a1aa94;
-  line-height: 1.9;
-}
 .table-layout {
   display: grid;
   grid-template-columns: 220px minmax(380px, 1fr) 225px;
@@ -1128,9 +1089,6 @@ select {
 }
 .owned-card-wrap .animal-card {
   width: 100%;
-}
-.owned-card-wrap .card-name {
-  font-size: 10px;
 }
 .empty-card-slot {
   aspect-ratio: 300/516;
@@ -1625,10 +1583,49 @@ select {
 }
 .card-detail > div:last-child {
   flex: 1;
+  min-width: 0;
 }
-.card-detail h3 {
-  font-size: 16px;
-  margin-top: 8px;
+.card-scores {
+  margin-top: 20px;
+}
+.card-score-label {
+  font-size: 11px;
+  color: #829071;
+}
+.card-score-tiers {
+  display: flex;
+  gap: 5px;
+  padding: 0;
+  margin: 8px 0 0;
+  list-style: none;
+}
+.card-score-tiers li {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 0;
+  border: 1px solid #e2e6d7;
+  border-radius: 5px;
+  background: #f5f6ee;
+  text-align: center;
+}
+.card-score-tiers li[aria-current="step"] {
+  border-color: #879f6d;
+  background: #e8efdd;
+}
+.card-score-tiers li > span {
+  display: block;
+  font-size: 10px;
+  color: #829071;
+}
+.card-score-tiers strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 19px;
+  color: #526447;
+}
+.card-score-tiers small {
+  font-size: 10px;
+  font-weight: 400;
 }
 .pattern {
   max-height: 150px;
@@ -1641,11 +1638,6 @@ select {
   line-height: 1.9;
   margin: 15px 0;
   color: #829071;
-}
-.card-detail small {
-  font-size: 10px;
-  color: #a1a88e;
-  line-height: 2;
 }
 .spirit-choices {
   display: grid;
@@ -1977,16 +1969,6 @@ select {
   .empty-market {
     width: 93px;
   }
-  .market-note {
-    width: 235px;
-    padding-left: 25px;
-  }
-  .market-note p {
-    font-size: 12px;
-  }
-  .market-note small {
-    font-size: 8px;
-  }
   .market-section .section-heading > p {
     font-size: 9px;
   }
@@ -2132,9 +2114,6 @@ select {
   }
   .solo-target h3 {
     font-size: 13px;
-  }
-  .market-note {
-    display: none;
   }
   .market-row {
     justify-content: center;
@@ -2367,11 +2346,6 @@ select {
     width: 80px;
     border-radius: 5px;
   }
-  .market-row .card-name {
-    font-size: 9px;
-    padding-bottom: 5px;
-    letter-spacing: 1px;
-  }
   .empty-market {
     font-size: 7px;
   }
@@ -2492,10 +2466,6 @@ select {
   }
   .empty-card-slot svg {
     width: 20px;
-  }
-  .owned-card-wrap .card-name {
-    font-size: 9px;
-    letter-spacing: 1px;
   }
   .card-progress {
     font-size: 8px;
@@ -2705,24 +2675,30 @@ select {
   .card-detail > .animal-card {
     width: 43%;
   }
-  .card-detail h3 {
-    font-size: 13px;
-  }
-  .card-detail .eyebrow {
-    font-size: 8px;
-    letter-spacing: 1px;
-  }
   .card-detail p {
     font-size: 10px;
     line-height: 1.7;
     margin: 10px 0;
   }
-  .card-detail small {
-    font-size: 8px;
-  }
   .card-detail .pattern {
     max-height: 105px;
     margin: 10px 0;
+  }
+  .card-scores {
+    margin-top: 12px;
+  }
+  .card-score-tiers {
+    gap: 3px;
+  }
+  .card-score-tiers li {
+    padding: 6px 0;
+  }
+  .card-score-tiers li > span,
+  .card-score-tiers small {
+    font-size: 8px;
+  }
+  .card-score-tiers strong {
+    font-size: 14px;
   }
   .modal-actions {
     gap: 10px;
@@ -2841,15 +2817,6 @@ select {
   .market-row > .animal-card,
   .empty-market {
     width: 89px;
-  }
-  .market-note {
-    width: 270px;
-  }
-  .market-note p {
-    font-size: 13px;
-  }
-  .market-note small {
-    margin-top: 7px;
   }
   .table-layout {
     grid-template-columns: 205px minmax(600px, 1fr) 205px;
@@ -3152,7 +3119,6 @@ select {
 .card-progress {
   color: #78866d;
 }
-.card-detail small,
 .help-grid p {
   color: #73836a;
 }
@@ -3187,5 +3153,141 @@ select {
   }
   .modal-actions .primary {
     white-space: nowrap;
+  }
+}
+
+/* AI controls and expandable decision diagnostics. */
+.player-input {
+  flex-wrap: wrap;
+}
+.player-input input {
+  width: 0;
+  flex: 1;
+}
+.ai-settings {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+  padding: 10px 0 6px;
+}
+.ai-settings label {
+  min-width: 0;
+  font-size: 10px;
+  color: #73836a;
+}
+.ai-settings select {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin-top: 5px;
+  font-size: 11px;
+}
+.ai-settings small {
+  grid-column: 1 / -1;
+  font-size: 10px;
+  color: #879477;
+}
+.ai-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  background: #e8eedf;
+  border-bottom: 1px solid #d7dfca;
+  color: #3e654f;
+}
+.ai-status > div {
+  flex: 1;
+}
+.ai-status strong {
+  display: block;
+  font-size: 13px;
+}
+.ai-status small {
+  display: block;
+  font-size: 10px;
+  margin-top: 4px;
+}
+.ai-status .secondary {
+  padding: 8px 12px;
+  font-size: 11px;
+}
+.log-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+  font-size: 12px;
+}
+.log-toolbar .secondary {
+  font-size: 12px;
+  padding: 9px 13px;
+}
+.game-log .log-list {
+  max-height: 62vh;
+  padding-right: 8px;
+}
+.ai-decision {
+  margin: 9px 0;
+  padding: 12px;
+  background: #eef2e5;
+  border: 1px solid #dbe3ce;
+  border-radius: 7px;
+}
+.ai-decision summary {
+  cursor: pointer;
+  color: #365b43;
+  line-height: 1.7;
+}
+.ai-decision p {
+  line-height: 1.7;
+  font-size: 11px;
+  margin: 9px 0;
+}
+.ai-decision section {
+  padding-top: 10px;
+  border-top: 1px solid #d9e1cf;
+  margin-top: 12px;
+}
+.ai-decision section > b {
+  font-size: 11px;
+}
+.candidate-log {
+  margin: 7px 0;
+  font-size: 11px;
+}
+.estimate-detail {
+  padding: 5px 0 5px 12px;
+  overflow-wrap: anywhere;
+}
+.estimate-detail > details {
+  padding: 4px 0;
+}
+.estimate-detail .vector-note {
+  color: #7c8b6d;
+}
+@media (max-width: 680px) {
+  .ai-status {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .ai-status strong {
+    font-size: 11px;
+  }
+  .ai-status small {
+    font-size: 9px;
+  }
+  .ai-settings {
+    gap: 6px;
+  }
+  .ai-settings select {
+    font-size: 10px;
+    padding: 7px 3px;
+  }
+  .ai-decision {
+    padding: 8px;
   }
 }

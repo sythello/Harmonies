@@ -9,6 +9,7 @@
     "preview": "vite preview --host 127.0.0.1",
     "test": "node --import tsx --test tests/*.test.ts",
     "test:e2e": "playwright test",
+    "benchmark:ai": "node --import tsx scripts/benchmark-ai.ts",
     "format": "prettier --write src tests playwright.config.ts"
   },
   "dependencies": {

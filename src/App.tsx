@@ -32,7 +32,13 @@ import {
   Flag,
   Maximize2,
   ScrollText,
+  Bot,
 } from "lucide-react";
+import { useAI } from "./useAI";
+import { GameLog } from "./GameLog";
+import { DEFAULT_AI, normalizeAI } from "./game/ai/config";
+import { readAILog, saveAILog } from "./game/ai/log";
+import type { AIDecisionLog } from "./game/ai/types";
 import {
   CARDS,
   COLORS,
@@ -60,6 +66,7 @@ import {
   type Player,
   type Session,
   type Side,
+  type Setup,
 } from "./game/engine";
 
 const SAVE_KEY = "harmonies.session.v1";
@@ -72,7 +79,7 @@ function readSave(): Session | null {
       Array.isArray(s.game.players) &&
       Array.isArray(s.history)
     )
-      return s;
+      return { ...s, id: s.id ?? crypto.randomUUID() };
   } catch {}
   return null;
 }
@@ -160,6 +167,8 @@ function CardFace({
     style = {
       backgroundPosition: `${(((id - 1) % 10) * 100) / 9}% ${Math.floor((id - 1) / 10) * 25}%`,
     } as CSSProperties;
+  // Slot centers in the 300 × 516 card artwork; scores sit below each slot.
+  const firstSlotY = card.spirit ? 34 : 30.5;
   const content = (
     <>
       <span className="card-paint" style={style} />
@@ -170,11 +179,12 @@ function CardFace({
               <span
                 key={i}
                 className={cx("card-cube", card.spirit && "spirit-cube")}
-                style={{ top: `${5.5 + (card.points.length - 1 - i) * 16.7}%` }}
+                style={{
+                  top: `${((firstSlotY + (card.points.length - 1 - i) * 79) / 516) * 100}%`,
+                }}
               />
             ),
         )}
-      <span className="card-name">{card.name}</span>
       {owned && isComplete(owned) && (
         <span className="card-completed">
           <CheckCircle2 size={14} /> 已完成
@@ -572,12 +582,16 @@ function SetupScreen({
     side: Side,
     spirits: boolean,
     first: number,
+    controllers: NonNullable<Setup["controllers"]>,
   ) => void;
   onResume: () => void;
   onHelp: () => void;
 }) {
   const [count, setCount] = useState(2),
     [names, setNames] = useState(["玩家 1", "玩家 2", "玩家 3", "玩家 4"]),
+    [controllers, setControllers] = useState<NonNullable<Setup["controllers"]>>(
+      Array.from({ length: 4 }, () => ({ type: "human" })),
+    ),
     [side, setSide] = useState<Side>("A"),
     [spirits, setSpirits] = useState(false),
     [first, setFirst] = useState(0);
@@ -666,14 +680,111 @@ function SetupScreen({
                   />
                   <select
                     aria-label={`玩家 ${i + 1} 类型`}
-                    value="human"
-                    onChange={() => {}}
+                    value={controllers[i].type}
+                    onChange={(e) =>
+                      setControllers(
+                        controllers.map((c, j) =>
+                          j === i
+                            ? {
+                                ...c,
+                                type: e.target.value as "human" | "ai",
+                                ai: normalizeAI(c.ai),
+                              }
+                            : c,
+                        ),
+                      )
+                    }
                   >
                     <option value="human">人类</option>
-                    <option value="ai" disabled>
-                      AI · 敬请期待
-                    </option>
+                    <option value="ai">启发式 AI</option>
                   </select>
+                  {controllers[i].type === "ai" && (
+                    <div className="ai-settings">
+                      <label>
+                        搜索深度
+                        <select
+                          aria-label={`玩家 ${i + 1} AI 搜索深度`}
+                          value={controllers[i].ai?.depth ?? DEFAULT_AI.depth}
+                          onChange={(e) =>
+                            setControllers(
+                              controllers.map((c, j) =>
+                                j === i
+                                  ? {
+                                      ...c,
+                                      ai: {
+                                        ...normalizeAI(c.ai),
+                                        depth: Number(e.target.value),
+                                      },
+                                    }
+                                  : c,
+                              ),
+                            )
+                          }
+                        >
+                          {[1, 2, 3].map((n) => (
+                            <option key={n} value={n}>
+                              {n} 个自身回合
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <label>
+                        思考预算
+                        <select
+                          aria-label={`玩家 ${i + 1} AI 思考预算`}
+                          value={controllers[i].ai?.timeMs ?? DEFAULT_AI.timeMs}
+                          onChange={(e) =>
+                            setControllers(
+                              controllers.map((c, j) =>
+                                j === i
+                                  ? {
+                                      ...c,
+                                      ai: {
+                                        ...normalizeAI(c.ai),
+                                        timeMs: Number(e.target.value),
+                                      },
+                                    }
+                                  : c,
+                              ),
+                            )
+                          }
+                        >
+                          <option value={1000}>快速 · 1 秒</option>
+                          <option value={3500}>均衡 · 3.5 秒</option>
+                          <option value={10000}>深入 · 10 秒</option>
+                        </select>
+                      </label>
+                      <label>
+                        日志 top-k
+                        <select
+                          aria-label={`玩家 ${i + 1} AI 日志 top-k`}
+                          value={controllers[i].ai?.topK ?? DEFAULT_AI.topK}
+                          onChange={(e) =>
+                            setControllers(
+                              controllers.map((c, j) =>
+                                j === i
+                                  ? {
+                                      ...c,
+                                      ai: {
+                                        ...normalizeAI(c.ai),
+                                        topK: Number(e.target.value),
+                                      },
+                                    }
+                                  : c,
+                              ),
+                            )
+                          }
+                        >
+                          {[1, 3, 5].map((n) => (
+                            <option key={n} value={n}>
+                              {n} 个 / 操作类型
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <small>深度包含当前回合；限时返回已完成的方案。</small>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -741,7 +852,15 @@ function SetupScreen({
           )}
           <button
             className="primary start-button"
-            onClick={() => onStart(names.slice(0, count), side, spirits, first)}
+            onClick={() =>
+              onStart(
+                names.slice(0, count),
+                side,
+                spirits,
+                first,
+                controllers.slice(0, count),
+              )
+            }
           >
             开始游戏 <ArrowRight size={20} />
           </button>
@@ -900,18 +1019,63 @@ export default function App() {
     [discardSlot, setDiscardSlot] = useState<number | undefined>(),
     [handoff, setHandoff] = useState(false),
     [showLog, setShowLog] = useState(false),
-    [saveError, setSaveError] = useState(false);
+    [saveError, setSaveError] = useState(false),
+    [aiPaused, setAIPaused] = useState(false),
+    [logReadyId, setLogReadyId] = useState<string | undefined>();
+  const lastLogSave = useRef("");
   const game = session?.game,
-    player = game?.players[game.active];
+    player = game?.players[game.active],
+    aiTurn = player?.type === "ai";
   useEffect(() => {
-    if (session)
+    if (!session?.id) return;
+    const id = session.id;
+    let cancelled = false;
+    readAILog(id)
+      .then((logs) => {
+        if (cancelled) return;
+        setSession((current) =>
+          current?.id === id
+            ? {
+                ...current,
+                aiLog: current.aiLog?.length ? current.aiLog : logs,
+              }
+            : current,
+        );
+        setLogReadyId(id);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setSaveError(true);
+          setLogReadyId(id);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [session?.id]);
+  useEffect(() => {
+    if (session) {
       try {
-        localStorage.setItem(SAVE_KEY, JSON.stringify(session));
-        setSaveError(false);
+        const { aiLog: _largeLog, ...smallSession } = session;
+        localStorage.setItem(SAVE_KEY, JSON.stringify(smallSession));
       } catch {
         setSaveError(true);
       }
-  }, [session]);
+      const logKey = `${session.id}:${session.aiLog?.length ?? 0}`;
+      if (
+        session.id &&
+        logReadyId === session.id &&
+        lastLogSave.current !== logKey &&
+        session.aiLog?.length
+      ) {
+        lastLogSave.current = logKey;
+        saveAILog(session.id, session.aiLog).catch(() => {
+          lastLogSave.current = "";
+          setSaveError(true);
+        });
+      }
+    }
+  }, [session, logReadyId]);
   useEffect(() => {
     if (error) {
       const t = setTimeout(() => setError(""), 4500);
@@ -925,10 +1089,15 @@ export default function App() {
     )
       setSelectedAnimal(null);
   }, [player, selectedAnimal]);
-  function act(action: Action) {
-    if (!session) return;
+  function act(action: Action, decision?: AIDecisionLog) {
+    if (!session || (aiTurn && !decision)) return;
     try {
       const next = dispatch(session, action);
+      if (decision)
+        next.aiLog = [
+          ...(session.aiLog ?? []),
+          { ...decision, gameLogIndex: next.game.log.length - 1 },
+        ];
       setSession(next);
       setError("");
       if (action.type === "place")
@@ -943,18 +1112,32 @@ export default function App() {
         setSelectedToken(0);
         setEndDialog(false);
         setDiscardSlot(undefined);
-        if (next.game.phase === "playing" && next.game.players.length > 1)
+        if (
+          next.game.phase === "playing" &&
+          next.game.players.length > 1 &&
+          next.game.players[next.game.active].type !== "ai"
+        )
           setHandoff(true);
       }
     } catch (e) {
       setError((e as Error).message);
+      if (decision) throw e;
     }
   }
-  function start(names: string[], side: Side, spirits: boolean, first: number) {
+  function start(
+    names: string[],
+    side: Side,
+    spirits: boolean,
+    first: number,
+    controllers: NonNullable<Setup["controllers"]>,
+  ) {
     setSession({
-      game: createGame({ names, side, spirits, first }),
+      id: crypto.randomUUID(),
+      game: createGame({ names, side, spirits, first, controllers }),
       history: [],
+      aiLog: [],
     });
+    setAIPaused(false);
     setScreen("game");
     setSelectedAnimal(null);
     setSelectedToken(0);
@@ -963,7 +1146,7 @@ export default function App() {
     setError("");
   }
   function undoAction(all = false) {
-    if (session) {
+    if (session && !aiTurn) {
       setSession(undo(session, all));
       setSelectedAnimal(null);
       setSelectedToken(0);
@@ -971,19 +1154,26 @@ export default function App() {
     }
   }
   function clickCell(index: number) {
-    if (!game || game.phase === "ended") return;
+    if (!game || game.phase === "ended" || aiTurn) return;
     if (selectedAnimal)
       act({ type: "settle", card: selectedAnimal, cell: index });
     else if (game.turn.pending.length)
       act({ type: "place", pending: selectedToken, cell: index });
     else setError("先从供应板选择一组地形片，或选择动物牌以安排入住。");
   }
-  const detailCard = cardDetail ? CARDS[cardDetail.id] : null;
+  const detailCard = cardDetail ? CARDS[cardDetail.id] : null,
+    detailOwned = player?.cards.find((c) => c.id === cardDetail?.id);
+  const ai = useAI(
+    game,
+    screen === "game" && !handoff && logReadyId === session?.id,
+    aiPaused || showLog || help || scores || !!cardDetail || !!previewPlayer,
+    act,
+  );
   if (screen === "setup" || !game || !player || !session)
     return (
       <>
         <SetupScreen
-          saved={session}
+          saved={logReadyId === session?.id ? session : null}
           onStart={start}
           onResume={() => {
             setScreen("game");
@@ -1075,6 +1265,38 @@ export default function App() {
           )}
         </div>
       )}
+      {aiTurn && !ended && (
+        <div className="ai-status" role="status">
+          <Bot size={20} />
+          <div>
+            <strong>
+              {player.name} ·{" "}
+              {aiPaused
+                ? "已暂停"
+                : ai.status === "thinking"
+                  ? "AI 思考中"
+                  : ai.status === "error"
+                    ? "AI 暂停"
+                    : "AI 正在行动"}
+            </strong>
+            <small>
+              {ai.error ||
+                (ai.lastPlan
+                  ? `上次思考 ${(ai.lastPlan.elapsedMs / 1000).toFixed(1)} 秒 · 完成深度 ${ai.lastPlan.completedDepth}`
+                  : `目标深度 ${player.ai?.depth ?? DEFAULT_AI.depth} · 同屏观战`)}
+            </small>
+          </div>
+          {ai.status === "error" && (
+            <button className="secondary" onClick={ai.retry}>
+              重试 AI
+            </button>
+          )}
+          <button className="secondary" onClick={() => setAIPaused(!aiPaused)}>
+            {aiPaused ? <Play size={16} /> : <Pause size={16} />}
+            {aiPaused ? "继续 AI" : "暂停 AI"}
+          </button>
+        </div>
+      )}
       <main className="game-content">
         <section className="market-section">
           <div className="section-heading">
@@ -1106,19 +1328,6 @@ export default function App() {
                 </div>
               ),
             )}
-            <div className="market-note">
-              <Leaf size={24} />
-              <p>
-                让栖息地彼此交织，
-                <br />
-                让每片风景都有生命。
-              </p>
-              <small>
-                提示：选择落点颜色不同的动物，
-                <br />
-                更容易充分利用你的版图。
-              </small>
-            </div>
           </div>
         </section>
         <div className="table-layout">
@@ -1137,6 +1346,7 @@ export default function App() {
                     key={i}
                     className={cx("supply-group", !group.length && "taken")}
                     disabled={
+                      aiTurn ||
                       game.turn.tookTokens ||
                       ended ||
                       group.length !== 3 ||
@@ -1217,10 +1427,12 @@ export default function App() {
                     player={player}
                     side={game.side}
                     selectedColor={
-                      !ended && !selectedAnimal ? pendingColor : undefined
+                      !ended && !aiTurn && !selectedAnimal
+                        ? pendingColor
+                        : undefined
                     }
-                    selectedAnimal={!ended ? selectedAnimal : null}
-                    onCell={clickCell}
+                    selectedAnimal={!ended && !aiTurn ? selectedAnimal : null}
+                    onCell={aiTurn || ended ? undefined : clickCell}
                   />
                   <div className="board-caption">
                     {selectedAnimal
@@ -1299,6 +1511,10 @@ export default function App() {
                         owned={c}
                         className={cx(selectedAnimal === c.id && "active-card")}
                         onClick={() => {
+                          if (aiTurn) {
+                            setCardDetail({ id: c.id });
+                            return;
+                          }
                           setSelectedAnimal(
                             selectedAnimal === c.id ? null : c.id,
                           );
@@ -1487,14 +1703,14 @@ export default function App() {
         <div className="undo-actions">
           <button
             className="text-button"
-            disabled={!session.history.length || ended}
+            disabled={!session.history.length || ended || aiTurn}
             onClick={() => undoAction()}
           >
             <Undo2 size={17} /> 撤销上一步
           </button>
           <button
             className="text-button"
-            disabled={!session.history.length || ended}
+            disabled={!session.history.length || ended || aiTurn}
             onClick={() => undoAction(true)}
           >
             <RotateCcw size={16} /> 重置本回合
@@ -1502,7 +1718,7 @@ export default function App() {
         </div>
         <button
           className="primary end-turn"
-          disabled={!ended && !canEndTurn(game)}
+          disabled={!ended && (aiTurn || !canEndTurn(game))}
           onClick={() => {
             if (ended) setScores(true);
             else {
@@ -1556,29 +1772,31 @@ export default function App() {
       {detailCard && cardDetail && (
         <Modal title={detailCard.name} onClose={() => setCardDetail(null)}>
           <div className="card-detail">
-            <CardFace
-              id={detailCard.id}
-              owned={player.cards.find((c) => c.id === detailCard.id)}
-            />
+            <CardFace id={detailCard.id} owned={detailOwned} />
             <div>
-              <span className="eyebrow">
-                {detailCard.spirit ? "NATURE’S SPIRIT" : "HABITAT"}
-              </span>
-              <h3>{detailCard.spirit ? "自然之灵的祝福" : "为它创造栖息地"}</h3>
               <Pattern card={detailCard} />
-              <p>
-                {detailCard.description ||
-                  `入住 ${detailCard.points.length} 次可完成此卡。依次获得 ${detailCard.points.join(" / ")} 分，只计最高已解锁值。`}
-              </p>
-              <small>
-                白色菱形：入住落点
-                <br />
-                图案可旋转，不可镜像
-                <br />
-                树木与山脉的高度须完全相同
-                <br />
-                建筑须两层，底层可为红、灰或棕
-              </small>
+              {!detailCard.spirit && (
+                <div className="card-scores">
+                  <span className="card-score-label">入住得分</span>
+                  <ol className="card-score-tiers" aria-label="各档位分值">
+                    {detailCard.points.map((points, i) => (
+                      <li
+                        key={i}
+                        aria-current={
+                          detailOwned?.placed === i + 1 ? "step" : undefined
+                        }
+                      >
+                        <span>{i + 1} 次</span>
+                        <strong>
+                          {points}
+                          <small> 分</small>
+                        </strong>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+              {detailCard.spirit && <p>{detailCard.description}</p>}
             </div>
           </div>
           <div className="modal-actions">
@@ -1589,6 +1807,7 @@ export default function App() {
               <button
                 className="primary"
                 disabled={
+                  aiTurn ||
                   ended ||
                   game.turn.tookCard ||
                   owned.length >= 4 ||
@@ -1603,6 +1822,7 @@ export default function App() {
               </button>
             )}
             {cardDetail.slot === undefined &&
+              !aiTurn &&
               !ended &&
               player.cards.some(
                 (c) => c.id === detailCard.id && !isComplete(c),
@@ -1628,7 +1848,7 @@ export default function App() {
             )}
         </Modal>
       )}
-      {!!player.spiritChoices.length && !handoff && (
+      {!!player.spiritChoices.length && !handoff && !aiTurn && (
         <Modal title={`${player.name}，选择你的自然之灵`}>
           <p className="muted">
             选择 1
@@ -1746,12 +1966,8 @@ export default function App() {
         />
       )}
       {showLog && (
-        <Modal title="这段旅程的足迹" onClose={() => setShowLog(false)}>
-          <ol className="log-list">
-            {game.log.map((l, i) => (
-              <li key={i}>{l}</li>
-            ))}
-          </ol>
+        <Modal title="这段旅程的足迹" onClose={() => setShowLog(false)} wide>
+          <GameLog session={session} />
         </Modal>
       )}
     </div>

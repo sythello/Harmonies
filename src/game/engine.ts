@@ -1,4 +1,6 @@
 import rawCards from "./cards.json" with { type: "json" };
+import { normalizeAI } from "./ai/config";
+import type { AIConfig, AIDecisionLog } from "./ai/types";
 
 export type Color = 1 | 2 | 3 | 4 | 5 | 6;
 export type Side = "A" | "B";
@@ -25,7 +27,8 @@ export interface OwnedCard {
 export interface Player {
   id: number;
   name: string;
-  type: "human";
+  type: "human" | "ai";
+  ai?: AIConfig;
   board: Cell[];
   cards: OwnedCard[];
   spiritChoices: number[];
@@ -37,6 +40,7 @@ export interface Setup {
   spirits: boolean;
   first: number;
   seed?: number;
+  controllers?: { type: "human" | "ai"; ai?: Partial<AIConfig> }[];
 }
 export interface Game {
   version: 1;
@@ -65,8 +69,16 @@ export type Action =
   | { type: "chooseSpirit"; card: number }
   | { type: "endTurn"; discardSlot?: number };
 export interface Session {
+  id?: string;
   game: Game;
   history: Game[];
+  aiLog?: AIDecisionLog[];
+  events?: {
+    round: number;
+    playerId: number;
+    action: Action;
+    logIndex: number;
+  }[];
 }
 export const COLORS: Record<
   Color,
@@ -231,7 +243,10 @@ export function createGame(setup: Setup): Game {
   ordered.push(...ordered.splice(0, setup.first));
   const players: Player[] = ordered.map((p) => ({
     ...p,
-    type: "human",
+    type: setup.controllers?.[p.id]?.type === "ai" ? "ai" : "human",
+    ...(setup.controllers?.[p.id]?.type === "ai"
+      ? { ai: normalizeAI(setup.controllers[p.id].ai) }
+      : {}),
     board: emptyBoard(setup.side),
     cards: [],
     spiritChoices: setup.spirits ? spirits.splice(0, 2) : [],
@@ -670,15 +685,28 @@ export function applyAction(previous: Game, action: Action): Game {
 export function dispatch(session: Session, action: Action): Session {
   const game = applyAction(session.game, action);
   return {
+    ...session,
     game,
     history:
       action.type === "endTurn" ? [] : [...session.history, session.game],
+    events: [
+      ...(session.events ?? []),
+      {
+        round: session.game.round,
+        playerId: session.game.players[session.game.active].id,
+        action,
+        logIndex: game.log.length - 1,
+      },
+    ],
   };
 }
 export function undo(session: Session, wholeTurn = false): Session {
   if (!session.history.length || session.game.phase === "ended") return session;
+  const game = clone(wholeTurn ? session.history[0] : session.history.at(-1)!);
   return {
-    game: clone(wholeTurn ? session.history[0] : session.history.at(-1)!),
+    ...session,
+    game,
     history: wholeTurn ? [] : session.history.slice(0, -1),
+    events: session.events?.filter((e) => e.logIndex < game.log.length),
   };
 }
