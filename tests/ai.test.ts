@@ -308,7 +308,7 @@ test("search is deterministic with fixed node budgets and unchanged public infor
   const a = searchTurn(observe(g), config, { now: () => 0, maxNodes: 100 });
   const b = searchTurn(observe(other), config, { now: () => 0, maxNodes: 100 });
   assert.deepEqual(a, b);
-  assert.equal(a.completedDepth, 3);
+  assert.equal(a.completedDepth, 1);
   assert.deepEqual(a.actions, [{ type: "endTurn" }]);
 });
 test("human-only log export and undo remain supported", () => {
@@ -319,7 +319,7 @@ test("human-only log export and undo remain supported", () => {
   assert.equal(undo(next).events?.length, 0);
 });
 
-test("depth 2 and 3 expand future own turns on a nonterminal position", () => {
+test("old saved depths use current-turn search without future own turns", () => {
   let g = createGame({
     names: ["AI"],
     side: "A",
@@ -342,8 +342,9 @@ test("depth 2 and 3 expand future own turns on a nonterminal position", () => {
     { now: () => 0, maxNodes: 5000 },
   );
   assert.equal(shallow.completedDepth, 1);
-  assert.equal(deep.completedDepth, 3);
-  assert.ok(deep.nodes > shallow.nodes);
+  assert.equal(deep.completedDepth, 1);
+  assert.deepEqual(deep.actions, shallow.actions);
+  assert.equal(deep.nodes, shallow.nodes);
   assert.notEqual(applyAction(g, deep.actions[0]).phase, "ended");
 });
 

@@ -1,0 +1,7187 @@
+{
+  "commit": "f36c7ccada107220867722f460c67da02215c91b",
+  "createdAt": "2026-09-30T07:09:24.840Z",
+  "method": "Original v1 runs at 3500 ms; instrumented snapshot replays its exact clock reads and must return an identical entire TurnPlan. Counters include partial work; instrumented phase/component timings are diagnostic and contain instrumentation overhead. No runtime AI source is modified.",
+  "rows": [
+    {
+      "id": "user-log-round-1",
+      "sourceIndex": 7,
+      "n": 2,
+      "side": "A",
+      "spirits": false,
+      "round": 1,
+      "boardCells": 23,
+      "emptyCells": 23,
+      "activeCards": 0,
+      "config": {
+        "depth": 2,
+        "timeMs": 3500,
+        "beamWidth": 6,
+        "topK": 3,
+        "seed": 1729
+      },
+      "baseline": {
+        "elapsedMs": 2951,
+        "nodes": 3935,
+        "completedDepth": 1,
+        "actions": [
+          {
+            "type": "takeCard",
+            "slot": 1
+          },
+          {
+            "type": "takeTokens",
+            "group": 0
+          },
+          {
+            "type": "place",
+            "pending": 2,
+            "cell": 0
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 10
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 6
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "decisions": [
+          {
+            "label": "拿取野兔",
+            "action": {
+              "type": "takeCard",
+              "slot": 1
+            },
+            "legalCounts": {
+              "takeCard": 5,
+              "takeTokens": 5
+            },
+            "evaluatedCounts": {
+              "takeCard": 3,
+              "takeTokens": 3
+            }
+          },
+          {
+            "label": "拿取第 1 组：岩石、岩石、树冠",
+            "action": {
+              "type": "takeTokens",
+              "group": 0
+            },
+            "legalCounts": {
+              "takeTokens": 5
+            },
+            "evaluatedCounts": {
+              "takeTokens": 3
+            }
+          },
+          {
+            "label": "在 1-1 放置树冠",
+            "action": {
+              "type": "place",
+              "pending": 2,
+              "cell": 0
+            },
+            "legalCounts": {
+              "place": 46
+            },
+            "evaluatedCounts": {
+              "place": 3
+            }
+          },
+          {
+            "label": "在 3-2 放置岩石",
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 10
+            },
+            "legalCounts": {
+              "place": 22
+            },
+            "evaluatedCounts": {
+              "place": 3
+            }
+          },
+          {
+            "label": "在 2-2 放置岩石",
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 6
+            },
+            "legalCounts": {
+              "place": 22
+            },
+            "evaluatedCounts": {
+              "place": 3
+            }
+          },
+          {
+            "label": "结束回合",
+            "action": {
+              "type": "endTurn"
+            },
+            "legalCounts": {
+              "endTurn": 1
+            },
+            "evaluatedCounts": {
+              "endTurn": 1
+            }
+          }
+        ]
+      },
+      "clockReads": 4077,
+      "profiledExternalMs": 3107.5669999999996,
+      "stats": {
+        "phases": {
+          "setup": {
+            "counters": {},
+            "times": {
+              "phase": 0.13616599999977552
+            },
+            "offered": {},
+            "actions": {}
+          },
+          "fallback": {
+            "counters": {
+              "greedyCalls": 1,
+              "expandCalls": 6,
+              "uncachedExpansions": 6,
+              "legalActions": 106,
+              "cheapCalls": 106,
+              "cheapProjects": 18904,
+              "cheapResourceFeasible": 18904,
+              "fullCalls": 1,
+              "fullMisses": 1,
+              "fullHands": 1,
+              "fullPasses": 6,
+              "fullAnimalProjects": 396,
+              "fullResourceFeasible": 954,
+              "fullPositive": 546,
+              "fullTerrainProjects": 558
+            },
+            "times": {
+              "legalEnumeration": 0.3150399999999536,
+              "applyAction": 3.7841639999996914,
+              "immediateScore": 2.1230820000000676,
+              "cheapOrder": 40.617462000000614,
+              "fullV": 22.82620799999995,
+              "phase": 69.98833400000012
+            },
+            "offered": {
+              "takeCard": 5,
+              "takeTokens": 10,
+              "place": 90,
+              "endTurn": 1
+            },
+            "actions": {
+              "takeCard": 5,
+              "takeTokens": 10,
+              "place": 90,
+              "endTurn": 1
+            }
+          },
+          "currentTurn": {
+            "counters": {
+              "expandCalls": 31,
+              "expandHits": 6,
+              "uncachedExpansions": 25,
+              "legalActions": 641,
+              "cheapCalls": 641,
+              "cheapProjects": 108075,
+              "cheapResourceFeasible": 108075,
+              "fullCalls": 6,
+              "fullMisses": 5,
+              "fullHands": 5,
+              "fullPasses": 30,
+              "fullAnimalProjects": 1739,
+              "fullResourceFeasible": 4598,
+              "fullPositive": 2437,
+              "fullTerrainProjects": 2859
+            },
+            "times": {
+              "legalEnumeration": 1.18916999999783,
+              "applyAction": 22.46816100000251,
+              "immediateScore": 12.77839299999414,
+              "cheapOrder": 209.56711200001428,
+              "fullV": 95.77800000000025,
+              "phase": 344.35058300000037
+            },
+            "offered": {
+              "takeTokens": 20,
+              "takeCard": 5,
+              "place": 611,
+              "endTurn": 5
+            },
+            "actions": {
+              "takeTokens": 20,
+              "takeCard": 5,
+              "place": 611,
+              "endTurn": 5
+            }
+          },
+          "depth2": {
+            "counters": {
+              "greedyCalls": 8,
+              "expandCalls": 140,
+              "uncachedExpansions": 140,
+              "legalActions": 3188,
+              "cheapCalls": 3188,
+              "cheapProjects": 664051,
+              "cheapResourceFeasible": 664051,
+              "fullCalls": 24,
+              "fullMisses": 16,
+              "fullHands": 16,
+              "fullPasses": 96,
+              "fullAnimalProjects": 14675,
+              "fullResourceFeasible": 23704,
+              "fullPositive": 16619,
+              "fullTerrainProjects": 9029
+            },
+            "times": {
+              "legalEnumeration": 9.950501000006625,
+              "applyAction": 108.27728799997203,
+              "immediateScore": 62.934382000024016,
+              "cheapOrder": 1365.1394070000242,
+              "fullV": 477.39624900000035,
+              "phase": 2033.5918329999995
+            },
+            "offered": {
+              "takeCard": 80,
+              "takeTokens": 200,
+              "place": 2880,
+              "endTurn": 24,
+              "settle": 4
+            },
+            "actions": {
+              "takeCard": 80,
+              "takeTokens": 200,
+              "place": 2880,
+              "endTurn": 24,
+              "settle": 4
+            }
+          },
+          "logs": {
+            "counters": {
+              "fullCalls": 25,
+              "fullMisses": 19,
+              "fullHands": 35,
+              "fullPasses": 210,
+              "fullTerrainProjects": 23190,
+              "fullResourceFeasible": 36585,
+              "fullPositive": 17571,
+              "expandCalls": 6,
+              "expandHits": 6,
+              "fullAnimalProjects": 13395
+            },
+            "times": {
+              "fullV": 658.0227080000004,
+              "phase": 659.5262090000006
+            },
+            "offered": {},
+            "actions": {}
+          }
+        },
+        "beams": [
+          {
+            "phase": "currentTurn",
+            "width": 6,
+            "round": 1,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 10,
+                "localKept": 6,
+                "terminalEdges": 0,
+                "merged": 6,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 76,
+                "localKept": 31,
+                "terminalEdges": 0,
+                "merged": 26,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 391,
+                "localKept": 36,
+                "terminalEdges": 0,
+                "merged": 36,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 132,
+                "localKept": 36,
+                "terminalEdges": 0,
+                "merged": 36,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 132,
+                "localKept": 36,
+                "terminalEdges": 0,
+                "merged": 34,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 6,
+                "localKept": 6,
+                "terminalEdges": 6,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 6,
+            "returned": 6,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 2,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 10,
+                "localKept": 3,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 124,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 80,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 38,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 2,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 10,
+                "localKept": 3,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 124,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 80,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 38,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 2,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 10,
+                "localKept": 3,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 124,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 80,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 38,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 2,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 10,
+                "localKept": 3,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 124,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 80,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 38,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 2,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 10,
+                "localKept": 3,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 124,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 80,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 38,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 2,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 10,
+                "localKept": 3,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 124,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 80,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 38,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 2,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 10,
+                "localKept": 3,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 124,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 80,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 38,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 2,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 10,
+                "localKept": 3,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 124,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 80,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 38,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          }
+        ],
+        "fullDetails": [
+          {
+            "phase": "fallback",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 396,
+            "terrainProjects": 558,
+            "feasible": 954,
+            "positive": 546
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 357,
+            "terrainProjects": 573,
+            "feasible": 930,
+            "positive": 491
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 349,
+            "terrainProjects": 562,
+            "feasible": 911,
+            "positive": 501
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 343,
+            "terrainProjects": 573,
+            "feasible": 916,
+            "positive": 486
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 382,
+            "terrainProjects": 573,
+            "feasible": 955,
+            "positive": 512
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 308,
+            "terrainProjects": 578,
+            "feasible": 886,
+            "positive": 447
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 1220,
+            "terrainProjects": 534,
+            "feasible": 1754,
+            "positive": 1337
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 1078,
+            "terrainProjects": 566,
+            "feasible": 1644,
+            "positive": 1197
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 619,
+            "terrainProjects": 571,
+            "feasible": 1190,
+            "positive": 751
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 646,
+            "terrainProjects": 563,
+            "feasible": 1209,
+            "positive": 767
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 1417,
+            "terrainProjects": 586,
+            "feasible": 2003,
+            "positive": 1548
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 1311,
+            "terrainProjects": 570,
+            "feasible": 1881,
+            "positive": 1417
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 735,
+            "terrainProjects": 557,
+            "feasible": 1292,
+            "positive": 862
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 731,
+            "terrainProjects": 571,
+            "feasible": 1302,
+            "positive": 843
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 1212,
+            "terrainProjects": 568,
+            "feasible": 1780,
+            "positive": 1334
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 1002,
+            "terrainProjects": 568,
+            "feasible": 1570,
+            "positive": 1123
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 661,
+            "terrainProjects": 586,
+            "feasible": 1247,
+            "positive": 814
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 617,
+            "terrainProjects": 556,
+            "feasible": 1173,
+            "positive": 750
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 1074,
+            "terrainProjects": 562,
+            "feasible": 1636,
+            "positive": 1179
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 1036,
+            "terrainProjects": 538,
+            "feasible": 1574,
+            "positive": 1136
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 682,
+            "terrainProjects": 565,
+            "feasible": 1247,
+            "positive": 802
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 634,
+            "terrainProjects": 568,
+            "feasible": 1202,
+            "positive": 759
+          },
+          {
+            "phase": "logs",
+            "hands": 5,
+            "passes": 30,
+            "animalProjects": 0,
+            "terrainProjects": 3690,
+            "feasible": 3690,
+            "positive": 615
+          },
+          {
+            "phase": "logs",
+            "hands": 5,
+            "passes": 30,
+            "animalProjects": 2645,
+            "terrainProjects": 3270,
+            "feasible": 5915,
+            "positive": 3190
+          },
+          {
+            "phase": "logs",
+            "hands": 5,
+            "passes": 30,
+            "animalProjects": 1090,
+            "terrainProjects": 3150,
+            "feasible": 4240,
+            "positive": 1625
+          },
+          {
+            "phase": "logs",
+            "hands": 5,
+            "passes": 30,
+            "animalProjects": 4080,
+            "terrainProjects": 3420,
+            "feasible": 7500,
+            "positive": 4777
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 0,
+            "terrainProjects": 738,
+            "feasible": 738,
+            "positive": 123
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 0,
+            "terrainProjects": 738,
+            "feasible": 738,
+            "positive": 123
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 0,
+            "terrainProjects": 738,
+            "feasible": 738,
+            "positive": 123
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 529,
+            "terrainProjects": 654,
+            "feasible": 1183,
+            "positive": 638
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 529,
+            "terrainProjects": 654,
+            "feasible": 1183,
+            "positive": 638
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 529,
+            "terrainProjects": 654,
+            "feasible": 1183,
+            "positive": 638
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 524,
+            "terrainProjects": 630,
+            "feasible": 1154,
+            "positive": 629
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 520,
+            "terrainProjects": 648,
+            "feasible": 1168,
+            "positive": 628
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 517,
+            "terrainProjects": 648,
+            "feasible": 1165,
+            "positive": 625
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 456,
+            "terrainProjects": 626,
+            "feasible": 1082,
+            "positive": 566
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 501,
+            "terrainProjects": 626,
+            "feasible": 1127,
+            "positive": 609
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 442,
+            "terrainProjects": 582,
+            "feasible": 1024,
+            "positive": 579
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 343,
+            "terrainProjects": 573,
+            "feasible": 916,
+            "positive": 486
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 382,
+            "terrainProjects": 573,
+            "feasible": 955,
+            "positive": 512
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 308,
+            "terrainProjects": 578,
+            "feasible": 886,
+            "positive": 447
+          }
+        ],
+        "fallbackSteps": [
+          {
+            "action": {
+              "type": "takeCard",
+              "slot": 1
+            },
+            "label": "拿取野兔",
+            "legalCounts": {
+              "takeCard": 5,
+              "takeTokens": 5
+            }
+          },
+          {
+            "action": {
+              "type": "takeTokens",
+              "group": 0
+            },
+            "label": "拿取第 1 组：岩石、岩石、树冠",
+            "legalCounts": {
+              "takeTokens": 5
+            }
+          },
+          {
+            "action": {
+              "type": "place",
+              "pending": 2,
+              "cell": 0
+            },
+            "label": "在 1-1 放置树冠",
+            "legalCounts": {
+              "place": 46
+            }
+          },
+          {
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 2
+            },
+            "label": "在 1-3 放置岩石",
+            "legalCounts": {
+              "place": 22
+            }
+          },
+          {
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 3
+            },
+            "label": "在 1-4 放置岩石",
+            "legalCounts": {
+              "place": 22
+            }
+          },
+          {
+            "action": {
+              "type": "endTurn"
+            },
+            "label": "结束回合",
+            "legalCounts": {
+              "endTurn": 1
+            }
+          }
+        ],
+        "deep": [
+          {
+            "depth": 2,
+            "rootCandidates": 6,
+            "scenariosStarted": 8,
+            "scenariosCompleted": 8,
+            "candidatesCompleted": 4,
+            "committed": false
+          }
+        ]
+      },
+      "terrainSpace": [
+        {
+          "group": 0,
+          "colors": [
+            2,
+            2,
+            4
+          ],
+          "edges": [
+            46,
+            1541,
+            33396
+          ],
+          "orderedPlacementSequences": 33396,
+          "distinctFinalBoards": 5819
+        },
+        {
+          "group": 1,
+          "colors": [
+            2,
+            1,
+            3
+          ],
+          "edges": [
+            69,
+            3036,
+            63756
+          ],
+          "orderedPlacementSequences": 63756,
+          "distinctFinalBoards": 10626
+        },
+        {
+          "group": 2,
+          "colors": [
+            2,
+            3,
+            5
+          ],
+          "edges": [
+            69,
+            3036,
+            63756
+          ],
+          "orderedPlacementSequences": 63756,
+          "distinctFinalBoards": 10626
+        },
+        {
+          "group": 3,
+          "colors": [
+            2,
+            4,
+            3
+          ],
+          "edges": [
+            69,
+            3059,
+            65274
+          ],
+          "orderedPlacementSequences": 65274,
+          "distinctFinalBoards": 11132
+        },
+        {
+          "group": 4,
+          "colors": [
+            1,
+            2,
+            1
+          ],
+          "edges": [
+            46,
+            1518,
+            31878
+          ],
+          "orderedPlacementSequences": 31878,
+          "distinctFinalBoards": 5313
+        }
+      ],
+      "templates": []
+    },
+    {
+      "id": "user-log-round-4",
+      "sourceIndex": 43,
+      "n": 2,
+      "side": "A",
+      "spirits": false,
+      "round": 4,
+      "boardCells": 23,
+      "emptyCells": 16,
+      "activeCards": 3,
+      "config": {
+        "depth": 2,
+        "timeMs": 3500,
+        "beamWidth": 6,
+        "topK": 3,
+        "seed": 1729
+      },
+      "baseline": {
+        "elapsedMs": 3459,
+        "nodes": 4077,
+        "completedDepth": 1,
+        "actions": [
+          {
+            "type": "takeCard",
+            "slot": 2
+          },
+          {
+            "type": "takeTokens",
+            "group": 0
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 12
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 7
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 3
+          },
+          {
+            "type": "settle",
+            "card": 25,
+            "cell": 6
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "decisions": [
+          {
+            "label": "拿取猛禽",
+            "action": {
+              "type": "takeCard",
+              "slot": 2
+            },
+            "legalCounts": {
+              "takeCard": 5,
+              "takeTokens": 5
+            },
+            "evaluatedCounts": {
+              "takeCard": 3,
+              "takeTokens": 3
+            }
+          },
+          {
+            "label": "拿取第 1 组：田野、建筑、田野",
+            "action": {
+              "type": "takeTokens",
+              "group": 0
+            },
+            "legalCounts": {
+              "settle": 1,
+              "takeTokens": 5
+            },
+            "evaluatedCounts": {
+              "settle": 1,
+              "takeTokens": 3
+            }
+          },
+          {
+            "label": "在 3-4 放置田野",
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 12
+            },
+            "legalCounts": {
+              "place": 35,
+              "settle": 1
+            },
+            "evaluatedCounts": {
+              "place": 3,
+              "settle": 1
+            }
+          },
+          {
+            "label": "在 2-3 放置建筑",
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 7
+            },
+            "legalCounts": {
+              "place": 33,
+              "settle": 1
+            },
+            "evaluatedCounts": {
+              "place": 3,
+              "settle": 1
+            }
+          },
+          {
+            "label": "在 1-4 放置田野",
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 3
+            },
+            "legalCounts": {
+              "settle": 1,
+              "place": 15
+            },
+            "evaluatedCounts": {
+              "settle": 1,
+              "place": 3
+            }
+          },
+          {
+            "label": "猛禽入住 2-2",
+            "action": {
+              "type": "settle",
+              "card": 25,
+              "cell": 6
+            },
+            "legalCounts": {
+              "settle": 1,
+              "endTurn": 1
+            },
+            "evaluatedCounts": {
+              "settle": 1,
+              "endTurn": 1
+            }
+          },
+          {
+            "label": "结束回合",
+            "action": {
+              "type": "endTurn"
+            },
+            "legalCounts": {
+              "endTurn": 1
+            },
+            "evaluatedCounts": {
+              "endTurn": 1
+            }
+          }
+        ]
+      },
+      "clockReads": 4263,
+      "profiledExternalMs": 3625.813082999999,
+      "stats": {
+        "phases": {
+          "setup": {
+            "counters": {},
+            "times": {
+              "phase": 0.08587500000066939
+            },
+            "offered": {},
+            "actions": {}
+          },
+          "fallback": {
+            "counters": {
+              "greedyCalls": 1,
+              "expandCalls": 7,
+              "uncachedExpansions": 7,
+              "legalActions": 127,
+              "cheapCalls": 127,
+              "cheapProjects": 23551,
+              "cheapResourceFeasible": 23551,
+              "fullCalls": 1,
+              "fullMisses": 1,
+              "fullHands": 1,
+              "fullPasses": 6,
+              "fullAnimalProjects": 625,
+              "fullResourceFeasible": 1067,
+              "fullPositive": 723,
+              "fullTerrainProjects": 442
+            },
+            "times": {
+              "legalEnumeration": 0.9933750000000146,
+              "applyAction": 4.576205999988815,
+              "immediateScore": 4.195330999989892,
+              "cheapOrder": 62.362786000003325,
+              "fullV": 24.347750000000815,
+              "phase": 96.77870799999982
+            },
+            "offered": {
+              "takeCard": 5,
+              "takeTokens": 15,
+              "settle": 1,
+              "place": 105,
+              "endTurn": 1
+            },
+            "actions": {
+              "takeCard": 5,
+              "takeTokens": 15,
+              "settle": 1,
+              "place": 105,
+              "endTurn": 1
+            }
+          },
+          "currentTurn": {
+            "counters": {
+              "expandCalls": 37,
+              "expandHits": 3,
+              "uncachedExpansions": 34,
+              "legalActions": 631,
+              "cheapCalls": 631,
+              "cheapProjects": 98934,
+              "cheapResourceFeasible": 98934,
+              "fullCalls": 9,
+              "fullMisses": 9,
+              "fullHands": 9,
+              "fullPasses": 54,
+              "fullAnimalProjects": 6239,
+              "fullResourceFeasible": 10207,
+              "fullPositive": 7150,
+              "fullTerrainProjects": 3968
+            },
+            "times": {
+              "legalEnumeration": 4.232497999999396,
+              "applyAction": 22.497667999979967,
+              "immediateScore": 11.406701999994766,
+              "cheapOrder": 262.5955200000153,
+              "fullV": 229.21953999999823,
+              "phase": 532.4120419999999
+            },
+            "offered": {
+              "takeTokens": 20,
+              "takeCard": 35,
+              "place": 556,
+              "settle": 11,
+              "endTurn": 9
+            },
+            "actions": {
+              "takeTokens": 20,
+              "takeCard": 35,
+              "place": 556,
+              "settle": 11,
+              "endTurn": 9
+            }
+          },
+          "depth2": {
+            "counters": {
+              "greedyCalls": 9,
+              "expandCalls": 193,
+              "uncachedExpansions": 193,
+              "legalActions": 3325,
+              "cheapCalls": 3319,
+              "cheapProjects": 366200,
+              "cheapResourceFeasible": 366200,
+              "fullCalls": 30,
+              "fullMisses": 22,
+              "fullHands": 22,
+              "fullPasses": 132,
+              "fullAnimalProjects": 9368,
+              "fullResourceFeasible": 17942,
+              "fullPositive": 11498,
+              "fullTerrainProjects": 8590
+            },
+            "times": {
+              "legalEnumeration": 22.409122999993997,
+              "applyAction": 121.07869899999059,
+              "immediateScore": 84.4402420000406,
+              "cheapOrder": 1114.39266399995,
+              "fullV": 427.90633199999866,
+              "phase": 1780.6690830000007
+            },
+            "offered": {
+              "takeTokens": 205,
+              "settle": 160,
+              "place": 2878,
+              "endTurn": 42,
+              "takeCard": 40
+            },
+            "actions": {
+              "takeTokens": 203,
+              "settle": 156,
+              "place": 2878,
+              "endTurn": 42,
+              "takeCard": 40
+            }
+          },
+          "logs": {
+            "counters": {
+              "fullCalls": 32,
+              "fullMisses": 24,
+              "fullHands": 44,
+              "fullPasses": 264,
+              "fullAnimalProjects": 35371,
+              "fullResourceFeasible": 57058,
+              "fullPositive": 39363,
+              "fullTerrainProjects": 22143,
+              "expandCalls": 7,
+              "expandHits": 7
+            },
+            "times": {
+              "fullV": 1214.036835000008,
+              "phase": 1215.8850419999999
+            },
+            "offered": {},
+            "actions": {}
+          }
+        },
+        "beams": [
+          {
+            "phase": "currentTurn",
+            "width": 6,
+            "round": 4,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 10,
+                "localKept": 6,
+                "terminalEdges": 0,
+                "merged": 6,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 66,
+                "localKept": 32,
+                "terminalEdges": 0,
+                "merged": 30,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 210,
+                "localKept": 35,
+                "terminalEdges": 0,
+                "merged": 30,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 162,
+                "localKept": 36,
+                "terminalEdges": 0,
+                "merged": 33,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 147,
+                "localKept": 36,
+                "terminalEdges": 0,
+                "merged": 33,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 51,
+                "localKept": 24,
+                "terminalEdges": 3,
+                "merged": 18,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 7,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 6,
+                "localKept": 6,
+                "terminalEdges": 6,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 9,
+            "returned": 6,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 5,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 90,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 60,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 45,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 16,
+                "localKept": 4,
+                "terminalEdges": 1,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 3,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 5,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 90,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 60,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 45,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 16,
+                "localKept": 4,
+                "terminalEdges": 1,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 3,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 5,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 90,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 61,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 59,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 29,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 5,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 90,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 61,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 59,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 29,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 5,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 90,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 61,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 59,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 29,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 15,
+                "localKept": 3,
+                "terminalEdges": 1,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 7,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 3,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 5,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 90,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 61,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 59,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 29,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 15,
+                "localKept": 3,
+                "terminalEdges": 1,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 7,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 3,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 5,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 90,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 61,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 59,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 29,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 15,
+                "localKept": 3,
+                "terminalEdges": 1,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 7,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 3,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 5,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 90,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 61,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 59,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 29,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 15,
+                "localKept": 3,
+                "terminalEdges": 1,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 7,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 3,
+            "returned": 2,
+            "interrupted": false
+          }
+        ],
+        "fullDetails": [
+          {
+            "phase": "fallback",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 625,
+            "terrainProjects": 442,
+            "feasible": 1067,
+            "positive": 723
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 736,
+            "terrainProjects": 489,
+            "feasible": 1225,
+            "positive": 847
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 815,
+            "terrainProjects": 436,
+            "feasible": 1251,
+            "positive": 917
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 827,
+            "terrainProjects": 436,
+            "feasible": 1263,
+            "positive": 928
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 504,
+            "terrainProjects": 416,
+            "feasible": 920,
+            "positive": 605
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 739,
+            "terrainProjects": 430,
+            "feasible": 1169,
+            "positive": 844
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 751,
+            "terrainProjects": 430,
+            "feasible": 1181,
+            "positive": 855
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 689,
+            "terrainProjects": 464,
+            "feasible": 1153,
+            "positive": 793
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 519,
+            "terrainProjects": 403,
+            "feasible": 922,
+            "positive": 595
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 659,
+            "terrainProjects": 464,
+            "feasible": 1123,
+            "positive": 766
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 450,
+            "terrainProjects": 391,
+            "feasible": 841,
+            "positive": 545
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 442,
+            "terrainProjects": 391,
+            "feasible": 833,
+            "positive": 537
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 474,
+            "terrainProjects": 397,
+            "feasible": 871,
+            "positive": 570
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 450,
+            "terrainProjects": 391,
+            "feasible": 841,
+            "positive": 545
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 442,
+            "terrainProjects": 391,
+            "feasible": 833,
+            "positive": 537
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 474,
+            "terrainProjects": 397,
+            "feasible": 871,
+            "positive": 570
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 442,
+            "terrainProjects": 391,
+            "feasible": 833,
+            "positive": 537
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 496,
+            "terrainProjects": 388,
+            "feasible": 884,
+            "positive": 588
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 442,
+            "terrainProjects": 391,
+            "feasible": 833,
+            "positive": 537
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 496,
+            "terrainProjects": 388,
+            "feasible": 884,
+            "positive": 588
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 430,
+            "terrainProjects": 403,
+            "feasible": 833,
+            "positive": 526
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 367,
+            "terrainProjects": 388,
+            "feasible": 755,
+            "positive": 469
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 406,
+            "terrainProjects": 397,
+            "feasible": 803,
+            "positive": 518
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 430,
+            "terrainProjects": 403,
+            "feasible": 833,
+            "positive": 526
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 367,
+            "terrainProjects": 388,
+            "feasible": 755,
+            "positive": 469
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 406,
+            "terrainProjects": 397,
+            "feasible": 803,
+            "positive": 518
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 461,
+            "terrainProjects": 403,
+            "feasible": 864,
+            "positive": 555
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 343,
+            "terrainProjects": 373,
+            "feasible": 716,
+            "positive": 434
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 373,
+            "terrainProjects": 373,
+            "feasible": 738,
+            "positive": 470
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 461,
+            "terrainProjects": 403,
+            "feasible": 864,
+            "positive": 555
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 343,
+            "terrainProjects": 373,
+            "feasible": 716,
+            "positive": 434
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 373,
+            "terrainProjects": 373,
+            "feasible": 738,
+            "positive": 470
+          },
+          {
+            "phase": "logs",
+            "hands": 5,
+            "passes": 30,
+            "animalProjects": 2759,
+            "terrainProjects": 2502,
+            "feasible": 5261,
+            "positive": 3234
+          },
+          {
+            "phase": "logs",
+            "hands": 5,
+            "passes": 30,
+            "animalProjects": 4391,
+            "terrainProjects": 2653,
+            "feasible": 7044,
+            "positive": 4949
+          },
+          {
+            "phase": "logs",
+            "hands": 5,
+            "passes": 30,
+            "animalProjects": 3894,
+            "terrainProjects": 2523,
+            "feasible": 6417,
+            "positive": 4387
+          },
+          {
+            "phase": "logs",
+            "hands": 5,
+            "passes": 30,
+            "animalProjects": 6590,
+            "terrainProjects": 2500,
+            "feasible": 8634,
+            "positive": 6659
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 517,
+            "terrainProjects": 499,
+            "feasible": 1016,
+            "positive": 606
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 557,
+            "terrainProjects": 502,
+            "feasible": 1059,
+            "positive": 651
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 537,
+            "terrainProjects": 499,
+            "feasible": 1036,
+            "positive": 641
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 774,
+            "terrainProjects": 512,
+            "feasible": 1286,
+            "positive": 860
+          },
+          {
+            "phase": "logs",
+            "hands": 5,
+            "passes": 30,
+            "animalProjects": 3814,
+            "terrainProjects": 2572,
+            "feasible": 6386,
+            "positive": 4366
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 923,
+            "terrainProjects": 536,
+            "feasible": 1459,
+            "positive": 1039
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 829,
+            "terrainProjects": 524,
+            "feasible": 1353,
+            "positive": 947
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 756,
+            "terrainProjects": 489,
+            "feasible": 1245,
+            "positive": 830
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 839,
+            "terrainProjects": 495,
+            "feasible": 1334,
+            "positive": 941
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 787,
+            "terrainProjects": 482,
+            "feasible": 1269,
+            "positive": 866
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 721,
+            "terrainProjects": 506,
+            "feasible": 1227,
+            "positive": 811
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 672,
+            "terrainProjects": 493,
+            "feasible": 1165,
+            "positive": 741
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 787,
+            "terrainProjects": 534,
+            "feasible": 1321,
+            "positive": 909
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 799,
+            "terrainProjects": 488,
+            "feasible": 1287,
+            "positive": 918
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 715,
+            "terrainProjects": 473,
+            "feasible": 1188,
+            "positive": 789
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 799,
+            "terrainProjects": 470,
+            "feasible": 1269,
+            "positive": 906
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 615,
+            "terrainProjects": 456,
+            "feasible": 1071,
+            "positive": 688
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 754,
+            "terrainProjects": 513,
+            "feasible": 1267,
+            "positive": 869
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 832,
+            "terrainProjects": 470,
+            "feasible": 1302,
+            "positive": 938
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 710,
+            "terrainProjects": 452,
+            "feasible": 1162,
+            "positive": 818
+          }
+        ],
+        "fallbackSteps": [
+          {
+            "action": {
+              "type": "takeCard",
+              "slot": 2
+            },
+            "label": "拿取猛禽",
+            "legalCounts": {
+              "takeCard": 5,
+              "takeTokens": 5
+            }
+          },
+          {
+            "action": {
+              "type": "settle",
+              "card": 25,
+              "cell": 6
+            },
+            "label": "猛禽入住 2-2",
+            "legalCounts": {
+              "settle": 1,
+              "takeTokens": 5
+            }
+          },
+          {
+            "action": {
+              "type": "takeTokens",
+              "group": 3
+            },
+            "label": "拿取第 4 组：建筑、岩石、树干",
+            "legalCounts": {
+              "takeTokens": 5
+            }
+          },
+          {
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 7
+            },
+            "label": "在 2-3 放置建筑",
+            "legalCounts": {
+              "place": 54
+            }
+          },
+          {
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 10
+            },
+            "label": "在 3-2 放置岩石",
+            "legalCounts": {
+              "place": 34
+            }
+          },
+          {
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 1
+            },
+            "label": "在 1-2 放置树干",
+            "legalCounts": {
+              "place": 17
+            }
+          },
+          {
+            "action": {
+              "type": "endTurn"
+            },
+            "label": "结束回合",
+            "legalCounts": {
+              "endTurn": 1
+            }
+          }
+        ],
+        "deep": [
+          {
+            "depth": 2,
+            "rootCandidates": 7,
+            "scenariosStarted": 9,
+            "scenariosCompleted": 8,
+            "candidatesCompleted": 4,
+            "committed": false
+          }
+        ]
+      },
+      "terrainSpace": [
+        {
+          "group": 0,
+          "colors": [
+            5,
+            6,
+            5
+          ],
+          "edges": [
+            35,
+            816,
+            12240
+          ],
+          "orderedPlacementSequences": 12240,
+          "distinctFinalBoards": 2040
+        },
+        {
+          "group": 1,
+          "colors": [
+            2,
+            1,
+            3
+          ],
+          "edges": [
+            51,
+            1636,
+            24672
+          ],
+          "orderedPlacementSequences": 24672,
+          "distinctFinalBoards": 4112
+        },
+        {
+          "group": 2,
+          "colors": [
+            3,
+            6,
+            4
+          ],
+          "edges": [
+            55,
+            1942,
+            33000
+          ],
+          "orderedPlacementSequences": 33000,
+          "distinctFinalBoards": 5798
+        },
+        {
+          "group": 3,
+          "colors": [
+            6,
+            2,
+            3
+          ],
+          "edges": [
+            54,
+            1872,
+            31164
+          ],
+          "orderedPlacementSequences": 31164,
+          "distinctFinalBoards": 5458
+        },
+        {
+          "group": 4,
+          "colors": [
+            2,
+            4,
+            3
+          ],
+          "edges": [
+            53,
+            1790,
+            28818
+          ],
+          "orderedPlacementSequences": 28818,
+          "distinctFinalBoards": 4948
+        }
+      ],
+      "templates": [
+        {
+          "id": 15,
+          "name": "野兔",
+          "patternCells": 3,
+          "buildings": 1,
+          "geometricAttempts": 138,
+          "feasibleProjects": 84,
+          "distinctTargets": 17
+        },
+        {
+          "id": 28,
+          "name": "羊驼",
+          "patternCells": 3,
+          "buildings": 0,
+          "geometricAttempts": 138,
+          "feasibleProjects": 30,
+          "distinctTargets": 16
+        },
+        {
+          "id": 7,
+          "name": "火烈鸟",
+          "patternCells": 3,
+          "buildings": 0,
+          "geometricAttempts": 138,
+          "feasibleProjects": 37,
+          "distinctTargets": 14
+        }
+      ]
+    },
+    {
+      "id": "user-log-round-8",
+      "sourceIndex": 93,
+      "n": 2,
+      "side": "A",
+      "spirits": false,
+      "round": 8,
+      "boardCells": 23,
+      "emptyCells": 9,
+      "activeCards": 4,
+      "config": {
+        "depth": 2,
+        "timeMs": 3500,
+        "beamWidth": 6,
+        "topK": 3,
+        "seed": 1729
+      },
+      "baseline": {
+        "elapsedMs": 1037,
+        "nodes": 4107,
+        "completedDepth": 2,
+        "actions": [
+          {
+            "type": "takeTokens",
+            "group": 4
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 16
+          },
+          {
+            "type": "settle",
+            "card": 7,
+            "cell": 16
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 13
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 13
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "decisions": [
+          {
+            "label": "拿取第 5 组：水域、建筑、建筑",
+            "action": {
+              "type": "takeTokens",
+              "group": 4
+            },
+            "legalCounts": {
+              "takeTokens": 5
+            },
+            "evaluatedCounts": {
+              "takeTokens": 3
+            }
+          },
+          {
+            "label": "在 4-3 放置水域",
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 16
+            },
+            "legalCounts": {
+              "place": 19
+            },
+            "evaluatedCounts": {
+              "place": 3
+            }
+          },
+          {
+            "label": "火烈鸟入住 4-3",
+            "action": {
+              "type": "settle",
+              "card": 7,
+              "cell": 16
+            },
+            "legalCounts": {
+              "settle": 1,
+              "place": 9
+            },
+            "evaluatedCounts": {
+              "settle": 1,
+              "place": 3
+            }
+          },
+          {
+            "label": "在 3-5 放置建筑",
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 13
+            },
+            "legalCounts": {
+              "place": 9
+            },
+            "evaluatedCounts": {
+              "place": 3
+            }
+          },
+          {
+            "label": "在 3-5 放置建筑",
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 13
+            },
+            "legalCounts": {
+              "place": 9
+            },
+            "evaluatedCounts": {
+              "place": 3
+            }
+          },
+          {
+            "label": "结束回合",
+            "action": {
+              "type": "endTurn"
+            },
+            "legalCounts": {
+              "endTurn": 1
+            },
+            "evaluatedCounts": {
+              "endTurn": 1
+            }
+          }
+        ]
+      },
+      "clockReads": 4585,
+      "profiledExternalMs": 1083.757166000003,
+      "stats": {
+        "phases": {
+          "setup": {
+            "counters": {},
+            "times": {
+              "phase": 0.07870799999727751
+            },
+            "offered": {},
+            "actions": {}
+          },
+          "fallback": {
+            "counters": {
+              "greedyCalls": 1,
+              "expandCalls": 6,
+              "uncachedExpansions": 6,
+              "legalActions": 53,
+              "cheapCalls": 53,
+              "cheapProjects": 5025,
+              "cheapResourceFeasible": 52,
+              "fullCalls": 1,
+              "fullMisses": 1,
+              "fullHands": 1,
+              "fullPasses": 4,
+              "fullAnimalProjects": 148,
+              "fullResourceFeasible": 129,
+              "fullPositive": 45,
+              "fullTerrainProjects": 144
+            },
+            "times": {
+              "legalEnumeration": 0.6172100000039791,
+              "applyAction": 2.0549580000042624,
+              "immediateScore": 1.324374000003445,
+              "cheapOrder": 15.232209000005241,
+              "fullV": 3.5900000000001455,
+              "phase": 23.023917000002257
+            },
+            "offered": {
+              "takeTokens": 5,
+              "place": 46,
+              "settle": 1,
+              "endTurn": 1
+            },
+            "actions": {
+              "takeTokens": 5,
+              "place": 46,
+              "settle": 1,
+              "endTurn": 1
+            }
+          },
+          "currentTurn": {
+            "counters": {
+              "expandCalls": 38,
+              "expandHits": 3,
+              "uncachedExpansions": 35,
+              "legalActions": 279,
+              "cheapCalls": 279,
+              "cheapProjects": 24377,
+              "cheapResourceFeasible": 383,
+              "fullCalls": 14,
+              "fullMisses": 14,
+              "fullHands": 14,
+              "fullPasses": 57,
+              "fullAnimalProjects": 2273,
+              "fullResourceFeasible": 1621,
+              "fullPositive": 432,
+              "fullTerrainProjects": 1839
+            },
+            "times": {
+              "legalEnumeration": 3.419250999995711,
+              "applyAction": 10.570614999985992,
+              "immediateScore": 7.617013000017323,
+              "cheapOrder": 63.85967200000232,
+              "fullV": 49.47250299999723,
+              "phase": 137.0344159999986
+            },
+            "offered": {
+              "place": 246,
+              "settle": 9,
+              "endTurn": 14,
+              "takeCard": 10
+            },
+            "actions": {
+              "place": 246,
+              "settle": 9,
+              "endTurn": 14,
+              "takeCard": 10
+            }
+          },
+          "depth2": {
+            "counters": {
+              "greedyCalls": 14,
+              "expandCalls": 376,
+              "uncachedExpansions": 370,
+              "legalActions": 3775,
+              "cheapCalls": 3775,
+              "cheapProjects": 99508,
+              "cheapResourceFeasible": 36500,
+              "fullCalls": 55,
+              "fullMisses": 39,
+              "fullHands": 39,
+              "fullPasses": 152,
+              "fullAnimalProjects": 2279,
+              "fullResourceFeasible": 2916,
+              "fullPositive": 1023,
+              "fullTerrainProjects": 3006,
+              "expandHits": 6
+            },
+            "times": {
+              "legalEnumeration": 29.78358100000696,
+              "applyAction": 145.73603600010392,
+              "immediateScore": 133.7039159999149,
+              "cheapOrder": 483.91038899996056,
+              "fullV": 89.57741399999577,
+              "phase": 895.9447089999994
+            },
+            "offered": {
+              "takeCard": 680,
+              "takeTokens": 860,
+              "settle": 685,
+              "place": 1497,
+              "endTurn": 53
+            },
+            "actions": {
+              "takeCard": 680,
+              "takeTokens": 860,
+              "settle": 685,
+              "place": 1497,
+              "endTurn": 53
+            }
+          },
+          "logs": {
+            "counters": {
+              "fullCalls": 23,
+              "fullMisses": 17,
+              "fullHands": 21,
+              "fullPasses": 40,
+              "fullAnimalProjects": 3886,
+              "fullResourceFeasible": 432,
+              "fullPositive": 90,
+              "fullTerrainProjects": 1961,
+              "expandCalls": 6,
+              "expandHits": 6
+            },
+            "times": {
+              "fullV": 27.107415000005858,
+              "phase": 27.677707999999257
+            },
+            "offered": {},
+            "actions": {}
+          }
+        },
+        "beams": [
+          {
+            "phase": "currentTurn",
+            "width": 6,
+            "round": 8,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 5,
+                "terminalEdges": 0,
+                "merged": 5,
+                "kept": 5,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 5,
+                "parentsFinished": 5,
+                "offered": 116,
+                "localKept": 30,
+                "terminalEdges": 0,
+                "merged": 30,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 67,
+                "localKept": 36,
+                "terminalEdges": 0,
+                "merged": 33,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 56,
+                "localKept": 36,
+                "terminalEdges": 0,
+                "merged": 31,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 42,
+                "localKept": 36,
+                "terminalEdges": 0,
+                "merged": 32,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 9,
+                "localKept": 9,
+                "terminalEdges": 6,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 7,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 12,
+                "localKept": 12,
+                "terminalEdges": 2,
+                "merged": 10,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 8,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 6,
+                "localKept": 6,
+                "terminalEdges": 6,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 14,
+            "returned": 6,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 9,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 34,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 24,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 17,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 7,
+                "localKept": 4,
+                "terminalEdges": 1,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 3,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 9,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 35,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 26,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 18,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 7,
+                "localKept": 4,
+                "terminalEdges": 1,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 3,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 9,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 10,
+                "localKept": 3,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 34,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 24,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 9,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 10,
+                "localKept": 3,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 35,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 25,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 13,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 8,
+                "localKept": 4,
+                "terminalEdges": 1,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 7,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 3,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 9,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 6,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 31,
+                "localKept": 6,
+                "terminalEdges": 0,
+                "merged": 5,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 26,
+                "localKept": 6,
+                "terminalEdges": 0,
+                "merged": 6,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 12,
+                "localKept": 5,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 4,
+                "localKept": 4,
+                "terminalEdges": 2,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 12,
+                "localKept": 4,
+                "terminalEdges": 2,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 7,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 6,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 9,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 6,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 32,
+                "localKept": 6,
+                "terminalEdges": 0,
+                "merged": 5,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 18,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 27,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 12,
+                "localKept": 5,
+                "terminalEdges": 1,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 11,
+                "localKept": 4,
+                "terminalEdges": 1,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 7,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 4,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 9,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 34,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 22,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 9,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 35,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 24,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 9,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 34,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 22,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 9,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 35,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 24,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 9,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 34,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 22,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 9,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 35,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 24,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 10,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 2,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 9,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 39,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 27,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 13,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 13,
+                "localKept": 5,
+                "terminalEdges": 1,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 12,
+                "localKept": 4,
+                "terminalEdges": 1,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 7,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 4,
+            "returned": 2,
+            "interrupted": false
+          },
+          {
+            "phase": "depth2",
+            "width": 2,
+            "round": 9,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 2,
+                "terminalEdges": 0,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 40,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 28,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 13,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 13,
+                "localKept": 5,
+                "terminalEdges": 1,
+                "merged": 3,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 12,
+                "localKept": 4,
+                "terminalEdges": 1,
+                "merged": 2,
+                "kept": 2,
+                "done": true
+              },
+              {
+                "step": 7,
+                "parents": 2,
+                "parentsFinished": 2,
+                "offered": 2,
+                "localKept": 2,
+                "terminalEdges": 2,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 4,
+            "returned": 2,
+            "interrupted": false
+          }
+        ],
+        "fullDetails": [
+          {
+            "phase": "fallback",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 148,
+            "terrainProjects": 144,
+            "feasible": 129,
+            "positive": 45
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 5,
+            "animalProjects": 185,
+            "terrainProjects": 165,
+            "feasible": 154,
+            "positive": 38
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 5,
+            "animalProjects": 180,
+            "terrainProjects": 165,
+            "feasible": 149,
+            "positive": 33
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 5,
+            "animalProjects": 165,
+            "terrainProjects": 165,
+            "feasible": 148,
+            "positive": 42
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 132,
+            "terrainProjects": 126,
+            "feasible": 118,
+            "positive": 38
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 183,
+            "terrainProjects": 126,
+            "feasible": 126,
+            "positive": 45
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 116,
+            "terrainProjects": 126,
+            "feasible": 123,
+            "positive": 46
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 125,
+            "terrainProjects": 126,
+            "feasible": 103,
+            "positive": 19
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 111,
+            "terrainProjects": 126,
+            "feasible": 103,
+            "positive": 26
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 3,
+            "animalProjects": 240,
+            "terrainProjects": 105,
+            "feasible": 77,
+            "positive": 16
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 156,
+            "terrainProjects": 126,
+            "feasible": 103,
+            "positive": 19
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 131,
+            "terrainProjects": 126,
+            "feasible": 103,
+            "positive": 19
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 170,
+            "terrainProjects": 126,
+            "feasible": 134,
+            "positive": 50
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 139,
+            "terrainProjects": 126,
+            "feasible": 103,
+            "positive": 19
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 3,
+            "animalProjects": 240,
+            "terrainProjects": 105,
+            "feasible": 77,
+            "positive": 22
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 5,
+            "animalProjects": 80,
+            "terrainProjects": 84,
+            "feasible": 113,
+            "positive": 49
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 50,
+            "terrainProjects": 60,
+            "feasible": 75,
+            "positive": 31
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 26,
+            "terrainProjects": 60,
+            "feasible": 65,
+            "positive": 23
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 5,
+            "animalProjects": 100,
+            "terrainProjects": 105,
+            "feasible": 132,
+            "positive": 56
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 69,
+            "terrainProjects": 78,
+            "feasible": 90,
+            "positive": 36
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 3,
+            "animalProjects": 27,
+            "terrainProjects": 60,
+            "feasible": 60,
+            "positive": 21
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 67,
+            "terrainProjects": 60,
+            "feasible": 61,
+            "positive": 19
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 61,
+            "terrainProjects": 60,
+            "feasible": 64,
+            "positive": 20
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 5,
+            "animalProjects": 215,
+            "terrainProjects": 133,
+            "feasible": 136,
+            "positive": 49
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 153,
+            "terrainProjects": 103,
+            "feasible": 98,
+            "positive": 34
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 3,
+            "animalProjects": 133,
+            "terrainProjects": 80,
+            "feasible": 66,
+            "positive": 25
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 5,
+            "animalProjects": 55,
+            "terrainProjects": 84,
+            "feasible": 93,
+            "positive": 33
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 5,
+            "animalProjects": 54,
+            "terrainProjects": 84,
+            "feasible": 98,
+            "positive": 35
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 30,
+            "terrainProjects": 60,
+            "feasible": 60,
+            "positive": 18
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 35,
+            "terrainProjects": 60,
+            "feasible": 63,
+            "positive": 19
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 5,
+            "animalProjects": 42,
+            "terrainProjects": 102,
+            "feasible": 100,
+            "positive": 34
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 20,
+            "terrainProjects": 75,
+            "feasible": 67,
+            "positive": 21
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 3,
+            "animalProjects": 93,
+            "terrainProjects": 69,
+            "feasible": 57,
+            "positive": 19
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 3,
+            "animalProjects": 66,
+            "terrainProjects": 69,
+            "feasible": 54,
+            "positive": 16
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 2,
+            "animalProjects": 20,
+            "terrainProjects": 36,
+            "feasible": 27,
+            "positive": 7
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 8,
+            "terrainProjects": 60,
+            "feasible": 54,
+            "positive": 11
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 3,
+            "animalProjects": 49,
+            "terrainProjects": 69,
+            "feasible": 57,
+            "positive": 15
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 3,
+            "animalProjects": 27,
+            "terrainProjects": 69,
+            "feasible": 54,
+            "positive": 12
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 2,
+            "animalProjects": 21,
+            "terrainProjects": 36,
+            "feasible": 27,
+            "positive": 7
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 8,
+            "terrainProjects": 60,
+            "feasible": 54,
+            "positive": 11
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 58,
+            "terrainProjects": 81,
+            "feasible": 73,
+            "positive": 16
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 28,
+            "terrainProjects": 81,
+            "feasible": 70,
+            "positive": 13
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 2,
+            "animalProjects": 24,
+            "terrainProjects": 36,
+            "feasible": 27,
+            "positive": 7
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 14,
+            "terrainProjects": 60,
+            "feasible": 54,
+            "positive": 11
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 64,
+            "terrainProjects": 81,
+            "feasible": 73,
+            "positive": 16
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 36,
+            "terrainProjects": 81,
+            "feasible": 70,
+            "positive": 13
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 5,
+            "animalProjects": 64,
+            "terrainProjects": 114,
+            "feasible": 133,
+            "positive": 72
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 27,
+            "terrainProjects": 84,
+            "feasible": 83,
+            "positive": 36
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 69,
+            "terrainProjects": 84,
+            "feasible": 86,
+            "positive": 39
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 113,
+            "terrainProjects": 103,
+            "feasible": 60,
+            "positive": 16
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 5,
+            "animalProjects": 64,
+            "terrainProjects": 114,
+            "feasible": 133,
+            "positive": 72
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 27,
+            "terrainProjects": 84,
+            "feasible": 83,
+            "positive": 36
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 69,
+            "terrainProjects": 84,
+            "feasible": 86,
+            "positive": 39
+          },
+          {
+            "phase": "depth2",
+            "hands": 1,
+            "passes": 4,
+            "animalProjects": 113,
+            "terrainProjects": 103,
+            "feasible": 60,
+            "positive": 16
+          },
+          {
+            "phase": "logs",
+            "hands": 5,
+            "passes": 12,
+            "animalProjects": 1394,
+            "terrainProjects": 615,
+            "feasible": 174,
+            "positive": 49
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 2,
+            "animalProjects": 258,
+            "terrainProjects": 108,
+            "feasible": 30,
+            "positive": 3
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 3,
+            "animalProjects": 307,
+            "terrainProjects": 147,
+            "feasible": 43,
+            "positive": 15
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 2,
+            "animalProjects": 209,
+            "terrainProjects": 99,
+            "feasible": 21,
+            "positive": 10
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 2,
+            "animalProjects": 174,
+            "terrainProjects": 102,
+            "feasible": 19,
+            "positive": 1
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 2,
+            "animalProjects": 220,
+            "terrainProjects": 98,
+            "feasible": 28,
+            "positive": 1
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 2,
+            "animalProjects": 258,
+            "terrainProjects": 102,
+            "feasible": 27,
+            "positive": 5
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 1,
+            "animalProjects": 84,
+            "terrainProjects": 51,
+            "feasible": 9,
+            "positive": 0
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 2,
+            "animalProjects": 142,
+            "terrainProjects": 92,
+            "feasible": 19,
+            "positive": 1
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 2,
+            "animalProjects": 174,
+            "terrainProjects": 96,
+            "feasible": 17,
+            "positive": 1
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 3,
+            "animalProjects": 199,
+            "terrainProjects": 137,
+            "feasible": 19,
+            "positive": 3
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 1,
+            "animalProjects": 68,
+            "terrainProjects": 46,
+            "feasible": 9,
+            "positive": 0
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 1,
+            "animalProjects": 84,
+            "terrainProjects": 48,
+            "feasible": 8,
+            "positive": 0
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 2,
+            "animalProjects": 130,
+            "terrainProjects": 91,
+            "feasible": 9,
+            "positive": 1
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 1,
+            "animalProjects": 68,
+            "terrainProjects": 45,
+            "feasible": 0,
+            "positive": 0
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 1,
+            "animalProjects": 68,
+            "terrainProjects": 43,
+            "feasible": 0,
+            "positive": 0
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 1,
+            "animalProjects": 49,
+            "terrainProjects": 41,
+            "feasible": 0,
+            "positive": 0
+          }
+        ],
+        "fallbackSteps": [
+          {
+            "action": {
+              "type": "takeTokens",
+              "group": 4
+            },
+            "label": "拿取第 5 组：水域、建筑、建筑",
+            "legalCounts": {
+              "takeTokens": 5
+            }
+          },
+          {
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 16
+            },
+            "label": "在 4-3 放置水域",
+            "legalCounts": {
+              "place": 19
+            }
+          },
+          {
+            "action": {
+              "type": "settle",
+              "card": 7,
+              "cell": 16
+            },
+            "label": "火烈鸟入住 4-3",
+            "legalCounts": {
+              "settle": 1,
+              "place": 9
+            }
+          },
+          {
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 13
+            },
+            "label": "在 3-5 放置建筑",
+            "legalCounts": {
+              "place": 9
+            }
+          },
+          {
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 13
+            },
+            "label": "在 3-5 放置建筑",
+            "legalCounts": {
+              "place": 9
+            }
+          },
+          {
+            "action": {
+              "type": "endTurn"
+            },
+            "label": "结束回合",
+            "legalCounts": {
+              "endTurn": 1
+            }
+          }
+        ],
+        "deep": [
+          {
+            "depth": 2,
+            "rootCandidates": 7,
+            "scenariosStarted": 14,
+            "scenariosCompleted": 14,
+            "candidatesCompleted": 7,
+            "committed": true
+          }
+        ]
+      },
+      "terrainSpace": [
+        {
+          "group": 0,
+          "colors": [
+            6,
+            4,
+            3
+          ],
+          "edges": [
+            30,
+            559,
+            4833
+          ],
+          "orderedPlacementSequences": 4833,
+          "distinctFinalBoards": 891
+        },
+        {
+          "group": 1,
+          "colors": [
+            4,
+            4,
+            6
+          ],
+          "edges": [
+            20,
+            270,
+            2160
+          ],
+          "orderedPlacementSequences": 2160,
+          "distinctFinalBoards": 360
+        },
+        {
+          "group": 2,
+          "colors": [
+            5,
+            1,
+            1
+          ],
+          "edges": [
+            18,
+            216,
+            1512
+          ],
+          "orderedPlacementSequences": 1512,
+          "distinctFinalBoards": 252
+        },
+        {
+          "group": 3,
+          "colors": [
+            6,
+            2,
+            3
+          ],
+          "edges": [
+            29,
+            522,
+            4347
+          ],
+          "orderedPlacementSequences": 4347,
+          "distinctFinalBoards": 801
+        },
+        {
+          "group": 4,
+          "colors": [
+            1,
+            6,
+            6
+          ],
+          "edges": [
+            19,
+            261,
+            2160
+          ],
+          "orderedPlacementSequences": 2160,
+          "distinctFinalBoards": 396
+        }
+      ],
+      "templates": [
+        {
+          "id": 15,
+          "name": "野兔",
+          "patternCells": 3,
+          "buildings": 1,
+          "geometricAttempts": 138,
+          "feasibleProjects": 31,
+          "distinctTargets": 9
+        },
+        {
+          "id": 28,
+          "name": "羊驼",
+          "patternCells": 3,
+          "buildings": 0,
+          "geometricAttempts": 138,
+          "feasibleProjects": 13,
+          "distinctTargets": 9
+        },
+        {
+          "id": 7,
+          "name": "火烈鸟",
+          "patternCells": 3,
+          "buildings": 0,
+          "geometricAttempts": 138,
+          "feasibleProjects": 22,
+          "distinctTargets": 8
+        },
+        {
+          "id": 27,
+          "name": "渡鸦",
+          "patternCells": 3,
+          "buildings": 2,
+          "geometricAttempts": 138,
+          "feasibleProjects": 108,
+          "distinctTargets": 7
+        }
+      ]
+    },
+    {
+      "id": "user-log-round-9",
+      "sourceIndex": 117,
+      "n": 2,
+      "side": "A",
+      "spirits": false,
+      "round": 9,
+      "boardCells": 23,
+      "emptyCells": 7,
+      "activeCards": 4,
+      "config": {
+        "depth": 2,
+        "timeMs": 3500,
+        "beamWidth": 6,
+        "topK": 3,
+        "seed": 1729
+      },
+      "baseline": {
+        "elapsedMs": 71,
+        "nodes": 243,
+        "completedDepth": 2,
+        "actions": [
+          {
+            "type": "takeTokens",
+            "group": 0
+          },
+          {
+            "type": "place",
+            "pending": 1,
+            "cell": 17
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 14
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 15
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "decisions": [
+          {
+            "label": "拿取第 1 组：建筑、树冠、树干",
+            "action": {
+              "type": "takeTokens",
+              "group": 0
+            },
+            "legalCounts": {
+              "takeTokens": 5
+            },
+            "evaluatedCounts": {
+              "takeTokens": 3
+            }
+          },
+          {
+            "label": "在 4-4 放置树冠",
+            "action": {
+              "type": "place",
+              "pending": 1,
+              "cell": 17
+            },
+            "legalCounts": {
+              "place": 24
+            },
+            "evaluatedCounts": {
+              "place": 3
+            }
+          },
+          {
+            "label": "在 4-1 放置建筑",
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 14
+            },
+            "legalCounts": {
+              "place": 14
+            },
+            "evaluatedCounts": {
+              "place": 3
+            }
+          },
+          {
+            "label": "在 4-2 放置树干",
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 15
+            },
+            "legalCounts": {
+              "place": 6
+            },
+            "evaluatedCounts": {
+              "place": 3
+            }
+          },
+          {
+            "label": "结束回合",
+            "action": {
+              "type": "endTurn"
+            },
+            "legalCounts": {
+              "endTurn": 1
+            },
+            "evaluatedCounts": {
+              "endTurn": 1
+            }
+          }
+        ]
+      },
+      "clockReads": 246,
+      "profiledExternalMs": 73.79520899999989,
+      "stats": {
+        "phases": {
+          "setup": {
+            "counters": {},
+            "times": {
+              "phase": 0.07433300000047893
+            },
+            "offered": {},
+            "actions": {}
+          },
+          "fallback": {
+            "counters": {
+              "greedyCalls": 1,
+              "expandCalls": 5,
+              "uncachedExpansions": 5,
+              "legalActions": 50,
+              "cheapCalls": 50,
+              "cheapProjects": 2137,
+              "fullCalls": 1,
+              "fullMisses": 1,
+              "fullHands": 1
+            },
+            "times": {
+              "legalEnumeration": 0.4840409999997064,
+              "applyAction": 1.7618729999958305,
+              "immediateScore": 1.6745349999946484,
+              "cheapOrder": 7.501544000006106,
+              "fullV": 0.07875000000058208,
+              "phase": 11.610082999999577
+            },
+            "offered": {
+              "takeTokens": 5,
+              "place": 44,
+              "endTurn": 1
+            },
+            "actions": {
+              "takeTokens": 5,
+              "place": 44,
+              "endTurn": 1
+            }
+          },
+          "currentTurn": {
+            "counters": {
+              "expandCalls": 24,
+              "expandHits": 3,
+              "uncachedExpansions": 21,
+              "legalActions": 193,
+              "cheapCalls": 193,
+              "cheapProjects": 7162,
+              "fullCalls": 6,
+              "fullMisses": 6,
+              "fullHands": 6
+            },
+            "times": {
+              "legalEnumeration": 1.9923780000099214,
+              "applyAction": 7.709710999981326,
+              "immediateScore": 5.037295000023732,
+              "cheapOrder": 27.456413000047178,
+              "fullV": 0.371833000001061,
+              "phase": 43.54158399999869
+            },
+            "offered": {
+              "place": 187,
+              "endTurn": 6
+            },
+            "actions": {
+              "place": 187,
+              "endTurn": 6
+            }
+          },
+          "depth2": {
+            "counters": {
+              "fullCalls": 14
+            },
+            "times": {
+              "phase": 3.075790999999299
+            },
+            "offered": {},
+            "actions": {}
+          },
+          "logs": {
+            "counters": {
+              "fullCalls": 18,
+              "fullMisses": 13,
+              "fullHands": 17,
+              "fullPasses": 35,
+              "fullAnimalProjects": 1699,
+              "fullTerrainProjects": 1349,
+              "fullResourceFeasible": 377,
+              "fullPositive": 86,
+              "expandCalls": 5,
+              "expandHits": 5
+            },
+            "times": {
+              "fullV": 15.046624000005977,
+              "phase": 15.49525000000358
+            },
+            "offered": {},
+            "actions": {}
+          }
+        },
+        "beams": [
+          {
+            "phase": "currentTurn",
+            "width": 6,
+            "round": 9,
+            "actor": 1,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 5,
+                "localKept": 5,
+                "terminalEdges": 0,
+                "merged": 5,
+                "kept": 5,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 5,
+                "parentsFinished": 5,
+                "offered": 105,
+                "localKept": 30,
+                "terminalEdges": 0,
+                "merged": 30,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 84,
+                "localKept": 36,
+                "terminalEdges": 0,
+                "merged": 36,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 36,
+                "localKept": 33,
+                "terminalEdges": 0,
+                "merged": 33,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 6,
+                "localKept": 6,
+                "terminalEdges": 6,
+                "merged": 0,
+                "kept": 0,
+                "done": true
+              }
+            ],
+            "uniqueComplete": 6,
+            "returned": 6,
+            "interrupted": false
+          }
+        ],
+        "fullDetails": [
+          {
+            "phase": "fallback",
+            "hands": 1,
+            "passes": 0,
+            "animalProjects": 0,
+            "terrainProjects": 0,
+            "feasible": 0,
+            "positive": 0
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 0,
+            "animalProjects": 0,
+            "terrainProjects": 0,
+            "feasible": 0,
+            "positive": 0
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 0,
+            "animalProjects": 0,
+            "terrainProjects": 0,
+            "feasible": 0,
+            "positive": 0
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 0,
+            "animalProjects": 0,
+            "terrainProjects": 0,
+            "feasible": 0,
+            "positive": 0
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 0,
+            "animalProjects": 0,
+            "terrainProjects": 0,
+            "feasible": 0,
+            "positive": 0
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 0,
+            "animalProjects": 0,
+            "terrainProjects": 0,
+            "feasible": 0,
+            "positive": 0
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 1,
+            "passes": 0,
+            "animalProjects": 0,
+            "terrainProjects": 0,
+            "feasible": 0,
+            "positive": 0
+          },
+          {
+            "phase": "logs",
+            "hands": 5,
+            "passes": 14,
+            "animalProjects": 748,
+            "terrainProjects": 566,
+            "feasible": 194,
+            "positive": 39
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 2,
+            "animalProjects": 121,
+            "terrainProjects": 84,
+            "feasible": 38,
+            "positive": 9
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 3,
+            "animalProjects": 154,
+            "terrainProjects": 119,
+            "feasible": 39,
+            "positive": 8
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 3,
+            "animalProjects": 141,
+            "terrainProjects": 117,
+            "feasible": 31,
+            "positive": 7
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 1,
+            "animalProjects": 53,
+            "terrainProjects": 39,
+            "feasible": 14,
+            "positive": 0
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 2,
+            "animalProjects": 85,
+            "terrainProjects": 74,
+            "feasible": 20,
+            "positive": 6
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 3,
+            "animalProjects": 140,
+            "terrainProjects": 114,
+            "feasible": 23,
+            "positive": 14
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 2,
+            "animalProjects": 87,
+            "terrainProjects": 69,
+            "feasible": 6,
+            "positive": 3
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 1,
+            "animalProjects": 34,
+            "terrainProjects": 34,
+            "feasible": 6,
+            "positive": 0
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 1,
+            "animalProjects": 40,
+            "terrainProjects": 34,
+            "feasible": 6,
+            "positive": 0
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 1,
+            "animalProjects": 34,
+            "terrainProjects": 33,
+            "feasible": 0,
+            "positive": 0
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 1,
+            "animalProjects": 40,
+            "terrainProjects": 33,
+            "feasible": 0,
+            "positive": 0
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 1,
+            "animalProjects": 22,
+            "terrainProjects": 33,
+            "feasible": 0,
+            "positive": 0
+          }
+        ],
+        "fallbackSteps": [
+          {
+            "action": {
+              "type": "takeTokens",
+              "group": 0
+            },
+            "label": "拿取第 1 组：建筑、树冠、树干",
+            "legalCounts": {
+              "takeTokens": 5
+            }
+          },
+          {
+            "action": {
+              "type": "place",
+              "pending": 1,
+              "cell": 17
+            },
+            "label": "在 4-4 放置树冠",
+            "legalCounts": {
+              "place": 24
+            }
+          },
+          {
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 14
+            },
+            "label": "在 4-1 放置建筑",
+            "legalCounts": {
+              "place": 14
+            }
+          },
+          {
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 15
+            },
+            "label": "在 4-2 放置树干",
+            "legalCounts": {
+              "place": 6
+            }
+          },
+          {
+            "action": {
+              "type": "endTurn"
+            },
+            "label": "结束回合",
+            "legalCounts": {
+              "endTurn": 1
+            }
+          }
+        ],
+        "deep": [
+          {
+            "depth": 2,
+            "rootCandidates": 7,
+            "scenariosStarted": 14,
+            "scenariosCompleted": 14,
+            "candidatesCompleted": 7,
+            "committed": true
+          }
+        ]
+      },
+      "terrainSpace": [
+        {
+          "group": 0,
+          "colors": [
+            6,
+            4,
+            3
+          ],
+          "edges": [
+            24,
+            351,
+            2331
+          ],
+          "orderedPlacementSequences": 2331,
+          "distinctFinalBoards": 441
+        },
+        {
+          "group": 1,
+          "colors": [
+            1,
+            6,
+            5
+          ],
+          "edges": [
+            22,
+            280,
+            1512
+          ],
+          "orderedPlacementSequences": 1512,
+          "distinctFinalBoards": 252
+        },
+        {
+          "group": 2,
+          "colors": [
+            5,
+            1,
+            1
+          ],
+          "edges": [
+            14,
+            126,
+            630
+          ],
+          "orderedPlacementSequences": 630,
+          "distinctFinalBoards": 105
+        },
+        {
+          "group": 3,
+          "colors": [
+            6,
+            2,
+            3
+          ],
+          "edges": [
+            23,
+            322,
+            2037
+          ],
+          "orderedPlacementSequences": 2037,
+          "distinctFinalBoards": 385
+        },
+        {
+          "group": 4,
+          "colors": [
+            1,
+            2,
+            3
+          ],
+          "edges": [
+            22,
+            280,
+            1512
+          ],
+          "orderedPlacementSequences": 1512,
+          "distinctFinalBoards": 252
+        }
+      ],
+      "templates": [
+        {
+          "id": 15,
+          "name": "野兔",
+          "patternCells": 3,
+          "buildings": 1,
+          "geometricAttempts": 138,
+          "feasibleProjects": 19,
+          "distinctTargets": 5
+        },
+        {
+          "id": 28,
+          "name": "羊驼",
+          "patternCells": 3,
+          "buildings": 0,
+          "geometricAttempts": 138,
+          "feasibleProjects": 7,
+          "distinctTargets": 6
+        },
+        {
+          "id": 7,
+          "name": "火烈鸟",
+          "patternCells": 3,
+          "buildings": 0,
+          "geometricAttempts": 138,
+          "feasibleProjects": 6,
+          "distinctTargets": 6
+        },
+        {
+          "id": 27,
+          "name": "渡鸦",
+          "patternCells": 3,
+          "buildings": 2,
+          "geometricAttempts": 138,
+          "feasibleProjects": 36,
+          "distinctTargets": 5
+        }
+      ]
+    },
+    {
+      "id": "solo-B-spirit-round-5",
+      "sourceIndex": null,
+      "n": 1,
+      "side": "B",
+      "spirits": true,
+      "round": 5,
+      "boardCells": 28,
+      "emptyCells": 17,
+      "activeCards": 4,
+      "config": {
+        "depth": 2,
+        "timeMs": 3500,
+        "beamWidth": 6,
+        "topK": 3,
+        "seed": 1729
+      },
+      "baseline": {
+        "elapsedMs": 3039,
+        "nodes": 511,
+        "completedDepth": 1,
+        "actions": [
+          {
+            "type": "takeTokens",
+            "group": 0
+          },
+          {
+            "type": "place",
+            "pending": 1,
+            "cell": 11
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 9
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 8
+          },
+          {
+            "type": "settle",
+            "card": 40,
+            "cell": 5
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "decisions": [
+          {
+            "label": "拿取第 1 组：水域、岩石、树干",
+            "action": {
+              "type": "takeTokens",
+              "group": 0
+            },
+            "legalCounts": {
+              "takeTokens": 3,
+              "settle": 1
+            },
+            "evaluatedCounts": {
+              "takeTokens": 3,
+              "settle": 1
+            }
+          },
+          {
+            "label": "在 3-4 放置岩石",
+            "action": {
+              "type": "place",
+              "pending": 1,
+              "cell": 11
+            },
+            "legalCounts": {
+              "place": 54,
+              "settle": 1
+            },
+            "evaluatedCounts": {
+              "place": 3,
+              "settle": 1
+            }
+          },
+          {
+            "label": "在 3-2 放置水域",
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 9
+            },
+            "legalCounts": {
+              "place": 32,
+              "settle": 1
+            },
+            "evaluatedCounts": {
+              "place": 3,
+              "settle": 1
+            }
+          },
+          {
+            "label": "在 3-1 放置树干",
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 8
+            },
+            "legalCounts": {
+              "place": 15,
+              "settle": 1
+            },
+            "evaluatedCounts": {
+              "place": 3,
+              "settle": 1
+            }
+          },
+          {
+            "label": "旱獭之灵入住 2-2",
+            "action": {
+              "type": "settle",
+              "card": 40,
+              "cell": 5
+            },
+            "legalCounts": {
+              "endTurn": 4,
+              "settle": 1
+            },
+            "evaluatedCounts": {
+              "endTurn": 3,
+              "settle": 1
+            }
+          },
+          {
+            "label": "结束回合",
+            "action": {
+              "type": "endTurn"
+            },
+            "legalCounts": {
+              "takeCard": 3,
+              "endTurn": 4
+            },
+            "evaluatedCounts": {
+              "takeCard": 3,
+              "endTurn": 3
+            }
+          }
+        ]
+      },
+      "clockReads": 447,
+      "profiledExternalMs": 3112.077000000001,
+      "stats": {
+        "phases": {
+          "setup": {
+            "counters": {},
+            "times": {
+              "phase": 0.0761659999989206
+            },
+            "offered": {},
+            "actions": {}
+          },
+          "fallback": {
+            "counters": {
+              "greedyCalls": 1,
+              "expandCalls": 5,
+              "uncachedExpansions": 5,
+              "legalActions": 113,
+              "cheapCalls": 113,
+              "cheapProjects": 18451,
+              "cheapResourceFeasible": 18451,
+              "fullCalls": 1,
+              "fullMisses": 1,
+              "fullHands": 3,
+              "fullPasses": 18,
+              "fullAnimalProjects": 1434,
+              "fullResourceFeasible": 2877,
+              "fullPositive": 1935,
+              "fullTerrainProjects": 1443
+            },
+            "times": {
+              "legalEnumeration": 0.6146250000019791,
+              "applyAction": 3.250290000003588,
+              "immediateScore": 2.772917000002053,
+              "cheapOrder": 58.11983199999304,
+              "fullV": 82.43633299999783,
+              "phase": 147.45974999999817
+            },
+            "offered": {
+              "takeTokens": 3,
+              "settle": 5,
+              "place": 101,
+              "endTurn": 4
+            },
+            "actions": {
+              "takeTokens": 3,
+              "settle": 5,
+              "place": 101,
+              "endTurn": 4
+            }
+          },
+          "currentTurn": {
+            "counters": {
+              "expandCalls": 25,
+              "expandHits": 5,
+              "uncachedExpansions": 20,
+              "legalActions": 398,
+              "cheapCalls": 398,
+              "cheapProjects": 60300,
+              "cheapResourceFeasible": 60300,
+              "fullCalls": 30,
+              "fullMisses": 29,
+              "fullHands": 87,
+              "fullPasses": 522,
+              "fullAnimalProjects": 35860,
+              "fullResourceFeasible": 75850,
+              "fullPositive": 49994,
+              "fullTerrainProjects": 39990
+            },
+            "times": {
+              "legalEnumeration": 2.363293000002159,
+              "applyAction": 12.994451999988087,
+              "immediateScore": 11.163784000036685,
+              "cheapOrder": 182.7102059999852,
+              "fullV": 2076.460959,
+              "phase": 2288.0503750000025
+            },
+            "offered": {
+              "place": 341,
+              "settle": 17,
+              "takeCard": 9,
+              "takeTokens": 3,
+              "endTurn": 28
+            },
+            "actions": {
+              "place": 341,
+              "settle": 17,
+              "takeCard": 9,
+              "takeTokens": 3,
+              "endTurn": 28
+            }
+          },
+          "depth2": {
+            "counters": {},
+            "times": {
+              "phase": 0.01541699999870616
+            },
+            "offered": {},
+            "actions": {}
+          },
+          "logs": {
+            "counters": {
+              "fullCalls": 32,
+              "fullMisses": 21,
+              "fullHands": 25,
+              "fullPasses": 150,
+              "fullAnimalProjects": 12789,
+              "fullResourceFeasible": 24511,
+              "fullPositive": 16890,
+              "fullTerrainProjects": 11722,
+              "expandCalls": 6,
+              "expandHits": 6
+            },
+            "times": {
+              "fullV": 675.4187510000083,
+              "phase": 676.4779999999992
+            },
+            "offered": {},
+            "actions": {}
+          }
+        },
+        "beams": [
+          {
+            "phase": "currentTurn",
+            "width": 6,
+            "round": 5,
+            "actor": 0,
+            "layers": [
+              {
+                "step": 1,
+                "parents": 1,
+                "parentsFinished": 1,
+                "offered": 4,
+                "localKept": 4,
+                "terminalEdges": 0,
+                "merged": 4,
+                "kept": 4,
+                "done": true
+              },
+              {
+                "step": 2,
+                "parents": 4,
+                "parentsFinished": 4,
+                "offered": 169,
+                "localKept": 27,
+                "terminalEdges": 0,
+                "merged": 24,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 3,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 198,
+                "localKept": 42,
+                "terminalEdges": 0,
+                "merged": 42,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 4,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 96,
+                "localKept": 42,
+                "terminalEdges": 0,
+                "merged": 40,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 5,
+                "parents": 6,
+                "parentsFinished": 6,
+                "offered": 30,
+                "localKept": 30,
+                "terminalEdges": 24,
+                "merged": 6,
+                "kept": 6,
+                "done": true
+              },
+              {
+                "step": 6,
+                "parents": 6,
+                "parentsFinished": 2,
+                "offered": 14,
+                "localKept": 12,
+                "terminalEdges": 6,
+                "merged": null,
+                "kept": null,
+                "done": false
+              }
+            ],
+            "uniqueComplete": 30,
+            "returned": 6,
+            "interrupted": true
+          }
+        ],
+        "fullDetails": [
+          {
+            "phase": "fallback",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1434,
+            "terrainProjects": 1443,
+            "feasible": 2877,
+            "positive": 1935
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1434,
+            "terrainProjects": 1443,
+            "feasible": 2877,
+            "positive": 1935
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1434,
+            "terrainProjects": 1443,
+            "feasible": 2877,
+            "positive": 1935
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1434,
+            "terrainProjects": 1443,
+            "feasible": 2877,
+            "positive": 1935
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1536,
+            "terrainProjects": 1410,
+            "feasible": 2946,
+            "positive": 2022
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1536,
+            "terrainProjects": 1410,
+            "feasible": 2946,
+            "positive": 2022
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1536,
+            "terrainProjects": 1410,
+            "feasible": 2946,
+            "positive": 2022
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1536,
+            "terrainProjects": 1410,
+            "feasible": 2946,
+            "positive": 2022
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1311,
+            "terrainProjects": 1377,
+            "feasible": 2688,
+            "positive": 1788
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1311,
+            "terrainProjects": 1377,
+            "feasible": 2688,
+            "positive": 1788
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1311,
+            "terrainProjects": 1377,
+            "feasible": 2688,
+            "positive": 1788
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1311,
+            "terrainProjects": 1377,
+            "feasible": 2688,
+            "positive": 1788
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1126,
+            "terrainProjects": 1371,
+            "feasible": 2497,
+            "positive": 1608
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1126,
+            "terrainProjects": 1371,
+            "feasible": 2497,
+            "positive": 1608
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1126,
+            "terrainProjects": 1371,
+            "feasible": 2497,
+            "positive": 1608
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1126,
+            "terrainProjects": 1371,
+            "feasible": 2497,
+            "positive": 1608
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1287,
+            "terrainProjects": 1371,
+            "feasible": 2658,
+            "positive": 1775
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1287,
+            "terrainProjects": 1371,
+            "feasible": 2658,
+            "positive": 1775
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1287,
+            "terrainProjects": 1371,
+            "feasible": 2658,
+            "positive": 1775
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1287,
+            "terrainProjects": 1371,
+            "feasible": 2658,
+            "positive": 1775
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1131,
+            "terrainProjects": 1386,
+            "feasible": 2517,
+            "positive": 1620
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1131,
+            "terrainProjects": 1386,
+            "feasible": 2517,
+            "positive": 1620
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1131,
+            "terrainProjects": 1386,
+            "feasible": 2517,
+            "positive": 1620
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1131,
+            "terrainProjects": 1386,
+            "feasible": 2517,
+            "positive": 1620
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 948,
+            "terrainProjects": 1359,
+            "feasible": 2307,
+            "positive": 1449
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 948,
+            "terrainProjects": 1359,
+            "feasible": 2307,
+            "positive": 1449
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 948,
+            "terrainProjects": 1359,
+            "feasible": 2307,
+            "positive": 1449
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1050,
+            "terrainProjects": 1308,
+            "feasible": 2358,
+            "positive": 1530
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1050,
+            "terrainProjects": 1308,
+            "feasible": 2358,
+            "positive": 1530
+          },
+          {
+            "phase": "currentTurn",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1050,
+            "terrainProjects": 1308,
+            "feasible": 2358,
+            "positive": 1530
+          },
+          {
+            "phase": "logs",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1617,
+            "terrainProjects": 1503,
+            "feasible": 3120,
+            "positive": 2118
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 539,
+            "terrainProjects": 501,
+            "feasible": 1040,
+            "positive": 706
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 539,
+            "terrainProjects": 501,
+            "feasible": 1040,
+            "positive": 706
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 539,
+            "terrainProjects": 501,
+            "feasible": 1040,
+            "positive": 706
+          },
+          {
+            "phase": "logs",
+            "hands": 3,
+            "passes": 18,
+            "animalProjects": 1248,
+            "terrainProjects": 1402,
+            "feasible": 2650,
+            "positive": 1747
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 527,
+            "terrainProjects": 477,
+            "feasible": 1004,
+            "positive": 690
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 530,
+            "terrainProjects": 497,
+            "feasible": 1027,
+            "positive": 699
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 546,
+            "terrainProjects": 545,
+            "feasible": 1091,
+            "positive": 730
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 430,
+            "terrainProjects": 462,
+            "feasible": 892,
+            "positive": 597
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 557,
+            "terrainProjects": 477,
+            "feasible": 1034,
+            "positive": 719
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 486,
+            "terrainProjects": 439,
+            "feasible": 925,
+            "positive": 642
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 485,
+            "terrainProjects": 457,
+            "feasible": 942,
+            "positive": 647
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 400,
+            "terrainProjects": 446,
+            "feasible": 846,
+            "positive": 561
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 559,
+            "terrainProjects": 463,
+            "feasible": 1022,
+            "positive": 720
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 444,
+            "terrainProjects": 458,
+            "feasible": 902,
+            "positive": 602
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 462,
+            "terrainProjects": 457,
+            "feasible": 919,
+            "positive": 623
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 389,
+            "terrainProjects": 440,
+            "feasible": 829,
+            "positive": 549
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 422,
+            "terrainProjects": 423,
+            "feasible": 845,
+            "positive": 581
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 698,
+            "terrainProjects": 427,
+            "feasible": 1125,
+            "positive": 857
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 633,
+            "terrainProjects": 423,
+            "feasible": 1056,
+            "positive": 792
+          },
+          {
+            "phase": "logs",
+            "hands": 1,
+            "passes": 6,
+            "animalProjects": 739,
+            "terrainProjects": 423,
+            "feasible": 1162,
+            "positive": 898
+          }
+        ],
+        "fallbackSteps": [
+          {
+            "action": {
+              "type": "takeTokens",
+              "group": 0
+            },
+            "label": "拿取第 1 组：水域、岩石、树干",
+            "legalCounts": {
+              "takeTokens": 3,
+              "settle": 1
+            }
+          },
+          {
+            "action": {
+              "type": "place",
+              "pending": 1,
+              "cell": 11
+            },
+            "label": "在 3-4 放置岩石",
+            "legalCounts": {
+              "place": 54,
+              "settle": 1
+            }
+          },
+          {
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 8
+            },
+            "label": "在 3-1 放置水域",
+            "legalCounts": {
+              "place": 32,
+              "settle": 1
+            }
+          },
+          {
+            "action": {
+              "type": "place",
+              "pending": 0,
+              "cell": 9
+            },
+            "label": "在 3-2 放置树干",
+            "legalCounts": {
+              "place": 15,
+              "settle": 1
+            }
+          },
+          {
+            "action": {
+              "type": "endTurn"
+            },
+            "label": "结束回合",
+            "legalCounts": {
+              "endTurn": 4,
+              "settle": 1
+            }
+          }
+        ],
+        "deep": [
+          {
+            "depth": 2,
+            "rootCandidates": 7,
+            "scenariosStarted": 0,
+            "scenariosCompleted": 0,
+            "candidatesCompleted": 0,
+            "committed": false
+          }
+        ]
+      },
+      "terrainSpace": [
+        {
+          "group": 0,
+          "colors": [
+            1,
+            2,
+            3
+          ],
+          "edges": [
+            54,
+            1836,
+            29376
+          ],
+          "orderedPlacementSequences": 29376,
+          "distinctFinalBoards": 4896
+        },
+        {
+          "group": 1,
+          "colors": [
+            1,
+            6,
+            4
+          ],
+          "edges": [
+            53,
+            1768,
+            27744
+          ],
+          "orderedPlacementSequences": 27744,
+          "distinctFinalBoards": 4624
+        },
+        {
+          "group": 2,
+          "colors": [
+            6,
+            4,
+            1
+          ],
+          "edges": [
+            53,
+            1768,
+            27744
+          ],
+          "orderedPlacementSequences": 27744,
+          "distinctFinalBoards": 4624
+        }
+      ],
+      "templates": [
+        {
+          "id": 40,
+          "name": "旱獭之灵",
+          "patternCells": 3,
+          "buildings": 0,
+          "geometricAttempts": 168,
+          "feasibleProjects": 38,
+          "distinctTargets": 14
+        },
+        {
+          "id": 25,
+          "name": "猛禽",
+          "patternCells": 2,
+          "buildings": 0,
+          "geometricAttempts": 168,
+          "feasibleProjects": 70,
+          "distinctTargets": 19
+        },
+        {
+          "id": 23,
+          "name": "耳廓狐",
+          "patternCells": 3,
+          "buildings": 0,
+          "geometricAttempts": 168,
+          "feasibleProjects": 36,
+          "distinctTargets": 17
+        },
+        {
+          "id": 16,
+          "name": "鹦鹉",
+          "patternCells": 3,
+          "buildings": 0,
+          "geometricAttempts": 168,
+          "feasibleProjects": 44,
+          "distinctTargets": 15
+        }
+      ]
+    }
+  ]
+}

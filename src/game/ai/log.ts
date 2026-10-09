@@ -5,11 +5,18 @@ import { observe } from "./observation";
 import type { AIDecisionLog } from "./types";
 
 export function exportGameLog(session: Session) {
+  const aiDecisions = (session.aiLog ?? []).map((d) => ({
+    ...d,
+    evaluationVersion: d.evaluationVersion ?? "local-projects-v1",
+  }));
   return {
     format: "harmonies-game-log",
-    version: 1,
+    version: 3,
     exportedAt: new Date().toISOString(),
     evaluationVersion: EVALUATION_VERSION,
+    evaluationVersions: [
+      ...new Set(aiDecisions.map((d) => d.evaluationVersion)),
+    ],
     vectorOrder: Object.entries(COLORS).map(([id, c]) => ({
       id: Number(id),
       name: c.name,
@@ -17,11 +24,13 @@ export function exportGameLog(session: Session) {
     algorithm: {
       formula:
         "V = actualScore + sum(G * exp(-m/max(1,B) - 0.5*sum(d[c]^2/(1+F*p[c]))))",
+      orderFormula:
+        "S = actualScore + sum_over_cards(max_project(nextAnimalGain * q)); independent per-card projects, no terrain gain",
       maxProjects: 6,
       topKScope:
-        "每个已执行决策、每种操作在完整估值候选中保留 top-k；先用便宜的排序剪枝。legalCounts/evaluatedCounts 标明覆盖范围。selected 始终单独保存。",
+        "v3：中间动作按 S、结束回合按 V 记录每类已评分候选的 top-k，selected 独立保留；完整回合按 V 排序。缺失值不补算。v1/v2 旧记录保留原始口径。",
       search:
-        "完整自身回合束搜索；对手使用贪心；后续资源使用两个公开信息抽样；限时迭代加深。",
+        "v3：保持 v1 评分与资源期限公式，仅搜索当前回合；整层去重后按便宜评分剪枝，完成回合使用六项目 V；束宽翻倍，所有轮次保留最佳完整方案。只使用同一公开信息抽样，不模拟对手。",
       variables: {
         G: "项目净增规则分",
         m: "追加地形总数",
@@ -35,6 +44,11 @@ export function exportGameLog(session: Session) {
         q: "折算系数",
         W: "G*q",
         R: "估计剩余轮数",
+        L: "预计结束轮次",
+        T: "该玩家剩余行动回合数",
+        terrainGain: "项目地形净收益",
+        animalGain: "项目动物净收益",
+        spiritGain: "项目自然之灵净收益",
       },
     },
     sessionId: session.id,
@@ -47,7 +61,7 @@ export function exportGameLog(session: Session) {
     currentPosition: observe(session.game),
     gameLog: [...session.game.log],
     events: session.events ?? [],
-    aiDecisions: session.aiLog ?? [],
+    aiDecisions,
   };
 }
 export function downloadGameLog(session: Session) {

@@ -1,10 +1,10 @@
 import type { AIConfig } from "./types";
 
-export const EVALUATION_VERSION = "local-projects-v1";
+export const EVALUATION_VERSION = "current-turn-v3-v1-formula";
 export const MAX_PROJECTS = 6;
 export const INITIAL_COUNTS = [23, 23, 21, 19, 19, 15];
 export const DEFAULT_AI: AIConfig = {
-  depth: 2,
+  depth: 1,
   timeMs: 3500,
   beamWidth: 6,
   topK: 3,

@@ -13,6 +13,12 @@ import { observe } from "../src/game/ai/observation";
 import { searchTurn } from "../src/game/ai/search";
 
 const budget = Number(process.env.AI_BENCH_MS ?? 3500);
+const topK = Number(process.env.AI_BENCH_TOP_K ?? 3);
+const modes = (process.env.AI_BENCH_MODES ?? "random,greedy,ai").split(",") as (
+  "random" | "greedy" | "ai"
+)[];
+const outputPath =
+  process.env.AI_BENCH_OUTPUT ?? "/tmp/harmonies-ai-v3-benchmark.json";
 const cases: [number, Side, boolean, number][] = [
   [1, "A", false, 11],
   [1, "B", true, 13],
@@ -42,27 +48,43 @@ function check(game: Game) {
   );
 }
 for (const [n, side, spirits, seed] of cases) {
-  for (const mode of ["random", "greedy", "ai"] as const) {
+  for (const mode of modes) {
     let game = createGame({
       names: Array.from({ length: n }, (_, i) => `P${i}`),
       first: 0,
       side,
       spirits,
       seed,
+      controllers: Array.from({ length: n }, () => ({
+        type: mode === "ai" ? ("ai" as const) : ("human" as const),
+      })),
     });
     const random = seededRandom(seed + 100);
     const times: number[] = [],
       depths: number[] = [];
-    let turns = 0;
+    let turns = 0,
+      fallbackTurns = 0;
     while (game.phase !== "ended" && turns < 120) {
       if (mode === "ai") {
         const result = searchTurn(observe(game), {
-          depth: 2,
+          depth: 1,
           timeMs: budget,
-          topK: 1,
+          topK,
         });
         times.push(result.elapsedMs);
         depths.push(result.completedDepth);
+        fallbackTurns += Number(result.decisions[0].fallback);
+        assert.equal(
+          result.decisions[0].planSummary?.searchStats?.logEvaluations,
+          0,
+        );
+        for (const decision of result.decisions)
+          for (const type of Object.keys(
+            decision.legalCounts,
+          ) as (keyof typeof decision.legalCounts)[])
+            assert.ok(
+              decision.evaluatedCounts[type]! <= decision.legalCounts[type]!,
+            );
         for (const action of result.actions) game = applyAction(game, action);
       } else {
         for (let step = 0; step < 64; step++) {
@@ -109,6 +131,9 @@ for (const [n, side, spirits, seed] of cases) {
       turns,
       scores: game.players.map((p) => scorePlayer(p, side).total),
       budget,
+      topK,
+      fallbackTurns,
+      fallbackRate: turns ? fallbackTurns / turns : 0,
       medianMs: times[Math.floor(times.length * 0.5)] ?? 0,
       p95Ms:
         times[Math.min(times.length - 1, Math.floor(times.length * 0.95))] ?? 0,
@@ -119,9 +144,6 @@ for (const [n, side, spirits, seed] of cases) {
     };
     output.push(row);
     console.log(JSON.stringify(row));
-    await writeFile(
-      "/tmp/harmonies-ai-benchmark.json",
-      JSON.stringify(output, null, 2),
-    );
+    await writeFile(outputPath, JSON.stringify(output, null, 2));
   }
 }

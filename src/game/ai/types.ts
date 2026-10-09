@@ -36,6 +36,9 @@ export interface ProjectEstimate {
   F: number;
   q: number;
   W: number;
+  terrainGain?: number;
+  animalGain?: number;
+  spiritGain?: number;
 }
 export interface Evaluation {
   actualScore: Score;
@@ -49,22 +52,35 @@ export interface Evaluation {
   p: Counts;
   supplyGroup?: number;
   projects: ProjectEstimate[];
+  L?: number;
+  T?: number;
+  canonicalRotation?: number;
 }
 export interface CandidateLog {
+  scoreKind?: "order" | "full";
   action: Action;
   label: string;
   value: number;
-  gain: number;
+  gain?: number;
   evaluation: Evaluation;
 }
 export interface AIDecisionLog {
+  evaluationVersion?: string;
+  planId?: string;
+  decisionIndex?: number;
+  planSummary?: PlanSummary;
+  actualScoreAfter?: Score;
+  scoreGain?: number;
+  potentialGain?: number;
+  usesSampledRefill?: boolean;
+  sampleSeed?: number;
   position: AIObservation;
   round: number;
   playerId: number;
   playerName: string;
   gameLogIndex: number;
   config: AIConfig;
-  before: Evaluation;
+  before?: Evaluation;
   selected: CandidateLog;
   topByOperation: Partial<Record<Action["type"], CandidateLog[]>>;
   legalCounts: Partial<Record<Action["type"], number>>;
@@ -77,6 +93,40 @@ export interface AIDecisionLog {
   timedOut: boolean;
   fallback: boolean;
 }
+export interface PlanCandidate {
+  actions: Action[];
+  labels?: string[];
+  value: number;
+  scenarioValues: number[];
+  terminal: boolean;
+  evaluation?: Evaluation;
+}
+export interface PlanSummary {
+  rootValue?: number;
+  value: number;
+  gain?: number;
+  targetDepth: number;
+  completedDepth: number;
+  elapsedMs: number;
+  expandedActions: number;
+  evaluations: number;
+  stopReason: "completed" | "time" | "evaluations" | "stepLimit";
+  topPlans: PlanCandidate[];
+  searchStats?: SearchStats;
+}
+export interface SearchStats {
+  generatedActions: number;
+  uniqueStates: number;
+  duplicateStates: number;
+  orderEvaluations: number;
+  fullEvaluations: number;
+  completePlans: number;
+  widthsCompleted: number[];
+  widthAttempted: number;
+  logEvaluations: number;
+  searchMs: number;
+  logMs: number;
+}
 export interface TurnPlan {
   actions: Action[];
   decisions: AIDecisionLog[];
@@ -84,4 +134,5 @@ export interface TurnPlan {
   elapsedMs: number;
   nodes: number;
   timedOut: boolean;
+  evaluations?: number;
 }

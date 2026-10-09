@@ -10,6 +10,7 @@ export function useAI(
   enabled: boolean,
   paused: boolean,
   onAction: (action: Action, decision: AIDecisionLog) => void,
+  sessionId?: string,
 ) {
   const callback = useRef(onAction);
   callback.current = onAction;
@@ -95,6 +96,7 @@ export function useAI(
       }
     };
     worker.postMessage({
+      planId: `${sessionId ?? "legacy"}:${game.log.length}`,
       view: observe(game),
       config: normalizeAI(game.players[game.active].ai),
     });
@@ -102,7 +104,7 @@ export function useAI(
       cancelled = true;
       worker.terminate();
     };
-  }, [game, enabled, paused, revision]);
+  }, [game, enabled, paused, revision, sessionId]);
   return {
     status,
     error,

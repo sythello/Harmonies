@@ -1,15 +1,7 @@
-import {
-  applyAction,
-  CARDS,
-  scorePlayer,
-  spiritScore,
-  type Action,
-  type Game,
-} from "../engine";
-import { normalizeAI } from "./config";
-import { discount, evaluatePosition, horizon } from "./evaluate";
-import { counts, observe, sampleGame } from "./observation";
-import { projects } from "./projects";
+import { applyAction, type Action, type Game } from "../engine";
+import { EVALUATION_VERSION, normalizeAI } from "./config";
+import { createEvaluator } from "./evaluate";
+import { observe, sampleGame } from "./observation";
 import {
   actionLabel,
   compareActions,
@@ -22,333 +14,368 @@ import type {
   AIObservation,
   CandidateLog,
   Evaluation,
+  PlanSummary,
+  SearchStats,
   TurnPlan,
 } from "./types";
 
-interface Node {
+interface State {
   game: Game;
+  key: string;
+  order?: Evaluation;
+  full?: Evaluation;
+  edges?: Edge[];
+}
+interface Edge {
+  action: Action;
+  state: State;
+}
+interface Path {
+  state: State;
   actions: Action[];
-  value: number;
-  actual: number;
 }
 export interface SearchOptions {
+  /** Total uncached order + full evaluations. Mandatory fallback is exempt. */
   maxNodes?: number;
   now?: () => number;
+  planId?: string;
+  log?: boolean;
+  onEvaluation?: (
+    kind: "order" | "full",
+    game: Game,
+    value: Evaluation,
+  ) => void;
+  onComplete?: (actions: readonly Action[], value: number) => void;
 }
 class BudgetExceeded extends Error {}
-
-/** Cheap ordering only; the returned decision values always use the six-project evaluator. */
-function orderValue(game: Game, playerId: number, actual: number): number {
-  const player = game.players.find((p) => p.id === playerId)!;
-  if (game.phase === "ended") return actual;
-  const view = observe(game, playerId),
-    h = horizon(view, playerId);
-  if (!h.turns) return actual;
-  const H =
-    game.players[game.active].id === playerId
-      ? counts(game.turn.pending)
-      : [0, 0, 0, 0, 0, 0];
-  const supplyCounts = counts(game.supply.flat());
-  const A = view.bagCounts.map((n, c) => n + supplyCounts[c]);
-  const best = new Map<number, number>();
-  for (const project of projects(player, false)) {
-    const card = player.cards.find((c) => c.id === project.cardId)!;
-    const data = CARDS[card.id];
-    const G = data.spirit
-      ? spiritScore(player.board, card.id)
-      : data.points[card.placed] - (data.points[card.placed - 1] ?? 0);
-    const terms = discount(
-      counts(project.additions.flatMap((a) => a.colors)),
-      H,
-      A,
-      h.B,
-    );
-    if (terms) best.set(card.id, Math.max(best.get(card.id) ?? 0, G * terms.q));
-  }
-  return actual + [...best.values()].reduce((a, b) => a + b, 0);
-}
-const compareNodes = (a: Node, b: Node) =>
-  b.value - a.value ||
-  b.actual - a.actual ||
-  compareSequences(a.actions, b.actions);
 function compareSequences(a: Action[], b: Action[]): number {
   for (let i = 0; i < Math.min(a.length, b.length); i++) {
-    const diff = compareActions(a[i], b[i]);
-    if (diff) return diff;
+    const d = compareActions(a[i], b[i]);
+    if (d) return d;
   }
   return a.length - b.length;
 }
+const comparePaths = (a: Path, b: Path, kind: "order" | "full") =>
+  b.state[kind]!.value - a.state[kind]!.value ||
+  b.state[kind]!.actualScore.total - a.state[kind]!.actualScore.total ||
+  compareSequences(a.actions, b.actions);
 
+/** Current-turn beam search. All widening passes share states, scores and incumbents. */
 export function searchTurn(
   view: AIObservation,
   partial: Partial<AIConfig> = {},
   options: SearchOptions = {},
 ): TurnPlan {
-  const config = normalizeAI(partial),
-    now = options.now ?? (() => performance.now()),
+  // Older saved depths remain readable; this planner always searches one own turn.
+  const config = { ...normalizeAI(partial), depth: 1 };
+  const now = options.now ?? (() => performance.now()),
     start = now();
-  const searchDeadline = start + config.timeMs * 0.65,
-    traceDeadline = start + config.timeMs;
-  const rootId = view.players[view.active].id,
-    root = sampleGame(view, config.seed + view.round * 1009 + rootId);
-  if (root.phase === "ended")
+  const rootId = view.players[view.active].id;
+  const sampleSeed = config.seed + view.round * 1009 + rootId;
+  const sampled = sampleGame(view, sampleSeed);
+  if (sampled.phase === "ended")
     return {
       actions: [],
       decisions: [],
       completedDepth: 0,
       elapsedMs: 0,
       nodes: 0,
+      evaluations: 0,
       timedOut: false,
     };
-  let nodes = 0,
-    timedOut = false;
-  const cache = new Map<string, Evaluation>();
-  const transitions = new Map<string, Node[]>();
-  const evaluate = (game: Game, id = rootId): Evaluation => {
-    const key = `${id}:${positionKey(game)}`;
-    let value = cache.get(key);
-    if (!value) {
-      value = evaluatePosition(observe(game, id), id);
-      cache.set(key, value);
-    }
-    return value;
-  };
+  const evaluator = createEvaluator("v1");
+  const states = new Map<string, State>(),
+    complete = new Map<string, Path>();
+  let generatedActions = 0,
+    duplicateStates = 0,
+    stopReason: PlanSummary["stopReason"] = "completed";
   const check = () => {
-    if (now() >= searchDeadline || nodes >= (options.maxNodes ?? Infinity))
+    if (now() >= start + config.timeMs) {
+      stopReason = "time";
       throw new BudgetExceeded();
-  };
-  const expand = (game: Game, id: number, bounded: boolean): Node[] => {
-    if (bounded) check();
-    // Hypothetical draw orders must stay distinct across the two sampled futures.
-    const transitionKey = `${id}:${positionKey(game)}:${game.bag.join(",")}:${game.deck.join(",")}`;
-    const cached = transitions.get(transitionKey);
-    if (cached) return cached;
-    const result: Node[] = [];
-    for (const action of legalActions(game)) {
-      if (bounded) check();
-      const next = applyAction(game, action);
-      next.log = [];
-      nodes++;
-      const actual = scorePlayer(
-        next.players.find((p) => p.id === id)!,
-        next.side,
-      ).total;
-      result.push({
-        game: next,
-        actions: [action],
-        value: orderValue(next, id, actual),
-        actual,
-      });
     }
-    result.sort(compareNodes);
-    transitions.set(transitionKey, result);
+    if (
+      evaluator.computations + evaluator.orderComputations >=
+      (options.maxNodes ?? Infinity)
+    ) {
+      stopReason = "evaluations";
+      throw new BudgetExceeded();
+    }
+  };
+  // A single root sample is shared by every path. No draws occur until endTurn,
+  // so identical public states here also have identical hidden draw orders.
+  const intern = (game: Game): State => {
+    const key = positionKey(game),
+      old = states.get(key);
+    if (old) {
+      duplicateStates++;
+      return old;
+    }
+    const state = { key, game };
+    states.set(key, state);
+    return state;
+  };
+  const root = intern(sampled);
+  const edges = (state: State, bounded: boolean): Edge[] => {
+    if (state.edges) return state.edges;
+    const result: Edge[] = [];
+    for (const action of legalActions(state.game)) {
+      if (bounded) check();
+      const game = applyAction(state.game, action);
+      game.log = [];
+      generatedActions++;
+      result.push({ action, state: intern(game) });
+    }
+    state.edges = result;
     return result;
   };
-  // A complete legal turn exists before attempting wider/deeper search.
-  const greedy = (initial: Game, bounded: boolean): Node => {
-    let game = initial;
-    const id = game.players[game.active].id,
-      actions: Action[] = [];
-    for (let i = 0; i < 64; i++) {
-      const candidates = expand(game, id, bounded);
-      const chosen = candidates[0];
-      if (!chosen) throw new Error("AI 未找到合法动作。");
-      const action = chosen.actions[0];
-      actions.push(action);
-      game = chosen.game;
-      if (action.type === "endTurn") return { ...chosen, game, actions };
-    }
-    throw new Error("AI 回合超过动作上限。");
+  const score = (state: State, kind: "order" | "full", bounded: boolean) => {
+    if (state[kind]) return;
+    const value =
+      kind === "order"
+        ? evaluator.order(
+            observe(state.game, rootId),
+            rootId,
+            bounded ? check : undefined,
+          )
+        : evaluator.evaluate(
+            observe(state.game, rootId),
+            rootId,
+            bounded ? check : undefined,
+          );
+    state[kind] = value;
+    options.onEvaluation?.(kind, state.game, value);
   };
-  const fallback = greedy(root, false);
-  let best = fallback,
+  let best: Path | undefined;
+  const finish = (path: Path, bounded: boolean) => {
+    score(path.state, "full", bounded);
+    const old = complete.get(path.state.key);
+    if (!old || compareSequences(path.actions, old.actions) < 0)
+      complete.set(path.state.key, path);
+    if (!best || comparePaths(path, best, "full") < 0) best = path;
+    options.onComplete?.(path.actions, path.state.full!.value);
+  };
+  // v1's inexpensive greedy fallback, plus one terminal V. No extra root V.
+  let fallback: Path = { state: root, actions: [] };
+  for (let step = 0; step < 64; step++) {
+    const candidates = edges(fallback.state, false);
+    for (const edge of candidates) score(edge.state, "order", false);
+    const chosen = candidates
+      .map((edge) => ({
+        state: edge.state,
+        actions: [...fallback.actions, edge.action],
+      }))
+      .sort((a, b) => comparePaths(a, b, "order"))[0];
+    if (!chosen) throw new Error("AI 未找到合法动作。");
+    fallback = chosen;
+    if (chosen.actions.at(-1)!.type === "endTurn") {
+      finish(chosen, false);
+      break;
+    }
+  }
+  if (!best) throw new Error("AI 回合超过动作上限。");
+  let width = config.beamWidth,
     completedDepth = 0;
-  let bestValue = evaluate(fallback.game).value;
-  const completeTurns = (initial: Game, width: number): Node[] => {
-    let frontier: Node[] = [
-      { game: initial, actions: [], value: 0, actual: 0 },
-    ];
-    const complete = new Map<string, Node>();
-    const id = initial.players[initial.active].id;
-    try {
-      for (let step = 0; frontier.length && step < 64; step++) {
-        check();
-        const next = new Map<string, Node>();
-        for (const node of frontier) {
-          const expanded = expand(node.game, id, true);
-          // Retain the best action of every operation type, plus the global beam.
-          const candidates = expanded.slice(0, width);
-          for (const type of new Set(expanded.map((n) => n.actions[0].type))) {
-            const first = expanded.find((n) => n.actions[0].type === type)!;
-            if (!candidates.includes(first)) candidates.push(first);
-          }
-          for (const child of candidates) {
-            const combined = {
-              ...child,
-              actions: [...node.actions, ...child.actions],
-            };
-            const key = positionKey(child.game);
-            if (child.actions[0].type === "endTurn") {
-              combined.value = evaluate(child.game, id).value;
-              const old = complete.get(key);
-              if (!old || compareNodes(combined, old) < 0)
-                complete.set(key, combined);
-            } else {
-              const old = next.get(key);
-              if (!old || compareNodes(combined, old) < 0)
-                next.set(key, combined);
-            }
-          }
-        }
-        frontier = [...next.values()].sort(compareNodes).slice(0, width);
-      }
-    } catch (error) {
-      if (!(error instanceof BudgetExceeded)) throw error;
-      timedOut = true;
-      // A deadline must not discard complete legal turns already discovered.
-      if (!complete.size) throw error;
-    }
-    return [...complete.values()].sort(compareNodes).slice(0, width);
-  };
+  const widthsCompleted: number[] = [];
   try {
-    const turns = completeTurns(root, config.beamWidth);
-    if (turns.length) {
-      if (
-        !turns.some((n) => compareSequences(n.actions, fallback.actions) === 0)
-      )
-        turns.push({ ...fallback, value: bestValue });
-      turns.sort(compareNodes);
-      best = turns[0];
-      bestValue = best.value;
-      completedDepth = 1;
-      // Each extra depth is another complete turn of the root player.
-      for (let depth = 2; depth <= config.depth; depth++) {
-        const values: { node: Node; value: number }[] = [];
-        for (const candidate of turns) {
-          let total = 0;
-          for (let sample = 0; sample < 2; sample++) {
-            check();
-            let simulated = sampleGame(
-              view,
-              config.seed + view.round * 1009 + rootId + sample * 7919,
-            );
-            for (const action of candidate.actions)
-              simulated = applyAction(simulated, action);
-            for (
-              let future = 1;
-              future < depth && simulated.phase !== "ended";
-              future++
-            ) {
-              while (
-                simulated.phase !== "ended" &&
-                simulated.players[simulated.active].id !== rootId
-              )
-                simulated = greedy(simulated, true).game;
-              if (simulated.phase !== "ended") {
-                const options = completeTurns(
-                  simulated,
-                  Math.min(2, config.beamWidth),
-                );
-                simulated = options[0]?.game ?? greedy(simulated, true).game;
-              }
-            }
-            total += evaluate(simulated).value;
-          }
-          values.push({ node: candidate, value: total / 2 });
+    for (;;) {
+      let frontier: Path[] = [{ state: root, actions: [] }],
+        pruned = false;
+      for (let step = 0; frontier.length; step++) {
+        check();
+        if (step >= 64) {
+          stopReason = "stepLimit";
+          break;
         }
-        values.sort(
-          (a, b) => b.value - a.value || compareNodes(a.node, b.node),
+        const next = new Map<string, Path>(),
+          terminals = new Map<string, Path>();
+        // Merge the entire layer before scoring or pruning. No per-parent top-k.
+        for (const parent of frontier) {
+          for (const edge of edges(parent.state, true)) {
+            const path = {
+              state: edge.state,
+              actions: [...parent.actions, edge.action],
+            };
+            const target = edge.action.type === "endTurn" ? terminals : next;
+            const old = target.get(path.state.key);
+            if (!old || compareSequences(path.actions, old.actions) < 0)
+              target.set(path.state.key, path);
+          }
+        }
+        // Complete plans become eligible immediately, even if a later sibling
+        // or wider pass runs out of time. Every one is compared by full V.
+        for (const path of terminals.values()) {
+          check();
+          finish(path, true);
+          completedDepth = 1;
+        }
+        for (const path of next.values()) {
+          check();
+          score(path.state, "order", true);
+        }
+        const ordered = [...next.values()].sort((a, b) =>
+          comparePaths(a, b, "order"),
         );
-        best = values[0].node;
-        bestValue = values[0].value;
-        completedDepth = depth;
+        pruned ||= ordered.length > width;
+        frontier = ordered.slice(0, width);
       }
+      if (stopReason === "stepLimit") break;
+      widthsCompleted.push(width);
+      if (!pruned) break;
+      width *= 2;
     }
   } catch (error) {
     if (!(error instanceof BudgetExceeded)) throw error;
-    timedOut = true;
   }
-  // Only executed decision points are logged, not the search tree. No hidden arrays enter the log.
+  const searchEnd = now();
+  const beforeLog = evaluator.computations + evaluator.orderComputations;
   const decisions: AIDecisionLog[] = [];
   let current = root;
-  for (const action of best.actions) {
-    const before = evaluate(current),
-      candidates = expand(current, rootId, false);
-    const selectedNode = candidates.find(
-      (n) => compareActions(n.actions[0], action) === 0,
-    )!;
-    if (!selectedNode) throw new Error("AI 计划与局面不一致。");
-    const makeLog = (candidate: Node): CandidateLog => {
-      const evaluation = evaluate(candidate.game);
-      return {
-        action: candidate.actions[0],
-        label: actionLabel(current, candidate.actions[0]),
-        value: evaluation.value,
-        gain: evaluation.value - before.value,
-        evaluation,
+  if (options.log !== false) {
+    for (const [decisionIndex, action] of best.actions.entries()) {
+      // Read only. Missing scores are left absent, never calculated for logging.
+      const candidates = current.edges!;
+      const selectedEdge = candidates.find(
+        (c) => compareActions(c.action, action) === 0,
+      )!;
+      const kind = (edge: Edge) =>
+        edge.action.type === "endTurn" ? "full" : "order";
+      if (!selectedEdge?.state[kind(selectedEdge)])
+        throw new Error("AI 计划缺少搜索评分。");
+      const before = current[kind(selectedEdge)];
+      const makeLog = (edge: Edge): CandidateLog => {
+        const scoreKind = kind(edge),
+          evaluation = edge.state[scoreKind]!,
+          parent = current[scoreKind];
+        return {
+          scoreKind,
+          action: edge.action,
+          label: actionLabel(current.game, edge.action),
+          value: evaluation.value,
+          gain: parent ? evaluation.value - parent.value : undefined,
+          evaluation,
+        };
       };
-    };
-    const selected = makeLog(selectedNode);
-    const legalCounts: AIDecisionLog["legalCounts"] = {},
-      evaluatedCounts: AIDecisionLog["evaluatedCounts"] = {};
-    const topByOperation: AIDecisionLog["topByOperation"] = {};
-    for (const type of new Set(candidates.map((n) => n.actions[0].type))) {
-      const group = candidates.filter((n) => n.actions[0].type === type);
-      legalCounts[type] = group.length;
-      const logs: CandidateLog[] = [];
-      for (const candidate of group.slice(0, Math.max(config.topK, 1))) {
-        // One representative per operation is always evaluated; further alternatives share the time budget.
-        if (logs.length && now() >= traceDeadline) break;
-        logs.push(
-          compareActions(candidate.actions[0], action) === 0
-            ? selected
-            : makeLog(candidate),
-        );
+      const selected = makeLog(selectedEdge);
+      const topByOperation: AIDecisionLog["topByOperation"] = {},
+        legalCounts: AIDecisionLog["legalCounts"] = {},
+        evaluatedCounts: AIDecisionLog["evaluatedCounts"] = {};
+      for (const type of new Set(candidates.map((c) => c.action.type))) {
+        const all = candidates.filter((c) => c.action.type === type);
+        const scored = all
+          .filter((c) => c.state[kind(c)])
+          .sort(
+            (a, b) =>
+              b.state[kind(b)]!.value - a.state[kind(a)]!.value ||
+              b.state[kind(b)]!.actualScore.total -
+                a.state[kind(a)]!.actualScore.total ||
+              compareActions(a.action, b.action),
+          );
+        legalCounts[type] = all.length;
+        evaluatedCounts[type] = scored.length;
+        topByOperation[type] = scored.slice(0, config.topK).map(makeLog);
       }
-      if (
-        type === action.type &&
-        !logs.some((l) => compareActions(l.action, action) === 0)
-      )
-        logs.push(selected);
-      evaluatedCounts[type] = logs.length;
-      topByOperation[type] = logs
-        .sort((a, b) => b.value - a.value || compareActions(a.action, b.action))
-        .slice(0, config.topK);
+      decisions.push({
+        evaluationVersion: EVALUATION_VERSION,
+        planId: options.planId ?? `offline:${view.round}:${rootId}`,
+        decisionIndex,
+        position: observe(current.game, rootId),
+        round: current.game.round,
+        playerId: rootId,
+        playerName: view.players[view.active].name,
+        gameLogIndex: 0,
+        config,
+        before,
+        selected,
+        topByOperation,
+        legalCounts,
+        evaluatedCounts,
+        scoreGain: before
+          ? selected.evaluation.actualScore.total - before.actualScore.total
+          : undefined,
+        potentialGain: before
+          ? selected.evaluation.potential - before.potential
+          : undefined,
+        usesSampledRefill:
+          action.type === "endTurn" &&
+          selectedEdge.state.game.phase !== "ended",
+        sampleSeed,
+        targetDepth: 1,
+        completedDepth,
+        searchValue: best.state.full!.value,
+        elapsedMs: 0,
+        nodes: generatedActions,
+        timedOut: false,
+        fallback: completedDepth === 0,
+      });
+      current = selectedEdge.state;
     }
-    decisions.push({
-      position: observe(current, rootId),
-      round: current.round,
-      playerId: rootId,
-      playerName: current.players[current.active].name,
-      gameLogIndex: 0,
-      config,
-      before,
-      selected,
-      topByOperation,
-      legalCounts,
-      evaluatedCounts,
-      targetDepth: config.depth,
+    const topPlans = [...complete.values()]
+      .sort((a, b) => comparePaths(a, b, "full"))
+      .slice(0, config.topK)
+      .map((path) => {
+        let state = root;
+        const labels = path.actions.map((action) => {
+          const label = actionLabel(state.game, action);
+          state = state.edges!.find(
+            (edge) => compareActions(edge.action, action) === 0,
+          )!.state;
+          return label;
+        });
+        return {
+          actions: path.actions,
+          labels,
+          value: path.state.full!.value,
+          scenarioValues: [path.state.full!.value],
+          terminal: path.state.game.phase === "ended",
+          evaluation: path.state.full,
+        };
+      });
+    decisions[0].planSummary = {
+      value: best.state.full!.value,
+      targetDepth: 1,
       completedDepth,
-      searchValue: bestValue,
       elapsedMs: 0,
-      nodes,
-      timedOut,
-      fallback: completedDepth === 0,
-    });
-    current = selectedNode.game;
+      expandedActions: generatedActions,
+      evaluations: evaluator.computations,
+      stopReason,
+      topPlans,
+    };
   }
-  const elapsedMs = Math.round(now() - start);
-  decisions.forEach((d) => {
-    d.elapsedMs = elapsedMs;
-    d.nodes = nodes;
-    d.timedOut ||= elapsedMs >= config.timeMs;
-  });
+  const end = now(),
+    elapsedMs = Math.round(end - start);
+  const stats: SearchStats = {
+    generatedActions,
+    uniqueStates: states.size,
+    duplicateStates,
+    orderEvaluations: evaluator.orderComputations,
+    fullEvaluations: evaluator.computations,
+    completePlans: complete.size,
+    widthsCompleted,
+    widthAttempted: width,
+    logEvaluations:
+      evaluator.computations + evaluator.orderComputations - beforeLog,
+    searchMs: searchEnd - start,
+    logMs: end - searchEnd,
+  };
+  if (stats.logEvaluations !== 0) throw new Error("AI 日志发生了额外估值。");
+  const timedOut =
+    ["time", "evaluations"].includes(stopReason) || elapsedMs >= config.timeMs;
+  for (const decision of decisions) {
+    decision.elapsedMs = elapsedMs;
+    decision.timedOut = timedOut;
+  }
+  if (decisions[0]?.planSummary) {
+    decisions[0].planSummary.elapsedMs = elapsedMs;
+    decisions[0].planSummary.searchStats = stats;
+  }
   return {
     actions: best.actions,
     decisions,
     completedDepth,
     elapsedMs,
-    nodes,
-    timedOut: timedOut || elapsedMs >= config.timeMs,
+    nodes: generatedActions,
+    evaluations: beforeLog,
+    timedOut,
   };
 }

@@ -1,0 +1,9160 @@
+[
+  {
+    "index": 7,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 1
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [],
+          "spiritChoices": [],
+          "turns": 0
+        }
+      ],
+      "active": 1,
+      "round": 1,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [
+          2,
+          2,
+          4
+        ],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          2,
+          3,
+          5
+        ],
+        [
+          2,
+          4,
+          3
+        ],
+        [
+          1,
+          2,
+          1
+        ]
+      ],
+      "market": [
+        11,
+        15,
+        7,
+        27,
+        26
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": false,
+        "tookCard": false,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 102,
+      "deckCount": 26,
+      "bagCounts": [
+        19,
+        16,
+        18,
+        17,
+        17,
+        15
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        28,
+        29,
+        31,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "takeCard",
+      "slot": 1
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 18.06642666186584,
+      "gain": 12.856496791703073,
+      "completedDepth": 1,
+      "searchValue": 28.78347664048712
+    }
+  },
+  {
+    "index": 9,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 1
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 0
+        }
+      ],
+      "active": 1,
+      "round": 1,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          2,
+          3,
+          5
+        ],
+        [
+          2,
+          4,
+          3
+        ],
+        [
+          1,
+          2,
+          1
+        ]
+      ],
+      "market": [
+        11,
+        null,
+        7,
+        27,
+        26
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": true,
+        "tookCard": true,
+        "pending": [
+          2,
+          2,
+          4
+        ]
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 102,
+      "deckCount": 26,
+      "bagCounts": [
+        19,
+        16,
+        18,
+        17,
+        17,
+        15
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        28,
+        29,
+        31,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "place",
+      "pending": 2,
+      "cell": 0
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 16.66149380175073,
+      "gain": -1.4049328601151103,
+      "completedDepth": 1,
+      "searchValue": 28.78347664048712
+    }
+  },
+  {
+    "index": 12,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 1
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 0
+        }
+      ],
+      "active": 1,
+      "round": 1,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          2,
+          3,
+          5
+        ],
+        [
+          2,
+          4,
+          3
+        ],
+        [
+          1,
+          2,
+          1
+        ]
+      ],
+      "market": [
+        11,
+        null,
+        7,
+        27,
+        26
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": true,
+        "tookCard": true,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 102,
+      "deckCount": 26,
+      "bagCounts": [
+        19,
+        16,
+        18,
+        17,
+        17,
+        15
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        28,
+        29,
+        31,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "endTurn"
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 28.78347664048712,
+      "gain": 1.6199633342704018,
+      "completedDepth": 1,
+      "searchValue": 28.78347664048712
+    }
+  },
+  {
+    "index": 19,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 0
+            },
+            {
+              "id": 26,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 2
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 1
+        }
+      ],
+      "active": 1,
+      "round": 2,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [
+          1,
+          1,
+          3
+        ],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          2,
+          3,
+          5
+        ],
+        [
+          2,
+          4,
+          3
+        ],
+        [
+          3,
+          2,
+          5
+        ]
+      ],
+      "market": [
+        11,
+        3,
+        7,
+        27,
+        28
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": false,
+        "tookCard": false,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 96,
+      "deckCount": 24,
+      "bagCounts": [
+        17,
+        15,
+        16,
+        17,
+        16,
+        15
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        29,
+        31,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "takeCard",
+      "slot": 4
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 36.425817629126406,
+      "gain": 7.702146659355375,
+      "completedDepth": 1,
+      "searchValue": 40.241644453860054
+    }
+  },
+  {
+    "index": 24,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 0
+            },
+            {
+              "id": 26,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 2
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2,
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 0
+            },
+            {
+              "id": 28,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 1
+        }
+      ],
+      "active": 1,
+      "round": 2,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [
+          1,
+          1,
+          3
+        ],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          2,
+          3,
+          5
+        ],
+        [],
+        [
+          3,
+          2,
+          5
+        ]
+      ],
+      "market": [
+        11,
+        3,
+        7,
+        27,
+        null
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": true,
+        "tookCard": true,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 96,
+      "deckCount": 24,
+      "bagCounts": [
+        17,
+        15,
+        16,
+        17,
+        16,
+        15
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        29,
+        31,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "endTurn"
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 40.241644453860054,
+      "gain": 2.796062342977116,
+      "completedDepth": 1,
+      "searchValue": 40.241644453860054
+    }
+  },
+  {
+    "index": 31,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 0
+            },
+            {
+              "id": 26,
+              "placed": 0
+            },
+            {
+              "id": 16,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 3
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2,
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 0
+            },
+            {
+              "id": 28,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 2
+        }
+      ],
+      "active": 1,
+      "round": 3,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [
+          1,
+          1,
+          3
+        ],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          3,
+          6,
+          4
+        ],
+        [
+          6,
+          2,
+          3
+        ],
+        [
+          3,
+          2,
+          5
+        ]
+      ],
+      "market": [
+        11,
+        3,
+        7,
+        27,
+        19
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": false,
+        "tookCard": false,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 90,
+      "deckCount": 22,
+      "bagCounts": [
+        17,
+        14,
+        14,
+        16,
+        16,
+        13
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        29,
+        31,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "takeCard",
+      "slot": 2
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 38.0588076228351,
+      "gain": 1.6549666403750436,
+      "completedDepth": 1,
+      "searchValue": 44.10481377461949
+    }
+  },
+  {
+    "index": 36,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 0
+            },
+            {
+              "id": 26,
+              "placed": 0
+            },
+            {
+              "id": 16,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 3
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 0
+            },
+            {
+              "id": 28,
+              "placed": 0
+            },
+            {
+              "id": 7,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 2
+        }
+      ],
+      "active": 1,
+      "round": 3,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [
+          1,
+          1,
+          3
+        ],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          3,
+          6,
+          4
+        ],
+        [
+          6,
+          2,
+          3
+        ],
+        []
+      ],
+      "market": [
+        11,
+        3,
+        null,
+        27,
+        19
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": true,
+        "tookCard": true,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 90,
+      "deckCount": 22,
+      "bagCounts": [
+        17,
+        14,
+        14,
+        16,
+        16,
+        13
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        29,
+        31,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "endTurn"
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 44.10481377461949,
+      "gain": 3.3105140709990977,
+      "completedDepth": 1,
+      "searchValue": 44.10481377461949
+    }
+  },
+  {
+    "index": 43,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 0
+            },
+            {
+              "id": 26,
+              "placed": 0
+            },
+            {
+              "id": 16,
+              "placed": 0
+            },
+            {
+              "id": 3,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 4
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 0
+            },
+            {
+              "id": 28,
+              "placed": 0
+            },
+            {
+              "id": 7,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 3
+        }
+      ],
+      "active": 1,
+      "round": 4,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [
+          5,
+          6,
+          5
+        ],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          3,
+          6,
+          4
+        ],
+        [
+          6,
+          2,
+          3
+        ],
+        [
+          2,
+          4,
+          3
+        ]
+      ],
+      "market": [
+        11,
+        12,
+        25,
+        27,
+        19
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": false,
+        "tookCard": false,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 84,
+      "deckCount": 20,
+      "bagCounts": [
+        17,
+        13,
+        13,
+        15,
+        14,
+        12
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        13,
+        14,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        29,
+        31,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "takeCard",
+      "slot": 2
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 52.715251595466476,
+      "gain": 6.21441356070536,
+      "completedDepth": 1,
+      "searchValue": 59.18377708032826
+    }
+  },
+  {
+    "index": 47,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 0
+            },
+            {
+              "id": 26,
+              "placed": 0
+            },
+            {
+              "id": 16,
+              "placed": 0
+            },
+            {
+              "id": 3,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 4
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 0
+            },
+            {
+              "id": 28,
+              "placed": 0
+            },
+            {
+              "id": 7,
+              "placed": 0
+            },
+            {
+              "id": 25,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 3
+        }
+      ],
+      "active": 1,
+      "round": 4,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          3,
+          6,
+          4
+        ],
+        [
+          6,
+          2,
+          3
+        ],
+        [
+          2,
+          4,
+          3
+        ]
+      ],
+      "market": [
+        11,
+        12,
+        null,
+        27,
+        19
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": true,
+        "tookCard": true,
+        "pending": [
+          5
+        ]
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 84,
+      "deckCount": 20,
+      "bagCounts": [
+        17,
+        13,
+        13,
+        15,
+        14,
+        12
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        13,
+        14,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        29,
+        31,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "place",
+      "pending": 0,
+      "cell": 3
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 53.06831881309155,
+      "gain": -3.980908222426507,
+      "completedDepth": 1,
+      "searchValue": 59.18377708032826
+    }
+  },
+  {
+    "index": 49,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 0
+            },
+            {
+              "id": 26,
+              "placed": 0
+            },
+            {
+              "id": 16,
+              "placed": 0
+            },
+            {
+              "id": 3,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 4
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 0
+            },
+            {
+              "id": 28,
+              "placed": 0
+            },
+            {
+              "id": 7,
+              "placed": 0
+            },
+            {
+              "id": 25,
+              "placed": 1
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 3
+        }
+      ],
+      "active": 1,
+      "round": 4,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          3,
+          6,
+          4
+        ],
+        [
+          6,
+          2,
+          3
+        ],
+        [
+          2,
+          4,
+          3
+        ]
+      ],
+      "market": [
+        11,
+        12,
+        null,
+        27,
+        19
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": true,
+        "tookCard": true,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 84,
+      "deckCount": 20,
+      "bagCounts": [
+        17,
+        13,
+        13,
+        15,
+        14,
+        12
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        13,
+        14,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        29,
+        31,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "endTurn"
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 59.18377708032826,
+      "gain": 3.298813482719318,
+      "completedDepth": 1,
+      "searchValue": 59.18377708032826
+    }
+  },
+  {
+    "index": 57,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 2
+            },
+            {
+              "id": 26,
+              "placed": 0
+            },
+            {
+              "id": 16,
+              "placed": 0
+            },
+            {
+              "id": 3,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 5
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 0
+            },
+            {
+              "id": 28,
+              "placed": 0
+            },
+            {
+              "id": 7,
+              "placed": 0
+            },
+            {
+              "id": 25,
+              "placed": 1
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 4
+        }
+      ],
+      "active": 1,
+      "round": 5,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [
+          5,
+          6,
+          1
+        ],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          3,
+          6,
+          4
+        ],
+        [
+          6,
+          2,
+          3
+        ],
+        [
+          2,
+          4,
+          3
+        ]
+      ],
+      "market": [
+        11,
+        12,
+        14,
+        27,
+        19
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": false,
+        "tookCard": false,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 78,
+      "deckCount": 19,
+      "bagCounts": [
+        16,
+        11,
+        13,
+        15,
+        12,
+        11
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        13,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        29,
+        31,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "takeTokens",
+      "group": 0
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 58.9536962747801,
+      "gain": 0,
+      "completedDepth": 2,
+      "searchValue": 78.64418726703992
+    }
+  },
+  {
+    "index": 62,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 2
+            },
+            {
+              "id": 26,
+              "placed": 0
+            },
+            {
+              "id": 16,
+              "placed": 0
+            },
+            {
+              "id": 3,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 5
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": 7
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 0
+            },
+            {
+              "id": 28,
+              "placed": 0
+            },
+            {
+              "id": 7,
+              "placed": 1
+            },
+            {
+              "id": 25,
+              "placed": 1
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 4
+        }
+      ],
+      "active": 1,
+      "round": 5,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          3,
+          6,
+          4
+        ],
+        [
+          6,
+          2,
+          3
+        ],
+        [
+          2,
+          4,
+          3
+        ]
+      ],
+      "market": [
+        11,
+        12,
+        14,
+        27,
+        19
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": true,
+        "tookCard": false,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 78,
+      "deckCount": 19,
+      "bagCounts": [
+        16,
+        11,
+        13,
+        15,
+        12,
+        11
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        13,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        29,
+        31,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "endTurn"
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 65.16366672597216,
+      "gain": 1.4104324969883635,
+      "completedDepth": 2,
+      "searchValue": 78.64418726703992
+    }
+  },
+  {
+    "index": 68,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                3,
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 2
+            },
+            {
+              "id": 26,
+              "placed": 0
+            },
+            {
+              "id": 16,
+              "placed": 0
+            },
+            {
+              "id": 3,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 6
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": 7
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 0
+            },
+            {
+              "id": 28,
+              "placed": 0
+            },
+            {
+              "id": 7,
+              "placed": 1
+            },
+            {
+              "id": 25,
+              "placed": 1
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 5
+        }
+      ],
+      "active": 1,
+      "round": 6,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [
+          6,
+          4,
+          3
+        ],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          3,
+          6,
+          4
+        ],
+        [
+          6,
+          2,
+          3
+        ],
+        [
+          2,
+          2,
+          3
+        ]
+      ],
+      "market": [
+        11,
+        12,
+        14,
+        27,
+        19
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": false,
+        "tookCard": false,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 72,
+      "deckCount": 19,
+      "bagCounts": [
+        16,
+        9,
+        11,
+        14,
+        12,
+        10
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        13,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        29,
+        31,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "takeTokens",
+      "group": 4
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 58.907028529724805,
+      "gain": -4.591517798025457,
+      "completedDepth": 2,
+      "searchValue": 82.8629316977594
+    }
+  },
+  {
+    "index": 75,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                3,
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 2
+            },
+            {
+              "id": 26,
+              "placed": 0
+            },
+            {
+              "id": 16,
+              "placed": 0
+            },
+            {
+              "id": 3,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 6
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": 7
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": 28
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 0
+            },
+            {
+              "id": 28,
+              "placed": 1
+            },
+            {
+              "id": 7,
+              "placed": 1
+            },
+            {
+              "id": 25,
+              "placed": 2
+            },
+            {
+              "id": 27,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 5
+        }
+      ],
+      "active": 1,
+      "round": 6,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [
+          6,
+          4,
+          3
+        ],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          3,
+          6,
+          4
+        ],
+        [
+          6,
+          2,
+          3
+        ],
+        []
+      ],
+      "market": [
+        11,
+        12,
+        14,
+        null,
+        19
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": true,
+        "tookCard": true,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 72,
+      "deckCount": 19,
+      "bagCounts": [
+        16,
+        9,
+        11,
+        14,
+        12,
+        10
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        13,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        29,
+        31,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "endTurn"
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 76.23884128995014,
+      "gain": 4.063579770323486,
+      "completedDepth": 2,
+      "searchValue": 82.8629316977594
+    }
+  },
+  {
+    "index": 81,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                3,
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 2
+            },
+            {
+              "id": 26,
+              "placed": 0
+            },
+            {
+              "id": 16,
+              "placed": 0
+            },
+            {
+              "id": 3,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 7
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": 7
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": 28
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 0
+            },
+            {
+              "id": 28,
+              "placed": 1
+            },
+            {
+              "id": 7,
+              "placed": 1
+            },
+            {
+              "id": 25,
+              "placed": 2
+            },
+            {
+              "id": 27,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 6
+        }
+      ],
+      "active": 1,
+      "round": 7,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [
+          6,
+          4,
+          3
+        ],
+        [
+          3,
+          5,
+          4
+        ],
+        [
+          3,
+          6,
+          4
+        ],
+        [
+          6,
+          2,
+          3
+        ],
+        [
+          1,
+          6,
+          6
+        ]
+      ],
+      "market": [
+        11,
+        12,
+        14,
+        31,
+        19
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": false,
+        "tookCard": false,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 66,
+      "deckCount": 18,
+      "bagCounts": [
+        15,
+        9,
+        10,
+        13,
+        11,
+        8
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        13,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        29,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "takeTokens",
+      "group": 2
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 73.62403423281158,
+      "gain": 0,
+      "completedDepth": 2,
+      "searchValue": 92.17172164527008
+    }
+  },
+  {
+    "index": 87,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                3,
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 2
+            },
+            {
+              "id": 26,
+              "placed": 0
+            },
+            {
+              "id": 16,
+              "placed": 0
+            },
+            {
+              "id": 3,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 7
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": 15
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [
+                4
+              ],
+              "animal": 15
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": 7
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": 28
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 2
+            },
+            {
+              "id": 28,
+              "placed": 1
+            },
+            {
+              "id": 7,
+              "placed": 1
+            },
+            {
+              "id": 25,
+              "placed": 2
+            },
+            {
+              "id": 27,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 6
+        }
+      ],
+      "active": 1,
+      "round": 7,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [
+          6,
+          4,
+          3
+        ],
+        [
+          3,
+          5,
+          4
+        ],
+        [],
+        [
+          6,
+          2,
+          3
+        ],
+        [
+          1,
+          6,
+          6
+        ]
+      ],
+      "market": [
+        11,
+        12,
+        14,
+        31,
+        19
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": true,
+        "tookCard": false,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 66,
+      "deckCount": 18,
+      "bagCounts": [
+        15,
+        9,
+        10,
+        13,
+        11,
+        8
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        13,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        29,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "endTurn"
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 82.0469748846239,
+      "gain": 5.489488681902941,
+      "completedDepth": 2,
+      "searchValue": 92.17172164527008
+    }
+  },
+  {
+    "index": 93,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                3,
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [
+                3,
+                4
+              ],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 2
+            },
+            {
+              "id": 26,
+              "placed": 0
+            },
+            {
+              "id": 16,
+              "placed": 0
+            },
+            {
+              "id": 3,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 8
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": 15
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [
+                4
+              ],
+              "animal": 15
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": 7
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": 28
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 2
+            },
+            {
+              "id": 28,
+              "placed": 1
+            },
+            {
+              "id": 7,
+              "placed": 1
+            },
+            {
+              "id": 25,
+              "placed": 2
+            },
+            {
+              "id": 27,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 7
+        }
+      ],
+      "active": 1,
+      "round": 8,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [
+          6,
+          4,
+          3
+        ],
+        [
+          4,
+          4,
+          6
+        ],
+        [
+          5,
+          1,
+          1
+        ],
+        [
+          6,
+          2,
+          3
+        ],
+        [
+          1,
+          6,
+          6
+        ]
+      ],
+      "market": [
+        11,
+        12,
+        14,
+        31,
+        19
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": false,
+        "tookCard": false,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 60,
+      "deckCount": 18,
+      "bagCounts": [
+        13,
+        9,
+        10,
+        11,
+        10,
+        7
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        13,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        29,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "takeTokens",
+      "group": 4
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 76.29918786344274,
+      "gain": -2.9430355293715422,
+      "completedDepth": 2,
+      "searchValue": 100.52857059100421
+    }
+  },
+  {
+    "index": 98,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                3,
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [
+                3,
+                4
+              ],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 2
+            },
+            {
+              "id": 26,
+              "placed": 0
+            },
+            {
+              "id": 16,
+              "placed": 0
+            },
+            {
+              "id": 3,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 8
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": 15
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [
+                4
+              ],
+              "animal": 15
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": 7
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": 28
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                6,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                1
+              ],
+              "animal": 7
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 2
+            },
+            {
+              "id": 28,
+              "placed": 1
+            },
+            {
+              "id": 7,
+              "placed": 2
+            },
+            {
+              "id": 25,
+              "placed": 2
+            },
+            {
+              "id": 27,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 7
+        }
+      ],
+      "active": 1,
+      "round": 8,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [
+          6,
+          4,
+          3
+        ],
+        [
+          4,
+          4,
+          6
+        ],
+        [
+          5,
+          1,
+          1
+        ],
+        [
+          6,
+          2,
+          3
+        ],
+        []
+      ],
+      "market": [
+        11,
+        12,
+        14,
+        31,
+        19
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": true,
+        "tookCard": false,
+        "pending": []
+      },
+      "finalRound": null,
+      "finalReason": "",
+      "phase": "playing",
+      "bagCount": 60,
+      "deckCount": 18,
+      "bagCounts": [
+        13,
+        9,
+        10,
+        11,
+        10,
+        7
+      ],
+      "unseenAnimals": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        13,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        29,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "endTurn"
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 84.98756419469673,
+      "gain": 6.987564194696731,
+      "completedDepth": 2,
+      "searchValue": 100.52857059100421
+    }
+  },
+  {
+    "index": 117,
+    "position": {
+      "version": 1,
+      "players": [
+        {
+          "id": 0,
+          "name": "玩家 1",
+          "type": "human",
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": 3
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                1
+              ],
+              "animal": 3
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                1
+              ],
+              "animal": 3
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                3,
+                4
+              ],
+              "animal": 16
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [
+                2
+              ],
+              "animal": 26
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": 26
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                3,
+                4
+              ],
+              "animal": 16
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [
+                5
+              ],
+              "animal": 31
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [
+                2
+              ],
+              "animal": 26
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": 30
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [
+                5
+              ],
+              "animal": 31
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [
+                2
+              ],
+              "animal": 26
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [
+                3,
+                4
+              ],
+              "animal": 16
+            }
+          ],
+          "cards": [
+            {
+              "id": 30,
+              "placed": 2
+            },
+            {
+              "id": 26,
+              "placed": 4
+            },
+            {
+              "id": 16,
+              "placed": 3
+            },
+            {
+              "id": 3,
+              "placed": 3
+            },
+            {
+              "id": 31,
+              "placed": 2
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 9
+        },
+        {
+          "id": 1,
+          "name": "玩家 2",
+          "type": "ai",
+          "ai": {
+            "depth": 2,
+            "timeMs": 3500,
+            "beamWidth": 6,
+            "topK": 3,
+            "seed": 1729
+          },
+          "board": [
+            {
+              "col": 0,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": 15
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "tokens": [
+                4
+              ],
+              "animal": 15
+            },
+            {
+              "col": 0,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 0,
+              "row": 4,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 0,
+              "tokens": [
+                4
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 1,
+              "row": 2,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 1,
+              "row": 3,
+              "tokens": [
+                1
+              ],
+              "animal": 7
+            },
+            {
+              "col": 2,
+              "row": 0,
+              "tokens": [
+                3,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 1,
+              "tokens": [
+                2,
+                2,
+                2
+              ],
+              "animal": 25
+            },
+            {
+              "col": 2,
+              "row": 2,
+              "tokens": [
+                5
+              ],
+              "animal": null
+            },
+            {
+              "col": 2,
+              "row": 3,
+              "tokens": [
+                5
+              ],
+              "animal": 28
+            },
+            {
+              "col": 2,
+              "row": 4,
+              "tokens": [
+                6,
+                6
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 0,
+              "tokens": [
+                3
+              ],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 3,
+              "row": 2,
+              "tokens": [
+                1
+              ],
+              "animal": 7
+            },
+            {
+              "col": 3,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 0,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 2,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 3,
+              "tokens": [],
+              "animal": null
+            },
+            {
+              "col": 4,
+              "row": 4,
+              "tokens": [],
+              "animal": null
+            }
+          ],
+          "cards": [
+            {
+              "id": 15,
+              "placed": 2
+            },
+            {
+              "id": 28,
+              "placed": 1
+            },
+            {
+              "id": 7,
+              "placed": 2
+            },
+            {
+              "id": 25,
+              "placed": 2
+            },
+            {
+              "id": 27,
+              "placed": 0
+            }
+          ],
+          "spiritChoices": [],
+          "turns": 8
+        }
+      ],
+      "active": 1,
+      "round": 9,
+      "side": "A",
+      "spirits": false,
+      "supply": [
+        [
+          6,
+          4,
+          3
+        ],
+        [
+          1,
+          6,
+          5
+        ],
+        [
+          5,
+          1,
+          1
+        ],
+        [
+          6,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "market": [
+        11,
+        12,
+        14,
+        1,
+        19
+      ],
+      "discardedTokens": [],
+      "discardedCards": [],
+      "turn": {
+        "tookTokens": false,
+        "tookCard": false,
+        "pending": []
+      },
+      "finalRound": 9,
+      "finalReason": "玩家 1 的版图只剩 2 个空格",
+      "phase": "playing",
+      "bagCount": 54,
+      "deckCount": 17,
+      "bagCounts": [
+        11,
+        8,
+        9,
+        11,
+        9,
+        6
+      ],
+      "unseenAnimals": [
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        13,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        29,
+        32
+      ],
+      "needsSpiritChoice": []
+    },
+    "action": {
+      "type": "takeTokens",
+      "group": 0
+    },
+    "config": {
+      "depth": 2,
+      "timeMs": 3500,
+      "beamWidth": 6,
+      "topK": 3,
+      "seed": 1729
+    },
+    "legacy": {
+      "value": 82.29918786344274,
+      "gain": -2.3161219879893764,
+      "completedDepth": 2,
+      "searchValue": 89
+    }
+  }
+]

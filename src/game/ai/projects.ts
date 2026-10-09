@@ -125,11 +125,14 @@ export function* projects(
 export function applyProject(player: Player, project: Project): Player {
   const next: Player = {
     ...player,
-    board: player.board.map((c) => ({ ...c, tokens: [...c.tokens] })),
+    board: player.board.map((c) => ({ ...c })),
     cards: player.cards.map((c) => ({ ...c })),
   };
   for (const addition of project.additions)
-    next.board[addition.cell].tokens.push(...addition.colors);
+    next.board[addition.cell].tokens = [
+      ...next.board[addition.cell].tokens,
+      ...addition.colors,
+    ];
   if (project.kind === "animal") {
     next.board[project.targetCell!].animal = project.cardId!;
     next.cards.find((c) => c.id === project.cardId)!.placed++;

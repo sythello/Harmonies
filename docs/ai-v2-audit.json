@@ -1,0 +1,768 @@
+{
+  "source": "harmonies-log-2026-09-27T04-02-56-720Z.json",
+  "legacyCommit": "f36c7ccada107220867722f460c67da02215c91b",
+  "budget": "200 uncached complete V computations; mandatory fallback and v1 post-search diagnostics may exceed this limit; fixed clock; v1 search instrumented only to count/limit full evaluations",
+  "rows": [
+    {
+      "round": 1,
+      "sourceIndex": 7,
+      "maxEvaluations": 200,
+      "legacyRecorded": {
+        "value": 18.06642666186584,
+        "gain": 12.856496791703073,
+        "completedDepth": 1,
+        "searchValue": 28.78347664048712
+      },
+      "legacyFixedBudget": {
+        "actions": [
+          {
+            "type": "takeCard",
+            "slot": 1
+          },
+          {
+            "type": "takeTokens",
+            "group": 0
+          },
+          {
+            "type": "place",
+            "pending": 2,
+            "cell": 0
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 10
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 11
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 2,
+        "evaluations": 49,
+        "rootV": 5.209929870162768,
+        "selectedActionV": 18.06642666186584,
+        "Q": 39.242363407415965
+      },
+      "v2": {
+        "actions": [
+          {
+            "type": "takeCard",
+            "slot": 0
+          },
+          {
+            "type": "takeTokens",
+            "group": 2
+          },
+          {
+            "type": "place",
+            "pending": 1,
+            "cell": 11
+          },
+          {
+            "type": "place",
+            "pending": 1,
+            "cell": 0
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 12
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 0,
+        "evaluations": 200,
+        "rootV": 5.2823271734263155,
+        "selectedActionV": 33.467056489046925,
+        "Q": 34.71890840740702
+      },
+      "independentRootV": 5.2823271734263155
+    },
+    {
+      "round": 2,
+      "sourceIndex": 19,
+      "maxEvaluations": 200,
+      "legacyRecorded": {
+        "value": 36.425817629126406,
+        "gain": 7.702146659355375,
+        "completedDepth": 1,
+        "searchValue": 40.241644453860054
+      },
+      "legacyFixedBudget": {
+        "actions": [
+          {
+            "type": "takeCard",
+            "slot": 4
+          },
+          {
+            "type": "takeTokens",
+            "group": 3
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 6
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 5
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 7
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 2,
+        "evaluations": 59,
+        "rootV": 28.72367096977103,
+        "selectedActionV": 36.425817629126406,
+        "Q": 45.72133026778247
+      },
+      "v2": {
+        "actions": [
+          {
+            "type": "takeCard",
+            "slot": 2
+          },
+          {
+            "type": "takeTokens",
+            "group": 3
+          },
+          {
+            "type": "place",
+            "pending": 1,
+            "cell": 3
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 1
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 15
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 0,
+        "evaluations": 200,
+        "rootV": 29.603490211219803,
+        "selectedActionV": 39.583572663585215,
+        "Q": 40.72774349255568
+      },
+      "independentRootV": 29.603490211219803
+    },
+    {
+      "round": 3,
+      "sourceIndex": 31,
+      "maxEvaluations": 200,
+      "legacyRecorded": {
+        "value": 38.0588076228351,
+        "gain": 1.6549666403750436,
+        "completedDepth": 1,
+        "searchValue": 44.10481377461949
+      },
+      "legacyFixedBudget": {
+        "actions": [
+          {
+            "type": "takeCard",
+            "slot": 2
+          },
+          {
+            "type": "takeTokens",
+            "group": 4
+          },
+          {
+            "type": "place",
+            "pending": 1,
+            "cell": 6
+          },
+          {
+            "type": "place",
+            "pending": 1,
+            "cell": 11
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 7
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 2,
+        "evaluations": 72,
+        "rootV": 36.40384098246005,
+        "selectedActionV": 38.0588076228351,
+        "Q": 54.958386196140744
+      },
+      "v2": {
+        "actions": [
+          {
+            "type": "takeCard",
+            "slot": 0
+          },
+          {
+            "type": "takeTokens",
+            "group": 2
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 4
+          },
+          {
+            "type": "place",
+            "pending": 1,
+            "cell": 1
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 2
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 0,
+        "evaluations": 200,
+        "rootV": 38.65895561282616,
+        "selectedActionV": 41.85912386461226,
+        "Q": 43.67444717717467
+      },
+      "independentRootV": 38.65895561282616
+    },
+    {
+      "round": 4,
+      "sourceIndex": 43,
+      "maxEvaluations": 200,
+      "legacyRecorded": {
+        "value": 52.715251595466476,
+        "gain": 6.21441356070536,
+        "completedDepth": 1,
+        "searchValue": 59.18377708032826
+      },
+      "legacyFixedBudget": {
+        "actions": [
+          {
+            "type": "takeCard",
+            "slot": 2
+          },
+          {
+            "type": "settle",
+            "card": 25,
+            "cell": 6
+          },
+          {
+            "type": "takeTokens",
+            "group": 3
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 7
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 10
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 1
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 2,
+        "evaluations": 61,
+        "rootV": 46.50083803476112,
+        "selectedActionV": 52.715251595466476,
+        "Q": 68.11407164917793
+      },
+      "v2": {
+        "actions": [
+          {
+            "type": "takeCard",
+            "slot": 2
+          },
+          {
+            "type": "settle",
+            "card": 25,
+            "cell": 6
+          },
+          {
+            "type": "takeTokens",
+            "group": 0
+          },
+          {
+            "type": "place",
+            "pending": 1,
+            "cell": 7
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 14
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 3
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 0,
+        "evaluations": 200,
+        "rootV": 49.596160325310436,
+        "selectedActionV": 55.365578434750795,
+        "Q": 60.90301006968471
+      },
+      "independentRootV": 49.596160325310436
+    },
+    {
+      "round": 5,
+      "sourceIndex": 57,
+      "maxEvaluations": 200,
+      "legacyRecorded": {
+        "value": 58.9536962747801,
+        "gain": 0,
+        "completedDepth": 2,
+        "searchValue": 78.64418726703992
+      },
+      "legacyFixedBudget": {
+        "actions": [
+          {
+            "type": "takeTokens",
+            "group": 0
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 4
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 2
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 8
+          },
+          {
+            "type": "settle",
+            "card": 7,
+            "cell": 8
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 2,
+        "evaluations": 61,
+        "rootV": 58.9536962747801,
+        "selectedActionV": 58.9536962747801,
+        "Q": 78.64418726703992
+      },
+      "v2": {
+        "actions": [
+          {
+            "type": "takeTokens",
+            "group": 0
+          },
+          {
+            "type": "place",
+            "pending": 1,
+            "cell": 2
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 21
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 13
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 0,
+        "evaluations": 200,
+        "rootV": 62.19685506984618,
+        "selectedActionV": 62.19685506984618,
+        "Q": 65.90368481080108
+      },
+      "independentRootV": 62.19685506984618
+    },
+    {
+      "round": 6,
+      "sourceIndex": 68,
+      "maxEvaluations": 200,
+      "legacyRecorded": {
+        "value": 58.907028529724805,
+        "gain": -4.591517798025457,
+        "completedDepth": 2,
+        "searchValue": 82.8629316977594
+      },
+      "legacyFixedBudget": {
+        "actions": [
+          {
+            "type": "takeTokens",
+            "group": 4
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 10
+          },
+          {
+            "type": "settle",
+            "card": 28,
+            "cell": 12
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 10
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 9
+          },
+          {
+            "type": "settle",
+            "card": 25,
+            "cell": 10
+          },
+          {
+            "type": "takeCard",
+            "slot": 3
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 2,
+        "evaluations": 62,
+        "rootV": 63.49854632775026,
+        "selectedActionV": 58.907028529724805,
+        "Q": 82.8629316977594
+      },
+      "v2": {
+        "actions": [
+          {
+            "type": "takeTokens",
+            "group": 0
+          },
+          {
+            "type": "place",
+            "pending": 1,
+            "cell": 9
+          },
+          {
+            "type": "place",
+            "pending": 1,
+            "cell": 1
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 1
+          },
+          {
+            "type": "settle",
+            "card": 15,
+            "cell": 9
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 0,
+        "evaluations": 200,
+        "rootV": 69.14770909178722,
+        "selectedActionV": 69.14770909178722,
+        "Q": 73.13404089289345
+      },
+      "independentRootV": 69.14770909178722
+    },
+    {
+      "round": 7,
+      "sourceIndex": 81,
+      "maxEvaluations": 200,
+      "legacyRecorded": {
+        "value": 73.62403423281158,
+        "gain": 0,
+        "completedDepth": 2,
+        "searchValue": 92.17172164527008
+      },
+      "legacyFixedBudget": {
+        "actions": [
+          {
+            "type": "takeTokens",
+            "group": 2
+          },
+          {
+            "type": "place",
+            "pending": 2,
+            "cell": 1
+          },
+          {
+            "type": "settle",
+            "card": 15,
+            "cell": 0
+          },
+          {
+            "type": "place",
+            "pending": 1,
+            "cell": 9
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 14
+          },
+          {
+            "type": "settle",
+            "card": 15,
+            "cell": 1
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 2,
+        "evaluations": 76,
+        "rootV": 73.62403423281158,
+        "selectedActionV": 73.62403423281158,
+        "Q": 92.17172164527008
+      },
+      "v2": {
+        "actions": [
+          {
+            "type": "takeTokens",
+            "group": 4
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 13
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 9
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 14
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 0,
+        "evaluations": 200,
+        "rootV": 78.24206411506125,
+        "selectedActionV": 78.24206411506125,
+        "Q": 82.58641450023184
+      },
+      "independentRootV": 78.24206411506125
+    },
+    {
+      "round": 8,
+      "sourceIndex": 93,
+      "maxEvaluations": 200,
+      "legacyRecorded": {
+        "value": 76.29918786344274,
+        "gain": -2.9430355293715422,
+        "completedDepth": 2,
+        "searchValue": 100.52857059100421
+      },
+      "legacyFixedBudget": {
+        "actions": [
+          {
+            "type": "takeTokens",
+            "group": 4
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 16
+          },
+          {
+            "type": "settle",
+            "card": 7,
+            "cell": 16
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 13
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 13
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 2,
+        "evaluations": 71,
+        "rootV": 79.24222339281428,
+        "selectedActionV": 76.29918786344274,
+        "Q": 100.52857059100421
+      },
+      "v2": {
+        "actions": [
+          {
+            "type": "takeTokens",
+            "group": 2
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 16
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 15
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 17
+          },
+          {
+            "type": "settle",
+            "card": 7,
+            "cell": 15
+          },
+          {
+            "type": "settle",
+            "card": 7,
+            "cell": 17
+          },
+          {
+            "type": "takeCard",
+            "slot": 3
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 0,
+        "evaluations": 200,
+        "rootV": 83.58826739085157,
+        "selectedActionV": 83.58826739085157,
+        "Q": 89.42713720346497
+      },
+      "independentRootV": 83.58826739085157
+    },
+    {
+      "round": 9,
+      "sourceIndex": 117,
+      "maxEvaluations": 200,
+      "legacyRecorded": {
+        "value": 82.29918786344274,
+        "gain": -2.3161219879893764,
+        "completedDepth": 2,
+        "searchValue": 89
+      },
+      "legacyFixedBudget": {
+        "actions": [
+          {
+            "type": "takeTokens",
+            "group": 0
+          },
+          {
+            "type": "place",
+            "pending": 1,
+            "cell": 17
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 14
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 15
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 2,
+        "evaluations": 20,
+        "rootV": 84.61530985143212,
+        "selectedActionV": 82.29918786344274,
+        "Q": 89
+      },
+      "v2": {
+        "actions": [
+          {
+            "type": "takeTokens",
+            "group": 3
+          },
+          {
+            "type": "place",
+            "pending": 2,
+            "cell": 17
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 17
+          },
+          {
+            "type": "place",
+            "pending": 0,
+            "cell": 15
+          },
+          {
+            "type": "endTurn"
+          }
+        ],
+        "completedDepth": 0,
+        "evaluations": 200,
+        "rootV": 84.61530985143212,
+        "selectedActionV": 84.61530985143212,
+        "Q": 89
+      },
+      "independentRootV": 84.61530985143212
+    }
+  ]
+}

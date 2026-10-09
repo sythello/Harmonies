@@ -1,6 +1,11 @@
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
-import { createGame } from "../../src/game/engine";
+import { applyAction, createGame, scorePlayer } from "../../src/game/engine";
+import { sampleGame, observe } from "../../src/game/ai/observation";
+import { searchTurn } from "../../src/game/ai/search";
+import fixtures from "../fixtures/ai-audit-2026-09-27.json" with { type: "json" };
+import legacyDecision from "../fixtures/legacy-ai-decision.json" with { type: "json" };
+import type { AIObservation } from "../../src/game/ai/types";
 
 test("AI setup, cancellation, human handoff, top-k export and IndexedDB recovery", async ({
   page,
@@ -10,7 +15,9 @@ test("AI setup, cancellation, human handoff, top-k export and IndexedDB recovery
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
   await page.getByLabel("玩家 1 类型").selectOption("ai");
-  await page.getByLabel("玩家 1 AI 搜索深度").selectOption("1");
+  await expect(
+    page.getByText("搜索当前回合 · 预算内逐步扩大候选范围"),
+  ).toBeVisible();
   await page.getByLabel("玩家 1 AI 思考预算").selectOption("1000");
   await page.getByLabel("玩家 1 AI 日志 top-k").selectOption("1");
   await page.screenshot({
@@ -47,6 +54,22 @@ test("AI setup, cancellation, human handoff, top-k export and IndexedDB recovery
   const download = await downloadPromise;
   const output = JSON.parse(await readFile((await download.path())!, "utf8"));
   expect(output.aiDecisions.length).toBeGreaterThanOrEqual(5);
+  expect(output.version).toBe(3);
+  expect(
+    output.aiDecisions.every(
+      (d: any) =>
+        d.evaluationVersion === "current-turn-v3-v1-formula" &&
+        d.actualScoreAfter &&
+        d.selected.scoreKind ===
+          (d.selected.action.type === "endTurn" ? "full" : "order"),
+    ),
+  ).toBe(true);
+  expect(output.aiDecisions[0].planSummary.searchStats.logEvaluations).toBe(0);
+  expect(output.aiDecisions[0].before).toBeUndefined();
+  expect(output.aiDecisions[0].selected.gain).toBeUndefined();
+  expect(output.aiDecisions[0].planId).toMatch(
+    new RegExp(`^${output.sessionId}:`),
+  );
   expect(
     output.aiDecisions.every((d: any) =>
       Object.values(d.topByOperation).every((list: any) => list.length <= 1),
@@ -128,9 +151,74 @@ test("mobile AI settings and decision log stay inside viewport", async ({
   await expect(
     page.getByRole("button", { name: "导出游戏日志" }),
   ).toBeVisible();
+  const humanDownload = page.waitForEvent("download");
+  await page.getByRole("button", { name: "导出游戏日志" }).click();
+  const humanLog = JSON.parse(
+    await readFile((await (await humanDownload).path())!, "utf8"),
+  );
+  expect(humanLog.aiDecisions).toEqual([]);
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
+});
+
+test("legacy AI save and mixed-version log render, persist and export without reinterpreting scores", async ({
+  page,
+}) => {
+  let game = sampleGame(
+    fixtures.find((f) => f.index === 117)!.position as unknown as AIObservation,
+    10811,
+  );
+  game.log = ["历史 AI 操作"];
+  const plan = searchTurn(
+    observe(game),
+    { depth: 1, timeMs: 100, topK: 1 },
+    { maxNodes: 0, planId: "mixed-save:1" },
+  );
+  const logs: any[] = [legacyDecision];
+  for (const [i, action] of plan.actions.entries()) {
+    game = applyAction(game, action);
+    logs.push({
+      ...plan.decisions[i],
+      gameLogIndex: game.log.length - 1,
+      actualScoreAfter: scorePlayer(game.players[1], game.side),
+    });
+  }
+  await page.addInitScript(
+    (session) => {
+      if (!localStorage.getItem("mixed-initialized")) {
+        localStorage.setItem("harmonies.session.v1", JSON.stringify(session));
+        localStorage.setItem("mixed-initialized", "1");
+      }
+    },
+    { id: "mixed-save", game, history: [], aiLog: logs },
+  );
+  await page.goto("/");
+  await page.getByRole("button", { name: /继续上次旅程/ }).click();
+  await page.getByRole("button", { name: "操作记录", exact: true }).click();
+  await page.locator(".ai-decision > summary").first().click();
+  await expect(page.locator(".ai-decision").first()).toContainText("v1 旧记录");
+  await page.locator(".ai-decision > summary").nth(1).click();
+  await expect(page.locator(".ai-decision").nth(1)).toContainText(
+    "仅记录搜索已有评分",
+  );
+  await page.locator(".plan-log > summary").first().click();
+  await expect(page.locator(".plan-log").first()).toContainText("Q=89");
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "导出游戏日志" }).click();
+  const output = JSON.parse(
+    await readFile((await (await downloadPromise).path())!, "utf8"),
+  );
+  expect(output.evaluationVersions).toEqual([
+    "local-projects-v1",
+    "current-turn-v3-v1-formula",
+  ]);
+  expect(output.aiDecisions[0].before).toEqual(legacyDecision.before);
+  expect(output.aiDecisions.at(-1).actualScoreAfter.total).toBe(89);
+  await page.reload();
+  await page.getByRole("button", { name: /继续上次旅程/ }).click();
+  await page.getByRole("button", { name: "操作记录", exact: true }).click();
+  await expect(page.locator(".ai-decision")).toHaveCount(logs.length);
 });

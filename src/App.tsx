@@ -700,34 +700,7 @@ function SetupScreen({
                   </select>
                   {controllers[i].type === "ai" && (
                     <div className="ai-settings">
-                      <label>
-                        搜索深度
-                        <select
-                          aria-label={`玩家 ${i + 1} AI 搜索深度`}
-                          value={controllers[i].ai?.depth ?? DEFAULT_AI.depth}
-                          onChange={(e) =>
-                            setControllers(
-                              controllers.map((c, j) =>
-                                j === i
-                                  ? {
-                                      ...c,
-                                      ai: {
-                                        ...normalizeAI(c.ai),
-                                        depth: Number(e.target.value),
-                                      },
-                                    }
-                                  : c,
-                              ),
-                            )
-                          }
-                        >
-                          {[1, 2, 3].map((n) => (
-                            <option key={n} value={n}>
-                              {n} 个自身回合
-                            </option>
-                          ))}
-                        </select>
-                      </label>
+                      <p>搜索当前回合 · 预算内逐步扩大候选范围</p>
                       <label>
                         思考预算
                         <select
@@ -1096,7 +1069,14 @@ export default function App() {
       if (decision)
         next.aiLog = [
           ...(session.aiLog ?? []),
-          { ...decision, gameLogIndex: next.game.log.length - 1 },
+          {
+            ...decision,
+            gameLogIndex: next.game.log.length - 1,
+            actualScoreAfter: scorePlayer(
+              next.game.players.find((p) => p.id === decision.playerId)!,
+              next.game.side,
+            ),
+          },
         ];
       setSession(next);
       setError("");
@@ -1168,6 +1148,7 @@ export default function App() {
     screen === "game" && !handoff && logReadyId === session?.id,
     aiPaused || showLog || help || scores || !!cardDetail || !!previewPlayer,
     act,
+    session?.id,
   );
   if (screen === "setup" || !game || !player || !session)
     return (
@@ -1282,8 +1263,8 @@ export default function App() {
             <small>
               {ai.error ||
                 (ai.lastPlan
-                  ? `上次思考 ${(ai.lastPlan.elapsedMs / 1000).toFixed(1)} 秒 · 完成深度 ${ai.lastPlan.completedDepth}`
-                  : `目标深度 ${player.ai?.depth ?? DEFAULT_AI.depth} · 同屏观战`)}
+                  ? `上次思考 ${(ai.lastPlan.elapsedMs / 1000).toFixed(1)} 秒 · 当前回合`
+                  : "当前回合搜索 · 同屏观战")}
             </small>
           </div>
           {ai.status === "error" && (

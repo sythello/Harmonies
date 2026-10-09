@@ -1,0 +1,495 @@
+[
+  {
+    "n": 1,
+    "side": "A",
+    "spirits": false,
+    "seed": 11,
+    "mode": "ai",
+    "turns": 10,
+    "scores": [
+      75
+    ],
+    "budget": 3500,
+    "topK": 3,
+    "fallbackTurns": 4,
+    "fallbackRate": 0.4,
+    "medianMs": 3224,
+    "p95Ms": 3507,
+    "maxMs": 3507,
+    "depthCounts": [
+      4,
+      0,
+      6,
+      0
+    ],
+    "samples": [
+      {
+        "turn": 1,
+        "completedDepth": 0,
+        "elapsedMs": 3507
+      },
+      {
+        "turn": 2,
+        "completedDepth": 0,
+        "elapsedMs": 3505
+      },
+      {
+        "turn": 3,
+        "completedDepth": 0,
+        "elapsedMs": 3502
+      },
+      {
+        "turn": 4,
+        "completedDepth": 0,
+        "elapsedMs": 3504
+      },
+      {
+        "turn": 5,
+        "completedDepth": 2,
+        "elapsedMs": 3224
+      },
+      {
+        "turn": 6,
+        "completedDepth": 2,
+        "elapsedMs": 1793
+      },
+      {
+        "turn": 7,
+        "completedDepth": 2,
+        "elapsedMs": 1303
+      },
+      {
+        "turn": 8,
+        "completedDepth": 2,
+        "elapsedMs": 729
+      },
+      {
+        "turn": 9,
+        "completedDepth": 2,
+        "elapsedMs": 355
+      },
+      {
+        "turn": 10,
+        "completedDepth": 2,
+        "elapsedMs": 63
+      }
+    ]
+  },
+  {
+    "n": 1,
+    "side": "B",
+    "spirits": true,
+    "seed": 13,
+    "mode": "ai",
+    "turns": 13,
+    "scores": [
+      132
+    ],
+    "budget": 3500,
+    "topK": 3,
+    "fallbackTurns": 7,
+    "fallbackRate": 0.5384615384615384,
+    "medianMs": 3503,
+    "p95Ms": 3519,
+    "maxMs": 3519,
+    "depthCounts": [
+      7,
+      2,
+      4,
+      0
+    ],
+    "samples": [
+      {
+        "turn": 1,
+        "completedDepth": 0,
+        "elapsedMs": 3519
+      },
+      {
+        "turn": 2,
+        "completedDepth": 0,
+        "elapsedMs": 3513
+      },
+      {
+        "turn": 3,
+        "completedDepth": 0,
+        "elapsedMs": 3502
+      },
+      {
+        "turn": 4,
+        "completedDepth": 0,
+        "elapsedMs": 3511
+      },
+      {
+        "turn": 5,
+        "completedDepth": 0,
+        "elapsedMs": 3503
+      },
+      {
+        "turn": 6,
+        "completedDepth": 0,
+        "elapsedMs": 3512
+      },
+      {
+        "turn": 7,
+        "completedDepth": 0,
+        "elapsedMs": 3503
+      },
+      {
+        "turn": 8,
+        "completedDepth": 1,
+        "elapsedMs": 3513
+      },
+      {
+        "turn": 9,
+        "completedDepth": 1,
+        "elapsedMs": 3503
+      },
+      {
+        "turn": 10,
+        "completedDepth": 2,
+        "elapsedMs": 3255
+      },
+      {
+        "turn": 11,
+        "completedDepth": 2,
+        "elapsedMs": 1628
+      },
+      {
+        "turn": 12,
+        "completedDepth": 2,
+        "elapsedMs": 507
+      },
+      {
+        "turn": 13,
+        "completedDepth": 2,
+        "elapsedMs": 45
+      }
+    ]
+  },
+  {
+    "n": 2,
+    "side": "A",
+    "spirits": true,
+    "seed": 17,
+    "mode": "ai",
+    "turns": 18,
+    "scores": [
+      113,
+      88
+    ],
+    "budget": 3500,
+    "topK": 3,
+    "fallbackTurns": 6,
+    "fallbackRate": 0.3333333333333333,
+    "medianMs": 3505,
+    "p95Ms": 3521,
+    "maxMs": 3521,
+    "depthCounts": [
+      6,
+      6,
+      6,
+      0
+    ],
+    "samples": [
+      {
+        "turn": 1,
+        "completedDepth": 1,
+        "elapsedMs": 3509
+      },
+      {
+        "turn": 2,
+        "completedDepth": 0,
+        "elapsedMs": 3521
+      },
+      {
+        "turn": 3,
+        "completedDepth": 0,
+        "elapsedMs": 3509
+      },
+      {
+        "turn": 4,
+        "completedDepth": 0,
+        "elapsedMs": 3506
+      },
+      {
+        "turn": 5,
+        "completedDepth": 0,
+        "elapsedMs": 3509
+      },
+      {
+        "turn": 6,
+        "completedDepth": 0,
+        "elapsedMs": 3502
+      },
+      {
+        "turn": 7,
+        "completedDepth": 0,
+        "elapsedMs": 3507
+      },
+      {
+        "turn": 8,
+        "completedDepth": 1,
+        "elapsedMs": 3502
+      },
+      {
+        "turn": 9,
+        "completedDepth": 1,
+        "elapsedMs": 3509
+      },
+      {
+        "turn": 10,
+        "completedDepth": 1,
+        "elapsedMs": 3503
+      },
+      {
+        "turn": 11,
+        "completedDepth": 1,
+        "elapsedMs": 3507
+      },
+      {
+        "turn": 12,
+        "completedDepth": 1,
+        "elapsedMs": 3505
+      },
+      {
+        "turn": 13,
+        "completedDepth": 2,
+        "elapsedMs": 2041
+      },
+      {
+        "turn": 14,
+        "completedDepth": 2,
+        "elapsedMs": 1844
+      },
+      {
+        "turn": 15,
+        "completedDepth": 2,
+        "elapsedMs": 949
+      },
+      {
+        "turn": 16,
+        "completedDepth": 2,
+        "elapsedMs": 475
+      },
+      {
+        "turn": 17,
+        "completedDepth": 2,
+        "elapsedMs": 138
+      },
+      {
+        "turn": 18,
+        "completedDepth": 2,
+        "elapsedMs": 56
+      }
+    ]
+  },
+  {
+    "n": 4,
+    "side": "B",
+    "spirits": false,
+    "seed": 19,
+    "mode": "ai",
+    "turns": 36,
+    "scores": [
+      92,
+      83,
+      97,
+      92
+    ],
+    "budget": 3500,
+    "topK": 3,
+    "fallbackTurns": 23,
+    "fallbackRate": 0.6388888888888888,
+    "medianMs": 3509,
+    "p95Ms": 3524,
+    "maxMs": 3525,
+    "depthCounts": [
+      23,
+      7,
+      6,
+      0
+    ],
+    "samples": [
+      {
+        "turn": 1,
+        "completedDepth": 0,
+        "elapsedMs": 3508
+      },
+      {
+        "turn": 2,
+        "completedDepth": 0,
+        "elapsedMs": 3503
+      },
+      {
+        "turn": 3,
+        "completedDepth": 0,
+        "elapsedMs": 3514
+      },
+      {
+        "turn": 4,
+        "completedDepth": 0,
+        "elapsedMs": 3514
+      },
+      {
+        "turn": 5,
+        "completedDepth": 0,
+        "elapsedMs": 3505
+      },
+      {
+        "turn": 6,
+        "completedDepth": 0,
+        "elapsedMs": 3513
+      },
+      {
+        "turn": 7,
+        "completedDepth": 0,
+        "elapsedMs": 3525
+      },
+      {
+        "turn": 8,
+        "completedDepth": 0,
+        "elapsedMs": 3509
+      },
+      {
+        "turn": 9,
+        "completedDepth": 0,
+        "elapsedMs": 3510
+      },
+      {
+        "turn": 10,
+        "completedDepth": 0,
+        "elapsedMs": 3503
+      },
+      {
+        "turn": 11,
+        "completedDepth": 0,
+        "elapsedMs": 3515
+      },
+      {
+        "turn": 12,
+        "completedDepth": 0,
+        "elapsedMs": 3512
+      },
+      {
+        "turn": 13,
+        "completedDepth": 0,
+        "elapsedMs": 3510
+      },
+      {
+        "turn": 14,
+        "completedDepth": 0,
+        "elapsedMs": 3524
+      },
+      {
+        "turn": 15,
+        "completedDepth": 0,
+        "elapsedMs": 3511
+      },
+      {
+        "turn": 16,
+        "completedDepth": 0,
+        "elapsedMs": 3506
+      },
+      {
+        "turn": 17,
+        "completedDepth": 0,
+        "elapsedMs": 3506
+      },
+      {
+        "turn": 18,
+        "completedDepth": 0,
+        "elapsedMs": 3515
+      },
+      {
+        "turn": 19,
+        "completedDepth": 0,
+        "elapsedMs": 3509
+      },
+      {
+        "turn": 20,
+        "completedDepth": 0,
+        "elapsedMs": 3511
+      },
+      {
+        "turn": 21,
+        "completedDepth": 1,
+        "elapsedMs": 3519
+      },
+      {
+        "turn": 22,
+        "completedDepth": 0,
+        "elapsedMs": 3505
+      },
+      {
+        "turn": 23,
+        "completedDepth": 0,
+        "elapsedMs": 3504
+      },
+      {
+        "turn": 24,
+        "completedDepth": 0,
+        "elapsedMs": 3512
+      },
+      {
+        "turn": 25,
+        "completedDepth": 1,
+        "elapsedMs": 3510
+      },
+      {
+        "turn": 26,
+        "completedDepth": 1,
+        "elapsedMs": 3509
+      },
+      {
+        "turn": 27,
+        "completedDepth": 1,
+        "elapsedMs": 3506
+      },
+      {
+        "turn": 28,
+        "completedDepth": 1,
+        "elapsedMs": 3506
+      },
+      {
+        "turn": 29,
+        "completedDepth": 1,
+        "elapsedMs": 3507
+      },
+      {
+        "turn": 30,
+        "completedDepth": 1,
+        "elapsedMs": 3503
+      },
+      {
+        "turn": 31,
+        "completedDepth": 2,
+        "elapsedMs": 3455
+      },
+      {
+        "turn": 32,
+        "completedDepth": 2,
+        "elapsedMs": 3130
+      },
+      {
+        "turn": 33,
+        "completedDepth": 2,
+        "elapsedMs": 959
+      },
+      {
+        "turn": 34,
+        "completedDepth": 2,
+        "elapsedMs": 839
+      },
+      {
+        "turn": 35,
+        "completedDepth": 2,
+        "elapsedMs": 602
+      },
+      {
+        "turn": 36,
+        "completedDepth": 2,
+        "elapsedMs": 263
+      }
+    ]
+  }
+]

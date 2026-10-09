@@ -10,6 +10,7 @@
     "test": "node --import tsx --test tests/*.test.ts",
     "test:e2e": "playwright test",
     "benchmark:ai": "node --import tsx scripts/benchmark-ai.ts",
+    "benchmark:compare-ai": "node --import tsx scripts/compare-ai.ts",
     "format": "prettier --write src tests playwright.config.ts"
   },
   "dependencies": {

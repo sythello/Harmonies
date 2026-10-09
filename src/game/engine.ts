@@ -338,51 +338,64 @@ export function matches(board: Cell[], cardId: number): Match[] {
     }
   return found;
 }
+// Geometry is immutable during play. Cache only coordinate-to-index adjacency;
+// terrain, connectivity and scores are always computed from the current board.
+const adjacencyCache = new Map<string, number[][]>();
+function boardAdjacency(board: Cell[]): number[][] {
+  const shape = board.map(key).join(";");
+  let result = adjacencyCache.get(shape);
+  if (!result) {
+    const lookup = new Map(board.map((c, i) => [key(c), i]));
+    result = board.map((c) =>
+      neighbors(c).flatMap((n) => {
+        const index = lookup.get(key(n));
+        return index === undefined ? [] : [index];
+      }),
+    );
+    adjacencyCache.set(shape, result);
+  }
+  return result;
+}
 export function groups(
   board: Cell[],
   predicate: (c: Cell) => boolean,
 ): Cell[][] {
-  const left = new Map(board.filter(predicate).map((c) => [key(c), c])),
+  const adjacency = boardAdjacency(board),
+    left = board.map(predicate),
     result: Cell[][] = [];
-  while (left.size) {
-    const first = left.values().next().value!;
-    const group: Cell[] = [];
-    const queue = [first];
-    left.delete(key(first));
-    for (let i = 0; i < queue.length; i++) {
-      const c = queue[i];
-      group.push(c);
-      for (const n of neighbors(c)) {
-        const next = left.get(key(n));
-        if (next) {
-          left.delete(key(n));
+  for (let start = 0; start < board.length; start++) {
+    if (!left[start]) continue;
+    const queue = [start];
+    left[start] = false;
+    for (let i = 0; i < queue.length; i++)
+      for (const next of adjacency[queue[i]]) {
+        if (left[next]) {
+          left[next] = false;
           queue.push(next);
         }
       }
-    }
-    result.push(group);
+    result.push(queue.map((i) => board[i]));
   }
   return result;
 }
 export function riverLength(board: Cell[]): number {
-  const water = new Map(
-    board.filter((c) => top(c) === 1).map((c) => [key(c), c]),
-  );
+  const adjacency = boardAdjacency(board),
+    water = board.map((c) => top(c) === 1);
   let longest = 0;
-  for (const start of water.values()) {
-    const distances = new Map([[key(start), 1]]),
+  for (let start = 0; start < board.length; start++) {
+    if (!water[start]) continue;
+    const distances = new Int16Array(board.length),
       queue = [start];
+    distances[start] = 1;
     for (let i = 0; i < queue.length; i++) {
       const cell = queue[i],
-        distance = distances.get(key(cell))!;
+        distance = distances[cell];
       longest = Math.max(longest, distance);
-      for (const n of neighbors(cell)) {
-        const k = key(n);
-        if (water.has(k) && !distances.has(k)) {
-          distances.set(k, distance + 1);
-          queue.push(water.get(k)!);
+      for (const next of adjacency[cell])
+        if (water[next] && !distances[next]) {
+          distances[next] = distance + 1;
+          queue.push(next);
         }
-      }
     }
   }
   return longest;
@@ -439,35 +452,30 @@ export interface Score {
 }
 export function scorePlayer(player: Player, side: Side): Score {
   const board = player.board,
-    lookup = new Map(board.map((c) => [key(c), c]));
+    adjacency = boardAdjacency(board),
+    tops = board.map(top);
   const height = [0, 1, 3, 7];
-  const trees = board
-    .filter((c) => top(c) === 4)
-    .reduce((s, c) => s + height[c.tokens.length], 0);
-  const mountains = board
-    .filter(
-      (c) =>
-        top(c) === 2 &&
-        neighbors(c).some(
-          (n) =>
-            top(lookup.get(key(n)) ?? { ...n, tokens: [], animal: null }) === 2,
-        ),
-    )
-    .reduce((s, c) => s + height[c.tokens.length], 0);
+  let trees = 0,
+    mountains = 0,
+    buildings = 0;
+  for (let i = 0; i < board.length; i++) {
+    const c = board[i];
+    if (tops[i] === 4) trees += height[c.tokens.length];
+    if (tops[i] === 2 && adjacency[i].some((j) => tops[j] === 2))
+      mountains += height[c.tokens.length];
+    if (tops[i] === 6 && c.tokens.length === 2) {
+      let mask = 0;
+      for (const j of adjacency[i]) if (tops[j]) mask |= 1 << tops[j]!;
+      let distinct = 0;
+      while (mask) {
+        mask &= mask - 1;
+        distinct++;
+      }
+      if (distinct >= 3) buildings += 5;
+    }
+  }
   const fields =
     groups(board, (c) => top(c) === 5).filter((g) => g.length >= 2).length * 5;
-  const buildings =
-    board.filter(
-      (c) =>
-        top(c) === 6 &&
-        c.tokens.length === 2 &&
-        new Set(
-          neighbors(c)
-            .map((n) => lookup.get(key(n)))
-            .filter((n): n is Cell => !!n && n.tokens.length > 0)
-            .map(top),
-        ).size >= 3,
-    ).length * 5;
   const river = riverLength(board),
     islands = Math.max(1, groups(board, (c) => top(c) !== 1).length);
   const water =
