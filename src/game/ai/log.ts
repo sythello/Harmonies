@@ -23,15 +23,23 @@ export function exportGameLog(session: Session) {
     })),
     algorithm: {
       formula:
-        "V = actualScore + sum(G * exp(-m/max(1,B) - 0.5*sum(d[c]^2/(1+F*p[c]))))",
+        "V = max_over_optional_card_subsets(actualScore + sum(G * exp(-m/max(1,B) - 0.5*sum(d[c]^2/(1+F*p[c])))))",
       orderFormula:
         "S = actualScore + sum_over_cards(max_project(nextAnimalGain * q)); independent per-card projects, no terrain gain",
       maxProjects: 6,
+      tieBreak:
+        "评分降序、实际剩余空牌位降序、实际规则总分降序、动作序列升序；空牌位没有计入 V",
+      drafting:
+        "对尚未入住的普通动物牌枚举启用子集，取完整 V 最大值；其他输入相同时新增未入住牌不会降低 V。忽略牌只影响虚拟项目，不释放实际牌位。",
       topKScope:
         "v3：中间动作按 S、结束回合按 V 记录每类已评分候选的 top-k，selected 独立保留；完整回合按 V 排序。缺失值不补算。v1/v2 旧记录保留原始口径。",
       search:
-        "v3：保持 v1 评分与资源期限公式，仅搜索当前回合；整层去重后按便宜评分剪枝，完成回合使用六项目 V；束宽翻倍，所有轮次保留最佳完整方案。只使用同一公开信息抽样，不模拟对手。",
+        "v3.1：保留 v1 基础评分与资源期限公式，完整 V 加入忽略未入住牌的收益下限，仅搜索当前回合；整层去重后按便宜评分剪枝，完成回合使用六项目 V；束宽翻倍，所有轮次保留最佳完整方案。只使用同一公开信息抽样，不模拟对手。",
       variables: {
+        freeCardSlots: "被评估玩家实际剩余空牌位，用于同分比较",
+        greedyValue: "未加入拿牌收益下限的原贪心 V",
+        ignoredCards:
+          "最高估值方案中禁用的尚未入住普通动物牌，仅为估值策略，不实际弃牌",
         G: "项目净增规则分",
         m: "追加地形总数",
         mByColor: "按颜色追加数量",

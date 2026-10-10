@@ -96,8 +96,9 @@ export function discount(mByColor: Counts, H: Counts, A: Counts, B: number) {
 export const rounded = (value: number) => Math.round(value * 1e6);
 
 /** Caches belong to a single planning request. Cached project coordinates are canonical. */
-export function createEvaluator(version: "v1" | "v2" = "v2") {
+export function createEvaluator(version: "v1" | "v2" | "v3.1" = "v2") {
   const cache = new Map<string, Evaluation>();
+  const monotoneCache = new Map<string, Evaluation>();
   const orderCache = new Map<string, Evaluation>();
   const scores = new Map<string, Score>();
   const menus = new Map<
@@ -208,15 +209,15 @@ export function createEvaluator(version: "v1" | "v2" = "v2") {
     orderCache.set(key, result);
     return result;
   }
-  function evaluate(
+  function evaluateGreedy(
     view: AIObservation,
     playerId = view.players[view.active].id,
     beforeCompute?: () => void,
   ): Evaluation {
     const h =
-      version === "v1"
-        ? legacyHorizon(view, playerId)
-        : horizon(view, playerId);
+      version === "v2"
+        ? horizon(view, playerId)
+        : legacyHorizon(view, playerId);
     const original = view.players.find((p) => p.id === playerId)!;
     const canonical =
       version === "v2"
@@ -342,7 +343,7 @@ export function createEvaluator(version: "v1" | "v2" = "v2") {
       }
       cache.set(key, best!);
     }
-    if (version === "v1") return best!;
+    if (version !== "v2") return best!;
     return {
       ...best!,
       canonicalRotation: canonical.rotation,
@@ -361,6 +362,63 @@ export function createEvaluator(version: "v1" | "v2" = "v2") {
         },
       })),
     };
+  }
+  function evaluate(
+    view: AIObservation,
+    playerId = view.players[view.active].id,
+    beforeCompute?: () => void,
+  ): Evaluation {
+    if (version !== "v3.1")
+      return evaluateGreedy(view, playerId, beforeCompute);
+    const player = view.players.find((p) => p.id === playerId)!;
+    const key = JSON.stringify([
+      playerId,
+      playerKey(player, view.side),
+      legacyHorizon(view, playerId),
+      view.turn,
+      view.supply,
+      view.bagCounts,
+    ]);
+    const cached = monotoneCache.get(key);
+    if (cached) return cached;
+    const raw = evaluateGreedy(view, playerId, beforeCompute);
+    let best = raw,
+      ignoredCards: number[] = [];
+    // These cards have neither points nor cubes on the board. Removing them
+    // only disables future projects; keep all started cards and nature spirits.
+    const optional = player.cards.filter(
+      (c) => c.placed === 0 && !CARDS[c.id].spirit,
+    );
+    const fullMask = (1 << optional.length) - 1;
+    for (let mask = fullMask - 1; mask >= 0 && raw.T; mask--) {
+      const ignored = optional
+        .filter((_, i) => !(mask & (1 << i)))
+        .map((c) => c.id);
+      const variant = {
+        ...view,
+        players: view.players.map((p) =>
+          p.id === playerId
+            ? { ...p, cards: p.cards.filter((c) => !ignored.includes(c.id)) }
+            : p,
+        ),
+      };
+      const candidate = evaluateGreedy(variant, playerId, beforeCompute);
+      // Exact max: rounding here could violate monotonicity by a small amount.
+      if (candidate.value > best.value) {
+        best = candidate;
+        ignoredCards = ignored;
+      }
+    }
+    const result: Evaluation = {
+      ...best,
+      actualScore: raw.actualScore,
+      greedyValue: raw.value,
+      ignoredCards,
+    };
+    // Never cache a partial maximum: interruption must preserve the previous
+    // fully evaluated search plan, not publish a non-monotone estimate.
+    monotoneCache.set(key, result);
+    return result;
   }
   return {
     evaluate,

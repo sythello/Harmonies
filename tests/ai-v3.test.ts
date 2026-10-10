@@ -10,6 +10,7 @@ import {
 import { createEvaluator } from "../src/game/ai/evaluate";
 import {
   compareActions,
+  freeCardSlots,
   legalActions,
   positionKey,
 } from "../src/game/ai/actions";
@@ -120,11 +121,24 @@ test("logs only dump visited scores; disabling logs or changing top-k does not c
           const evaluation = records.get(
             `${action.type === "endTurn" ? "full" : "order"}:${positionKey(applyAction(state, action))}`,
           );
-          return evaluation ? [{ action, evaluation }] : [];
+          return evaluation
+            ? [
+                {
+                  action,
+                  evaluation,
+                  freeSlots: freeCardSlots(
+                    applyAction(state, action).players.find(
+                      (p) => p.id === decision.playerId,
+                    )!,
+                  ),
+                },
+              ]
+            : [];
         })
         .sort(
           (a, b) =>
             b.evaluation.value - a.evaluation.value ||
+            b.freeSlots - a.freeSlots ||
             b.evaluation.actualScore.total - a.evaluation.actualScore.total ||
             compareActions(a.action, b.action),
         );

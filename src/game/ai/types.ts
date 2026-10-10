@@ -41,6 +41,9 @@ export interface ProjectEstimate {
   spiritGain?: number;
 }
 export interface Evaluation {
+  /** Uncorrected six-project greedy value and zero-placement cards omitted by the winning policy. */
+  greedyValue?: number;
+  ignoredCards?: number[];
   actualScore: Score;
   value: number;
   potential: number;
@@ -57,6 +60,7 @@ export interface Evaluation {
   canonicalRotation?: number;
 }
 export interface CandidateLog {
+  freeCardSlots?: number;
   scoreKind?: "order" | "full";
   action: Action;
   label: string;
@@ -94,6 +98,7 @@ export interface AIDecisionLog {
   fallback: boolean;
 }
 export interface PlanCandidate {
+  freeCardSlots?: number;
   actions: Action[];
   labels?: string[];
   value: number;

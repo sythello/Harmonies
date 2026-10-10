@@ -58,8 +58,9 @@ test("AI setup, cancellation, human handoff, top-k export and IndexedDB recovery
   expect(
     output.aiDecisions.every(
       (d: any) =>
-        d.evaluationVersion === "current-turn-v3-v1-formula" &&
+        d.evaluationVersion === "current-turn-v3.1-monotone" &&
         d.actualScoreAfter &&
+        Number.isInteger(d.selected.freeCardSlots) &&
         d.selected.scoreKind ===
           (d.selected.action.type === "endTurn" ? "full" : "order"),
     ),
@@ -213,7 +214,7 @@ test("legacy AI save and mixed-version log render, persist and export without re
   );
   expect(output.evaluationVersions).toEqual([
     "local-projects-v1",
-    "current-turn-v3-v1-formula",
+    "current-turn-v3.1-monotone",
   ]);
   expect(output.aiDecisions[0].before).toEqual(legacyDecision.before);
   expect(output.aiDecisions.at(-1).actualScoreAfter.total).toBe(89);

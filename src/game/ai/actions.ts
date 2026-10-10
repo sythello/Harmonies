@@ -7,8 +7,11 @@ import {
   matches,
   type Action,
   type Game,
+  type Player,
 } from "../engine";
 import { compareKeys } from "./projects";
+
+export const freeCardSlots = (player: Player) => 4 - activeCards(player).length;
 
 export function legalActions(game: Game): Action[] {
   if (game.phase === "ended") return [];

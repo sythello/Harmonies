@@ -1,6 +1,6 @@
 import type { AIConfig } from "./types";
 
-export const EVALUATION_VERSION = "current-turn-v3-v1-formula";
+export const EVALUATION_VERSION = "current-turn-v3.1-monotone";
 export const MAX_PROJECTS = 6;
 export const INITIAL_COUNTS = [23, 23, 21, 19, 19, 15];
 export const DEFAULT_AI: AIConfig = {

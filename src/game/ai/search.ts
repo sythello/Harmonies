@@ -5,6 +5,7 @@ import { observe, sampleGame } from "./observation";
 import {
   actionLabel,
   compareActions,
+  freeCardSlots,
   legalActions,
   positionKey,
 } from "./actions";
@@ -20,6 +21,7 @@ import type {
 } from "./types";
 
 interface State {
+  freeCardSlots: number;
   game: Game;
   key: string;
   order?: Evaluation;
@@ -57,6 +59,7 @@ function compareSequences(a: Action[], b: Action[]): number {
 }
 const comparePaths = (a: Path, b: Path, kind: "order" | "full") =>
   b.state[kind]!.value - a.state[kind]!.value ||
+  b.state.freeCardSlots - a.state.freeCardSlots ||
   b.state[kind]!.actualScore.total - a.state[kind]!.actualScore.total ||
   compareSequences(a.actions, b.actions);
 
@@ -83,7 +86,7 @@ export function searchTurn(
       evaluations: 0,
       timedOut: false,
     };
-  const evaluator = createEvaluator("v1");
+  const evaluator = createEvaluator("v3.1");
   const states = new Map<string, State>(),
     complete = new Map<string, Path>();
   let generatedActions = 0,
@@ -111,7 +114,11 @@ export function searchTurn(
       duplicateStates++;
       return old;
     }
-    const state = { key, game };
+    const state = {
+      key,
+      game,
+      freeCardSlots: freeCardSlots(game.players.find((p) => p.id === rootId)!),
+    };
     states.set(key, state);
     return state;
   };
@@ -248,6 +255,7 @@ export function searchTurn(
           evaluation = edge.state[scoreKind]!,
           parent = current[scoreKind];
         return {
+          freeCardSlots: edge.state.freeCardSlots,
           scoreKind,
           action: edge.action,
           label: actionLabel(current.game, edge.action),
@@ -267,6 +275,7 @@ export function searchTurn(
           .sort(
             (a, b) =>
               b.state[kind(b)]!.value - a.state[kind(a)]!.value ||
+              b.state.freeCardSlots - a.state.freeCardSlots ||
               b.state[kind(b)]!.actualScore.total -
                 a.state[kind(a)]!.actualScore.total ||
               compareActions(a.action, b.action),
@@ -323,6 +332,7 @@ export function searchTurn(
           return label;
         });
         return {
+          freeCardSlots: path.state.freeCardSlots,
           actions: path.actions,
           labels,
           value: path.state.full!.value,

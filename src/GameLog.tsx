@@ -1,5 +1,5 @@
 import { Download } from "lucide-react";
-import type { Session } from "./game/engine";
+import { CARDS, type Session } from "./game/engine";
 import { downloadGameLog } from "./game/ai/log";
 import type { CandidateLog, Evaluation } from "./game/ai/types";
 
@@ -19,6 +19,12 @@ function Estimate({ value }: { value: Evaluation }) {
           </>
         )}
       </p>
+      {value.greedyValue !== undefined && value.ignoredCards?.length ? (
+        <p>
+          保留不使用{value.ignoredCards.map((id) => CARDS[id].name).join("、")}
+          的计划：原贪心值 {number(value.greedyValue)} → {number(value.value)}。
+        </p>
+      ) : null}
       <p className="vector-note">向量顺序：水 / 灰 / 棕 / 绿 / 黄 / 红</p>
       <p>
         H=[{vector(value.H)}] · A=[{vector(value.A)}]<br />
@@ -68,6 +74,9 @@ function Candidate({ candidate }: { candidate: CandidateLog }) {
         {candidate.scoreKind === "order" ? "便宜评分 S" : "V"}=
         {number(candidate.value)} · Δ=
         {number(candidate.gain)}
+        {candidate.freeCardSlots !== undefined && (
+          <> · 空牌位 {candidate.freeCardSlots}</>
+        )}
       </summary>
       <Estimate value={candidate.evaluation} />
     </details>
@@ -107,7 +116,7 @@ export function GameLog({ session }: { session: Session }) {
                     ={number(decision.selected.gain)}
                   </summary>
                   <p>
-                    {decision.evaluationVersion === "current-turn-v3-v1-formula"
+                    {decision.evaluationVersion?.startsWith("current-turn-v3")
                       ? "当前回合搜索 · 深度"
                       : "目标深度"}{" "}
                     {decision.targetDepth} / 完成 {decision.completedDepth} ·
@@ -116,8 +125,8 @@ export function GameLog({ session }: { session: Session }) {
                     {decision.timedOut ? " · 已达搜索预算" : ""}
                   </p>
                   <p>
-                    {decision.evaluationVersion === "current-turn-v3-v1-formula"
-                      ? `v3 · 仅记录搜索已有评分；中间动作按 S、结束回合按 V，显示每类已评分候选的前 ${decision.config.topK} 个。未计算的差值显示 —。`
+                    {decision.evaluationVersion?.startsWith("current-turn-v3")
+                      ? `${decision.evaluationVersion === "current-turn-v3.1-monotone" ? "v3.1 · 同分优先空牌位更多" : "v3"} · 仅记录搜索已有评分；中间动作按 S、结束回合按 V，显示每类已评分候选的前 ${decision.config.topK} 个。未计算的差值显示 —。`
                       : decision.evaluationVersion === "local-projects-v2"
                         ? `v2 · 每类全部合法动作已估值，显示前 ${decision.config.topK} 个。`
                         : `v1 旧记录 · 每类 top-${decision.config.topK} 的范围为便宜评分剪枝后的候选。`}
@@ -194,6 +203,9 @@ export function GameLog({ session }: { session: Session }) {
                               <li key={index}>
                                 Q={number(p.value)} · 场景分数{" "}
                                 {p.scenarioValues.map(number).join(" / ")}
+                                {p.freeCardSlots !== undefined && (
+                                  <> · 空牌位 {p.freeCardSlots}</>
+                                )}
                                 {p.terminal ? " · 已到终局" : ""}
                                 {p.evaluation && (
                                   <details>
