@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/game",
+    "scripts/rl.ts",
+    "tests/rl.test.ts",
+    "tests/helpers/rl-parity.ts"
+  ]
+}

@@ -26,6 +26,12 @@ npm run dev
 
 本版仅包含基础版和基础版自然之灵，不包含 Pulse、Crescendo 或宣传卡。
 
+## NN + RL 框架
+
+新增独立的 A 面／2 人／无自然之灵框架：共享 FFN + policy 与三类 value head，PyTorch 训练，TypeScript MCTS 推理。支持完整自博弈轨迹、checkpoint 续训与导出、交换先后手评测、CLI／HTTP／Web Worker serving。现有 UI 默认 AI 仍为 v3.1。
+
+运行命令、数据与特征定义、KataGo 固定提交的具体源码引用和算法简化见 [docs/ai-rl.md](docs/ai-rl.md)。
+
 ## 验证
 
 ```bash
