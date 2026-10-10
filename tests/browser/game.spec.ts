@@ -42,9 +42,60 @@ test("four-player setup supports human names, first player, B side and spirit ch
   ).toBeVisible();
   await expect(page.locator(".spirit-choices .animal-card")).toHaveCount(2);
   await page.getByRole("button", { name: "选择这位自然之灵" }).first().click();
-  await expect(page.locator(".personal-area .hex-cell")).toHaveCount(28);
+  const cells = page.locator(".personal-area .hex-cell");
+  await expect(cells).toHaveCount(25);
+  await expect(page.locator(".personal-heading .tiny-label")).toHaveText(
+    "25 / 25 空格",
+  );
+  const coordinates = await cells.evaluateAll((nodes) =>
+    nodes.map((node) => ({
+      label: node.getAttribute("aria-label"),
+      y: (node as SVGGraphicsElement).transform.baseVal.consolidate()!.matrix.f,
+    })),
+  );
+  const columns = [4, 3, 4, 3, 4, 3, 4];
+  expect(coordinates.map((c) => c.label)).toEqual(
+    columns.flatMap((height, col) =>
+      Array.from(
+        { length: height },
+        (_, row) => `格 ${col + 1}-${row + 1}：空地`,
+      ),
+    ),
+  );
+  const longColumn = coordinates.slice(0, 4).map((c) => c.y);
+  let offset = 0;
+  for (const height of columns) {
+    const expected =
+      height === 4
+        ? longColumn
+        : longColumn
+            .slice(0, -1)
+            .map((y, row) => (y + longColumn[row + 1]) / 2);
+    expect(coordinates.slice(offset, offset + height).map((c) => c.y)).toEqual(
+      expected,
+    );
+    offset += height;
+  }
   await expect(page.locator(".owned-card-wrap")).toHaveCount(1);
   await expect(page.locator(".opponent")).toHaveCount(3);
+  for (const opponent of await page.locator(".opponent").all())
+    await expect(opponent.locator(".hex-cell")).toHaveCount(25);
+  await page.locator(".opponent").first().hover();
+  await expect(page.locator(".hover-board")).toBeVisible();
+  await expect(page.locator(".hover-board .hex-cell")).toHaveCount(25);
+  await page.locator(".opponent").first().click();
+  await expect(
+    page.getByRole("dialog").locator(".board .hex-cell"),
+  ).toHaveCount(25);
+  await page.getByRole("button", { name: "关闭", exact: true }).click();
+  await page.reload();
+  await page.getByRole("button", { name: /继续上次旅程/ }).click();
+  await expect(cells).toHaveCount(25);
+  await page.mouse.move(0, 0);
+  await page.screenshot({
+    path: "/tmp/harmonies-b-new-game.png",
+    fullPage: true,
+  });
   expect(errors).toEqual([]);
 });
 test("token placement, card drafting, undo, whole-turn reset, handoff and persisted resume", async ({
@@ -149,33 +200,44 @@ test("solo optional replacement appears only without drafting and removes unused
   expect(saved.game.bag).toHaveLength(102);
   expect(saved.history).toHaveLength(0);
 });
-test("a complete solo journey reaches final-round notice and user-triggered official scoresheet", async ({
-  page,
-}) => {
-  await page.goto("/");
-  await page.getByRole("button", { name: "1 人", exact: true }).click();
-  await page.getByRole("button", { name: "开始游戏" }).click();
-  for (let turn = 1; turn <= 7; turn++) {
-    await page.locator(".supply-group:not(:disabled)").first().click();
-    await placeAll(page);
-    if (turn === 7)
-      await expect(page.locator(".final-banner")).toContainText("最后一轮");
-    await finish(page);
-  }
-  await expect(page.locator(".ended-banner")).toContainText("游戏结束");
-  await expect(page.getByRole("dialog")).toHaveCount(0);
-  await page
-    .locator(".ended-banner")
-    .getByRole("button", { name: "查看结算" })
-    .click();
-  await expect(
-    page.getByRole("heading", { name: "万物和鸣 · 结算记录" }),
-  ).toBeVisible();
-  await expect(page.locator(".scoresheet")).toHaveCount(1);
-  await expect(page.locator(".scoresheet")).toContainText("地形景观");
-  await expect(page.locator(".sun-breakdown")).toBeVisible();
-  await page.screenshot({ path: "/tmp/harmonies-results.png", fullPage: true });
-});
+for (const side of ["A", "B"] as const)
+  test(`a complete ${side}-side solo journey reaches final-round notice and user-triggered official scoresheet`, async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "1 人", exact: true }).click();
+    if (side === "B")
+      await page.getByRole("button", { name: /静谧群岛/ }).click();
+    await page.getByRole("button", { name: "开始游戏" }).click();
+    const turns = side === "A" ? 7 : 8;
+    await expect(page.locator(".personal-area .hex-cell")).toHaveCount(
+      side === "A" ? 23 : 25,
+    );
+    for (let turn = 1; turn <= turns; turn++) {
+      await page.locator(".supply-group:not(:disabled)").first().click();
+      await placeAll(page);
+      if (turn === turns)
+        await expect(page.locator(".final-banner")).toContainText("最后一轮");
+      else await expect(page.locator(".final-banner")).toHaveCount(0);
+      await finish(page);
+    }
+    await expect(page.locator(".ended-banner")).toContainText("游戏结束");
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+    await page
+      .locator(".ended-banner")
+      .getByRole("button", { name: "查看结算" })
+      .click();
+    await expect(
+      page.getByRole("heading", { name: "万物和鸣 · 结算记录" }),
+    ).toBeVisible();
+    await expect(page.locator(".scoresheet")).toHaveCount(1);
+    await expect(page.locator(".scoresheet")).toContainText("地形景观");
+    await expect(page.locator(".sun-breakdown")).toBeVisible();
+    await page.screenshot({
+      path: `/tmp/harmonies-results-${side}.png`,
+      fullPage: true,
+    });
+  });
 test("multiplayer game ends after equal turns, with scored ranking and no premature result dialog", async ({
   page,
 }) => {
@@ -205,37 +267,45 @@ test("multiplayer game ends after equal turns, with scored ranking and no premat
   await expect(page.locator(".scoresheet")).toHaveCount(2);
   await expect(page.locator(".result-banner h3")).toContainText("获得胜利");
 });
-test("mobile setup and play have no page-level horizontal overflow, and dialogs remain usable", async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
-  await page.screenshot({
-    path: "/tmp/harmonies-mobile-setup.png",
-    fullPage: true,
+for (const side of ["A", "B"] as const)
+  test(`mobile ${side}-side setup and play have no page-level horizontal overflow, and dialogs remain usable`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    await page.screenshot({
+      path: `/tmp/harmonies-mobile-setup-${side}.png`,
+      fullPage: true,
+    });
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      ),
+    ).toBe(true);
+    if (side === "B")
+      await page.getByRole("button", { name: /静谧群岛/ }).click();
+    await page.getByRole("button", { name: "开始游戏" }).click();
+    await expect(page.locator(".personal-area .hex-cell")).toHaveCount(
+      side === "A" ? 23 : 25,
+    );
+    await page.screenshot({
+      path: `/tmp/harmonies-mobile-game-${side}.png`,
+      fullPage: true,
+    });
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      ),
+    ).toBe(true);
+    await page.locator(".market-row .animal-card").first().click();
+    await expect(
+      page.getByRole("button", { name: "邀请这位朋友" }),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "邀请这位朋友" }).click();
+    await page.getByRole("button", { name: /拿取第 1 组地形/ }).click();
+    await placeAll(page);
+    await finish(page);
+    await expect(
+      page.getByRole("button", { name: "我准备好了" }),
+    ).toBeVisible();
   });
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= window.innerWidth,
-    ),
-  ).toBe(true);
-  await page.getByRole("button", { name: "开始游戏" }).click();
-  await page.screenshot({
-    path: "/tmp/harmonies-mobile-game.png",
-    fullPage: true,
-  });
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= window.innerWidth,
-    ),
-  ).toBe(true);
-  await page.locator(".market-row .animal-card").first().click();
-  await expect(
-    page.getByRole("button", { name: "邀请这位朋友" }),
-  ).toBeVisible();
-  await page.getByRole("button", { name: "邀请这位朋友" }).click();
-  await page.getByRole("button", { name: /拿取第 1 组地形/ }).click();
-  await placeAll(page);
-  await finish(page);
-  await expect(page.getByRole("button", { name: "我准备好了" })).toBeVisible();
-});

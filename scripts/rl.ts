@@ -82,12 +82,14 @@ async function main() {
       throw new Error("collect requires --output trajectories.jsonl");
     mkdirSync(dirname(args.output), { recursive: true });
     for (let i = 0; i < integer("games"); i++) {
+      const started = performance.now();
       const trajectory = collect(model.evaluator, {
         seed: seed + i,
         first: i % 2,
         model: model.id,
         search: { simulations, seed: seed + i * 1000003 },
       });
+      const collectSeconds = (performance.now() - started) / 1000;
       // Append only complete games. A stopped game cannot leave partially labeled rows.
       appendFileSync(args.output, JSON.stringify(trajectory) + "\n");
       console.log(
@@ -95,6 +97,11 @@ async function main() {
           game: i,
           samples: trajectory.samples.length,
           scores: trajectory.scores,
+          collectSeconds,
+          writeSeconds: (performance.now() - started) / 1000 - collectSeconds,
+          samplesPerSecond: trajectory.samples.length / collectSeconds,
+          simulationsPerSecond:
+            (trajectory.samples.length * simulations) / collectSeconds,
         }),
       );
     }

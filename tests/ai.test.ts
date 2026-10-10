@@ -350,6 +350,7 @@ test("old saved depths use current-turn search without future own turns", () => 
 
 test("three AI players choose their own spirits and complete a round with conserved resources", () => {
   let g = game(3, true, "B");
+  assert.ok(g.players.every((p) => p.board.length === 25));
   for (let player = 0; player < 3; player++) {
     const result = searchTurn(
       observe(g),

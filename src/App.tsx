@@ -286,7 +286,9 @@ function Board({
   const matchList = selectedAnimal ? matches(player.board, selectedAnimal) : [];
   const hoverMatch = matchList.find((m) => m.target === hover);
   const width = side === "A" ? 395 : 545,
-    height = side === "A" ? 458 : 419;
+    height =
+      130 +
+      82 * Math.max(...player.board.map((c) => c.row + (c.col % 2) * 0.5));
   const points = Array.from(
     { length: 6 },
     (_, i) =>

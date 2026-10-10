@@ -57,7 +57,7 @@ export function validateWeights(weights: Weights) {
     !weights.embedding?.[0]?.length ||
     !weights.trunk?.length
   )
-    throw new Error("Incompatible RL model");
+    throw new Error(`Incompatible RL model; expected ${VERSION}`);
   const dim = weights.embedding[0].length;
   validateMatrix(weights.embedding, 33, dim);
   if (weights.embedding[0].some((x) => x !== 0))

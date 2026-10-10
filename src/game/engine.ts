@@ -187,14 +187,16 @@ export function neighbor(c: Coord, direction: number): Coord {
 export const neighbors = (c: Coord) =>
   Array.from({ length: 6 }, (_, i) => neighbor(c, i));
 export function emptyBoard(side: Side): Cell[] {
-  return Array.from({ length: side === "A" ? 5 : 7 }, (_, col) =>
-    Array.from({ length: side === "A" ? (col % 2 ? 4 : 5) : 4 }, (_, row) => ({
+  // Official rulebook p. 8: short columns sit half a hex below long columns.
+  const columns = side === "A" ? [5, 4, 5, 4, 5] : [4, 3, 4, 3, 4, 3, 4];
+  return columns.flatMap((length, col) =>
+    Array.from({ length }, (_, row) => ({
       col,
       row,
       tokens: [],
       animal: null,
     })),
-  ).flat();
+  );
 }
 export function seededRandom(seed: number) {
   return () => {

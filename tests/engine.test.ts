@@ -83,7 +83,16 @@ test("setup uses the exact finite bag, 32 animals, 10 spirits and the two offici
       assert.equal(g.market.length, n === 1 ? 3 : 5);
       assert.equal(g.supply.length, n === 1 ? 3 : 5);
       assert.equal(g.deck.length + g.market.length, 32);
-      assert.equal(g.players[0].board.length, side === "A" ? 23 : 28);
+      const columns = side === "A" ? [5, 4, 5, 4, 5] : [4, 3, 4, 3, 4, 3, 4];
+      for (const p of g.players) {
+        assert.equal(p.board.length, side === "A" ? 23 : 25);
+        assert.deepEqual(
+          p.board.map(key),
+          columns.flatMap((height, col) =>
+            Array.from({ length: height }, (_, row) => `${col},${row}`),
+          ),
+        );
+      }
       assert.equal(
         new Set(g.players.flatMap((p) => p.spiritChoices)).size,
         n * 2,
@@ -289,8 +298,14 @@ test("river takes graph diameter by shortest paths, not longest winding path", (
 test("islands include empty spaces, with a minimum of one island", () => {
   const b = emptyBoard("B");
   assert.equal(scorePlayer(player(b), "B").water, 5);
-  b.filter((c) => c.col === 3).forEach((c) => (c.tokens = [1]));
+  // Three water spaces span a short column. There is no fourth bottom cell
+  // through which the land on either side can reconnect.
+  b.filter((c) => c.col === 3 && c.row < 3).forEach((c) => (c.tokens = [1]));
   assert.equal(scorePlayer(player(b), "B").water, 10);
+  b.filter((c) => c.col % 2 === 1 && c.row < 3).forEach(
+    (c) => (c.tokens = [1]),
+  );
+  assert.equal(scorePlayer(player(b), "B").water, 20);
 });
 test("fields form connected groups and single red tokens do not score as buildings", () => {
   const p = player([
@@ -365,19 +380,22 @@ test("solo final three tokens form a final supply group; no tokens return to the
   assert.equal(g.phase, "ended");
 });
 test("board completion finishes the current round, not an extra round; all get equal turns", () => {
-  let g = setup(3);
-  g.players[0].board.slice(0, 21).forEach((c) => (c.tokens = [1]));
-  g.turn = { tookTokens: true, tookCard: false, pending: [] };
-  g = applyAction(g, { type: "endTurn" });
-  assert.equal(g.finalRound, 1);
-  assert.equal(g.active, 1);
-  for (let i = 0; i < 2; i++) g = applyAction(ready(g), { type: "endTurn" });
-  assert.equal(g.phase, "ended");
-  assert.deepEqual(
-    g.players.map((p) => p.turns),
-    [1, 1, 1],
-  );
-  assert.throws(() => applyAction(g, { type: "takeTokens", group: 0 }));
+  for (const side of ["A", "B"] as const) {
+    let g = setup(3, false, side);
+    const filled = side === "A" ? 21 : 23;
+    g.players[0].board.slice(0, filled).forEach((c) => (c.tokens = [1]));
+    g.turn = { tookTokens: true, tookCard: false, pending: [] };
+    g = applyAction(g, { type: "endTurn" });
+    assert.equal(g.finalRound, 1);
+    assert.equal(g.active, 1);
+    for (let i = 0; i < 2; i++) g = applyAction(ready(g), { type: "endTurn" });
+    assert.equal(g.phase, "ended");
+    assert.deepEqual(
+      g.players.map((p) => p.turns),
+      [1, 1, 1],
+    );
+    assert.throws(() => applyAction(g, { type: "takeTokens", group: 0 }));
+  }
 });
 test("bag becomes empty after a refill, then triggers at the following refill", () => {
   let g = ready(setup(2));

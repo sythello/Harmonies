@@ -17,7 +17,12 @@ import {
   selectionWeights,
   terminalValues,
 } from "../src/game/ai/rl/mcts";
-import { uniformEvaluator, type Evaluator } from "../src/game/ai/rl/network";
+import {
+  uniformEvaluator,
+  validateWeights,
+  type Evaluator,
+  type Weights,
+} from "../src/game/ai/rl/network";
 import { collect, newGame } from "../src/game/ai/rl/trajectory";
 import storedSchema from "../rl/schema.json" with { type: "json" };
 
@@ -27,6 +32,9 @@ test("RL schema includes full stacks, occupation, all cards, market, pending and
     features = encode(observe(game));
   assert.equal(features.numeric.length, FEATURE_SIZE);
   assert.equal(features.cards.length, CARD_INPUTS);
+  assert.equal(FEATURE_SIZE, 1614);
+  assert.equal(CARD_INPUTS, 5);
+  assert.equal(FEATURE_SIZE + CARD_INPUTS * 8, 1654);
   assert.ok(features.numeric.every(Number.isFinite));
   game.players[0].board[0].tokens = [2];
   const one = encode(observe(game));
@@ -39,7 +47,10 @@ test("RL schema includes full stacks, occupation, all cards, market, pending and
     { id: 1, placed: CARDS[1].points.length },
     { id: 2, placed: 0 },
   ];
-  assert.deepEqual(encode(observe(game)).cards.slice(0, 2), [1, 2]);
+  assert.deepEqual(
+    encode(observe(game)).cards,
+    game.market.map((id) => id ?? 0),
+  );
   const cards = encode(observe(game));
   game.players[0].cards[1].placed++;
   assert.notDeepEqual(encode(observe(game)), cards);
@@ -55,6 +66,63 @@ test("RL schema includes full stacks, occupation, all cards, market, pending and
       (v, i) => v !== encode(observe(game)).numeric[i],
     ).length,
     2,
+  );
+});
+
+test("owned-card rows stay tied to IDs through acquisition, completion and reordering", () => {
+  const game = newGame(1);
+  game.players[0].cards = [
+    { id: 8, placed: 1 },
+    { id: 20, placed: 0 },
+    { id: 32, placed: 0 },
+  ];
+  game.players[1].cards = [
+    { id: 2, placed: 0 },
+    { id: 4, placed: 1 },
+  ];
+  const rows = (seat: number) => {
+    // Each player block: 23 x 29 board one-hot, 32 x 3 owned-card fields, 3 scalars.
+    const start = seat * 766 + 667;
+    return encode(observe(game)).numeric.slice(start, start + 96);
+  };
+  const row = (seat: number, id: number) =>
+    rows(seat).slice((id - 1) * 3, id * 3);
+  assert.deepEqual(row(0, 1), [0, 0, 0]);
+  assert.deepEqual(row(0, 8), [1, 1, CARDS[8].points.length]);
+  assert.deepEqual(row(0, 32), [1, 0, CARDS[32].points.length]);
+  assert.deepEqual(row(0, 2), [0, 0, 0]);
+  assert.deepEqual(row(1, 2), [1, 0, CARDS[2].points.length]);
+  assert.deepEqual(row(1, 4), [1, 1, CARDS[4].points.length]);
+  const before = rows(0),
+    opponent = rows(1);
+  game.players[0].cards.push({ id: 5, placed: 0 });
+  assert.deepEqual(row(0, 5), [1, 0, CARDS[5].points.length]);
+  for (let id = 1; id <= 32; id++)
+    if (id !== 5)
+      assert.deepEqual(row(0, id), before.slice((id - 1) * 3, id * 3));
+  assert.deepEqual(rows(1), opponent);
+  game.players[0].cards.find((c) => c.id === 20)!.placed =
+    CARDS[20].points.length;
+  assert.deepEqual(row(0, 20), [
+    1,
+    CARDS[20].points.length,
+    CARDS[20].points.length,
+  ]);
+  const encoded = encode(observe(game));
+  game.players.forEach((p) => p.cards.reverse());
+  assert.deepEqual(encode(observe(game)), encoded);
+  assert.deepEqual(
+    encoded.cards,
+    game.market.map((id) => id ?? 0),
+  );
+  game.market[0] = null;
+  assert.equal(encode(observe(game)).cards[0], 0);
+});
+
+test("old owned-card embedding checkpoints are rejected before inference", () => {
+  assert.throws(
+    () => validateWeights({ version: "harmonies-rl-v1" } as unknown as Weights),
+    /Incompatible RL model/,
   );
 });
 

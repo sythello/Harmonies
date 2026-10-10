@@ -4,6 +4,7 @@ import json
 import math
 from pathlib import Path
 import random
+import time
 
 import torch
 from torch import nn
@@ -64,8 +65,10 @@ def read_games(paths):
             if not line.strip():
                 continue
             game = json.loads(line)
-            if game.get("version") != SCHEMA["version"] or game.get("phase") != "ended" or not game.get("samples"):
-                raise ValueError("Only complete, nonempty v1 trajectories may be trained")
+            if game.get("version") != SCHEMA["version"]:
+                raise ValueError(f"Incompatible trajectory schema; expected {SCHEMA['version']}")
+            if game.get("phase") != "ended" or not game.get("samples"):
+                raise ValueError("Only complete, nonempty trajectories may be trained")
             if len(game["samples"]) != len(game["actions"]):
                 raise ValueError("Trajectory sample/action mismatch")
             for sample in game["samples"]:
@@ -121,6 +124,7 @@ def losses(model, samples, device):
 
 
 def run(args):
+    started = time.perf_counter()
     torch.set_num_threads(args.threads)
     torch.manual_seed(args.seed)
     random.seed(args.seed)
@@ -135,10 +139,14 @@ def run(args):
         steps = checkpoint["steps"]
     if args.command == "init":
         save(model, optimizer, args.out, steps)
+        print(json.dumps({"event": "initialized", "parameters": sum(p.numel() for p in model.parameters()),
+                          "config": model.config, "seconds": time.perf_counter() - started}), flush=True)
         return
     if not args.data:
         raise ValueError("train requires --data trajectories.jsonl [more.jsonl ...]")
+    load_started = time.perf_counter()
     games = read_games(args.data)
+    data_seconds = time.perf_counter() - load_started
     # Split by environment seed, never by positions from the same game/paired seed.
     keys = sorted({g["seed"] for g in games})
     random.shuffle(keys)
@@ -146,7 +154,18 @@ def run(args):
     held_out = set(keys[:count])
     training = [s for g in games if g["seed"] not in held_out for s in g["samples"]]
     validation = [s for g in games if g["seed"] in held_out for s in g["samples"]]
+    # Synchronize accelerators so measured time includes completed work, not just dispatch.
+    def sync():
+        device = torch.device(args.device)
+        if device.type == "cuda":
+            torch.cuda.synchronize(device)
+        elif device.type == "mps":
+            torch.mps.synchronize()
+
+    train_seconds = validation_seconds = 0.0
     for epoch in range(args.epochs):
+        sync()
+        epoch_started = time.perf_counter()
         model.train()
         random.shuffle(training)
         totals = dict.fromkeys(("policy", *VALUE_HEADS), 0.0)
@@ -163,8 +182,13 @@ def run(args):
             steps += 1
             for name, value in components.items():
                 totals[name] += value.item() * len(samples)
+        sync()
+        train_elapsed = time.perf_counter() - epoch_started
+        train_seconds += train_elapsed
         report = {"epoch": epoch + 1, "steps": steps, "trainSamples": len(training), "validationSamples": len(validation),
-                  "train": {k: v / len(training) for k, v in totals.items()}}
+                  "train": {k: v / len(training) for k, v in totals.items()},
+                  "trainSeconds": train_elapsed, "trainSamplesPerSecond": len(training) / train_elapsed}
+        validation_started = time.perf_counter()
         if validation:
             model.eval()
             totals = dict.fromkeys(totals, 0.0)
@@ -174,8 +198,19 @@ def run(args):
                     for k, v in losses(model, samples, args.device).items():
                         totals[k] += v.item() * len(samples)
             report["validation"] = {k: v / len(validation) for k, v in totals.items()}
+        sync()
+        validation_elapsed = time.perf_counter() - validation_started
+        validation_seconds += validation_elapsed
+        report["validationSeconds"] = validation_elapsed
         print(json.dumps(report), flush=True)
+    save_started = time.perf_counter()
     save(model, optimizer, args.out, steps)
+    print(json.dumps({"event": "training_complete", "steps": steps, "device": args.device,
+                      "threads": args.threads, "parameters": sum(p.numel() for p in model.parameters()),
+                      "dataSeconds": data_seconds, "trainSeconds": train_seconds,
+                      "validationSeconds": validation_seconds, "saveSeconds": time.perf_counter() - save_started,
+                      "runSeconds": time.perf_counter() - started,
+                      "trainSamplesPerSecond": args.epochs * len(training) / train_seconds}), flush=True)
 
 
 if __name__ == "__main__":

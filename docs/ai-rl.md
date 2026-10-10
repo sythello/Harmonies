@@ -57,9 +57,9 @@ npm run rl -- evaluate --model rl/runs/iteration-1.json --opponent heuristic --h
 默认架构：
 
 ```text
-1486 个数值特征 + 69 个卡牌 ID 的共享 8 维 embedding
-→ concat (2038)
-→ Linear(2038,128) + ReLU
+1614 个数值特征 + 5 个市场牌 ID 的共享 8 维 embedding
+→ concat (1654)
+→ Linear(1654,128) + ReLU
 → Linear(128,128) + ReLU
 ├─ policy:   Linear(128,885)
 ├─ rank:     Linear(128,2) + tanh
@@ -67,15 +67,17 @@ npm run rl -- evaluate --model rl/runs/iteration-1.json --opponent heuristic --h
 └─ absolute: Linear(128,2)
 ```
 
-后三个 head 均输出 `[当前行动玩家, 对手]`，共享 embedding 和 FFN，head 参数分离。零 ID 为 padding，embedding 恒为零。具体输入：
+后三个 head 均输出 `[当前行动玩家, 对手]`，共享 FFN，head 参数分离。只有市场牌使用 embedding；零 ID 表示空市场槽位，对应 embedding 恒为零。默认模型共 343,555 个参数。具体输入：
 
 - 双方版图按引擎 A 面 23 格固定顺序展开。14 种合法非空堆叠，每种分“未入住／已入住”，另加空格，共 29 类 one-hot。保留树／山高度及建筑底层，而非仅地形顶层颜色；入住动物的具体 ID 不影响后续放置或计分，计分所需完成数在卡牌特征中。
-- 双方各最多 32 张持牌，按 ID 排序、补零；包含已完成牌。每张用可训练 ID embedding 和 `placed / 该牌总目标数` 表示。额外记录空牌位 `/4`、已完成回合数 `/20`、当前分数 `/100`。
+- 双方持牌分别使用固定 `32×3` 矩阵，第 i 行始终表示第 i 号动物牌，记录 `[是否持有, 入住数量, 总目标数]`。未持有为 `[0,0,0]`，已完成牌为 `[1,总目标数,总目标数]`；入住数量和总目标数均使用原始整数，不转成完成比例。卡牌 ID 由行位置确定，不使用持牌 embedding，不随拿牌或持牌数组重排而移动。额外记录空牌位 `/4`、已完成回合数 `/20`、当前分数 `/100`。
 - 市场 5 张卡牌共享同一 embedding；5 组地形供应各使用 6 色计数 `/3`。组内顺序没有规则意义。
 - 待放地形的 6 色计数 `/3`、是否已拿牌／拿片、轮次 `/20`、当前玩家在引擎先后手序列中的 one-hot、最终轮标记及最终轮数。
 - 公开剩余地形计数 `/23`、牌堆数量 `/32`、32 张动物牌的未见 mask。用于建模补充概率；没有真实袋子／牌堆顺序。
 
-`rl/schema.json` 由 TypeScript 的 `schema` 命令生成，Python 读取同一文件。改动特征语义、动作编号或缩放必须提升版本并重新收集和训练，不能只修改维度。测试会检查双方 schema 完全一致。
+数值特征总数为 `1334（双方版图）+192（双方持牌）+6（双方额外信息）+82（市场、回合、公开剩余资源等）=1614`。再拼接 `5×8=40` 维市场 embedding，得到 1654 维 FFN 输入。
+
+`rl/schema.json` 由 TypeScript 的 `schema` 命令生成，Python 读取同一文件。当前 schema 为 **`harmonies-rl-v2`**；这次固定 ID 三特征编码替代了 v1 的排序持牌 embedding，旧 `.pt`、JSON 模型和轨迹均会被拒绝。需要重新 `init`、采样和训练，使用新的输出文件，不能把旧数据追加进去。改动特征语义、动作编号或缩放必须提升版本，不能只修改维度。测试会检查双方 schema 完全一致。
 
 ## 动作空间
 
@@ -199,6 +201,8 @@ game = applyAction(game, result.action);
 
 ## 已执行验证
 
+旧 v1 编码的 128×128 模型小规模采样、训练速度及完整产物审计见 [ai-rl-benchmark.md](ai-rl-benchmark.md)，不代表 v2 的实测速率。可用 `rl/benchmark.py` 对当前版本重新测试；采样 CLI 和训练 CLI 会输出结构化分阶段计时。
+
 ```bash
 npm test
 npm run build
@@ -206,6 +210,14 @@ npx tsc -p tsconfig.rl.json
 .venv-rl/bin/python rl/test_pipeline.py
 ```
 
-新增测试覆盖合法 mask、动作编号、隐藏顺序不可见、不同补充结果的节点隔离、连续操作与换手价值回传、绝对分不取负、终局同分规则、policy weight 修正、完整轨迹重放、截断拒绝、真实采样→训练→导出，以及双方推理一致性（rtol `2e-5`、atol `2e-6`）。PyTorch 测试验证所有 head、共享层及 embedding 更新，并验证小批次能拟合、非法动作 logits 不获得 policy 梯度。
+新增测试覆盖固定卡牌 ID 的三特征、拿低 ID 牌不移动已有行、持牌顺序不变性、已完成牌保留、旧 schema 拒绝、合法 mask、动作编号、隐藏顺序不可见、不同补充结果的节点隔离、连续操作与换手价值回传、绝对分不取负、终局同分规则、policy weight 修正、完整轨迹重放、截断拒绝、真实采样→训练→导出，以及双方推理一致性（rtol `2e-5`、atol `2e-6`）。PyTorch 测试验证所有 head、共享层及市场牌 embedding 更新，并验证小批次能拟合、非法动作 logits 不获得 policy 梯度。
 
-已跑通小网络两局采样、两轮训练、配对评测和 HTTP 请求。生成的 smoke checkpoint 仅验证框架可运行，未进行足量强化学习或稳定强度测量；没有把短期 smoke 胜率当作模型能力结论。
+v2 使用默认 128×128 模型完成了两局采样（177 条样本、每步 8 次模拟）、两轮训练、断点续训一轮，以及训练后模型再次采样两局。产物保存在本地 `rl/runs/schema-v2-smoke/`，可用以下命令复现：
+
+```bash
+.venv-rl/bin/python rl/benchmark.py --output rl/runs/schema-v2-smoke \
+  --games 2 --simulations 8 --epochs 2 --train-repeats 1 \
+  --seed 63000 --threads 1 --device cpu
+```
+
+此前还跑通了配对评测和 HTTP 请求。生成的 smoke checkpoint 仅验证框架可运行，未进行足量强化学习或稳定强度测量；没有把短期 smoke 胜率当作模型能力结论。

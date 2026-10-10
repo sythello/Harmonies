@@ -2,10 +2,10 @@ import { CARDS, emptyBoard, scorePlayer, type Action } from "../../engine";
 import type { AIObservation } from "../types";
 
 // Changing any ordering or scaling here requires a new schema version.
-export const VERSION = "harmonies-rl-v1";
+export const VERSION = "harmonies-rl-v2";
 export const CELLS = 23;
-export const CARD_SLOTS = 32; // Include completed cards, which still score.
-export const CARD_INPUTS = 2 * CARD_SLOTS + 5;
+export const CARD_COUNT = 32;
+export const CARD_INPUTS = 5; // Only market slots use card ID embeddings.
 export const SCORE_SCALE = 100;
 const STACKS = [
   [],
@@ -27,7 +27,7 @@ const STACKS = [
 const CELL_TYPES = 1 + 2 * (STACKS.length - 1);
 export const FEATURE_SIZE =
   2 * CELLS * CELL_TYPES +
-  2 * (CARD_SLOTS + 3) +
+  2 * (CARD_COUNT * 3 + 3) +
   5 * 6 +
   6 +
   2 +
@@ -36,20 +36,21 @@ export const FEATURE_SIZE =
   2 +
   6 +
   1 +
-  32;
+  CARD_COUNT;
 const PLACE = 10,
   SETTLE = PLACE + 6 * CELLS;
-export const ACTION_SIZE = SETTLE + 32 * CELLS + 1;
+export const ACTION_SIZE = SETTLE + CARD_COUNT * CELLS + 1;
 export const schema = {
   version: VERSION,
   featureSize: FEATURE_SIZE,
   cardInputs: CARD_INPUTS,
-  cardVocabulary: 33,
+  cardVocabulary: CARD_COUNT + 1,
   actionSize: ACTION_SIZE,
   scoreScale: SCORE_SCALE,
 };
 export interface Features {
   numeric: number[];
+  /** Five market card IDs, with 0 for an empty market slot. */
   cards: number[];
 }
 
@@ -61,10 +62,11 @@ export function assertSupported(view: AIObservation) {
     view.needsSpiritChoice.length ||
     view.players.some(
       (p) =>
-        p.spiritChoices.length || p.cards.some((c) => c.id < 1 || c.id > 32),
+        p.spiritChoices.length ||
+        p.cards.some((c) => c.id < 1 || c.id > CARD_COUNT),
     )
   )
-    throw new Error("RL v1 only supports side A, two players, and no spirits");
+    throw new Error("RL only supports side A, two players, and no spirits");
   const shape = emptyBoard("A");
   if (
     view.players.some(
@@ -75,7 +77,7 @@ export function assertSupported(view: AIObservation) {
         ),
     )
   )
-    throw new Error("RL v1 requires the engine's canonical A-side cell order");
+    throw new Error("RL requires the engine's canonical A-side cell order");
 }
 
 /** Always active player first; the seat one-hot retains first/second-player order. */
@@ -93,14 +95,19 @@ export function encode(view: AIObservation): Features {
         stack === 0 ? 0 : 1 + (stack - 1) * 2 + Number(cell.animal !== null);
       for (let i = 0; i < CELL_TYPES; i++) numeric.push(Number(i === category));
     }
-    const owned = [...player.cards].sort((a, b) => a.id - b.id);
-    for (let i = 0; i < CARD_SLOTS; i++) {
-      cards.push(owned[i]?.id ?? 0);
+    const owned = new Map(player.cards.map((card) => [card.id, card]));
+    // Fixed ID rows: [owned, placed count, total targets]. Counts are raw integers.
+    // Keep completed cards; an absent card is [0, 0, 0]. Acquiring a lower ID
+    // never moves the features of cards already owned.
+    for (let id = 1; id <= CARD_COUNT; id++) {
+      const card = owned.get(id);
       numeric.push(
-        owned[i] ? owned[i].placed / CARDS[owned[i].id].points.length : 0,
+        card ? 1 : 0,
+        card?.placed ?? 0,
+        card ? CARDS[id].points.length : 0,
       );
     }
-    const active = owned.filter(
+    const active = player.cards.filter(
       (c) => c.placed < CARDS[c.id].points.length,
     ).length;
     numeric.push(
@@ -124,8 +131,11 @@ export function encode(view: AIObservation): Features {
     Number(view.finalRound !== null),
     (view.finalRound ?? view.round) / 20,
   );
-  numeric.push(...view.bagCounts.map((n) => n / 23), view.deckCount / 32);
-  for (let c = 1; c <= 32; c++)
+  numeric.push(
+    ...view.bagCounts.map((n) => n / 23),
+    view.deckCount / CARD_COUNT,
+  );
+  for (let c = 1; c <= CARD_COUNT; c++)
     numeric.push(Number(view.unseenAnimals.includes(c)));
   if (numeric.length !== FEATURE_SIZE || cards.length !== CARD_INPUTS)
     throw new Error("Feature schema mismatch");

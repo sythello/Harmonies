@@ -67,6 +67,16 @@ class PipelineTest(unittest.TestCase):
             Path(data).write_text(json.dumps(invalid) + "\n")
             with self.assertRaisesRegex(ValueError, "complete"):
                 read_games([data])
+            invalid = copy.deepcopy(games[0])
+            invalid["version"] = "harmonies-rl-v1"
+            Path(data).write_text(json.dumps(invalid) + "\n")
+            with self.assertRaisesRegex(ValueError, "Incompatible trajectory schema"):
+                read_games([data])
+            old_checkpoint = copy.deepcopy(after)
+            old_checkpoint["schema"].update(version="harmonies-rl-v1", featureSize=1486, cardInputs=69)
+            torch.save(old_checkpoint, Path(directory) / "old.pt")
+            with self.assertRaisesRegex(ValueError, "Incompatible checkpoint schema"):
+                load(Path(directory) / "old.pt")
 
     def test_illegal_policy_logits_have_no_loss_or_gradient(self):
         model = Model(hidden=(4,), embedding_dim=2)
