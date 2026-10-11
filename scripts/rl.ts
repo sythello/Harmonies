@@ -14,11 +14,12 @@ import {
   uniformEvaluator,
   type Evaluator,
 } from "../src/game/ai/rl/network";
-import { defaults, search } from "../src/game/ai/rl/mcts";
+import { defaults, search, SearchTree } from "../src/game/ai/rl/mcts";
 import {
   collect,
   evaluate,
   randomAgent,
+  mctsAgent,
   type Agent,
 } from "../src/game/ai/rl/trajectory";
 import { searchTurn } from "../src/game/ai/search";
@@ -73,10 +74,8 @@ async function main() {
   const model = load(args.model),
     simulations = integer("simulations"),
     seed = integer("seed", 0);
-  const choose =
-    (evaluator: Evaluator): Agent =>
-    (view, step) =>
-      search(view, evaluator, { simulations, seed: seed + step * 1009 }).action;
+  const choose = (evaluator: Evaluator) =>
+    mctsAgent(evaluator, { simulations, seed });
   if (command === "collect") {
     if (!args.output)
       throw new Error("collect requires --output trajectories.jsonl");
@@ -102,6 +101,10 @@ async function main() {
           samplesPerSecond: trajectory.samples.length / collectSeconds,
           simulationsPerSecond:
             (trajectory.samples.length * simulations) / collectSeconds,
+          reusedVisits: trajectory.samples.reduce(
+            (n, s) => n + s.reusedVisits,
+            0,
+          ),
         }),
       );
     }
@@ -137,6 +140,7 @@ async function main() {
       ...(args.opponent === "heuristic" ? { heuristicConfig } : {}),
       simulations,
       seed,
+      treeReuse: "within-turn",
       ...evaluate(
         choose(model.evaluator),
         opponent,
@@ -155,7 +159,9 @@ async function main() {
       ),
     );
   } else {
-    // Local service: fixed model/budget, one engine AIObservation per request.
+    // Explicit game/session keys prevent unrelated clients from sharing a tree.
+    // LRU-bound storage; requests without a session retain one-shot behavior.
+    const sessions = new Map<string, SearchTree>();
     const server = createServer(async (req, res) => {
       res.setHeader("Content-Type", "application/json");
       if (req.method === "GET" && req.url === "/health") {
@@ -181,7 +187,25 @@ async function main() {
             return;
           }
         }
-        const result = search(JSON.parse(body), model.evaluator, {
+        const view = JSON.parse(body);
+        const session = req.headers["x-mcts-session"];
+        if (
+          session !== undefined &&
+          (typeof session !== "string" ||
+            !session.length ||
+            session.length > 128)
+        )
+          throw new Error("Invalid X-MCTS-Session");
+        let tree = session ? sessions.get(session) : undefined;
+        if (!tree) tree = new SearchTree(model.evaluator);
+        if (req.headers["x-mcts-reset"] === "true") tree.reset();
+        if (session) {
+          sessions.delete(session);
+          sessions.set(session, tree);
+          if (sessions.size > 64)
+            sessions.delete(sessions.keys().next().value!);
+        }
+        const result = tree.search(view, {
           ...defaults,
           simulations,
           seed,

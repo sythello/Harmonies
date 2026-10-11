@@ -151,7 +151,7 @@ w_a = 0                                        未访问动作
 
 `π` 是训练监督。实际自博弈动作按 `w^(1/temperature)` 采样（默认温度 1）；serving 选最大 w，相同 w 时选较大 Q，再按引擎稳定枚举顺序。温度只作用于执行动作，不再次改变训练目标。访问次数已通过 PUCT 受 NN value 引导，修正权重又显式使用搜索平均 Q。
 
-为保持最小实现，未实现 KataGo 的方差自适应 cpuct、LCB 提升、非等权 value aggregation、强制 playout、额外 chosenMoveSubtract/Prune、playout cap randomization、辅助 optimistic policy、多线程或跨请求树复用。上述差异不是“完整复刻 KataGo”。尤其本版没有强制 playout，所以没有相应的计数扣除；采用的是源码中的通用 retrospective weight reduction。
+为保持最小实现，未实现 KataGo 的方差自适应 cpuct、LCB 提升、非等权 value aggregation、强制 playout、额外 chosenMoveSubtract/Prune、playout cap randomization、辅助 optimistic policy 或多线程。上述差异不是“完整复刻 KataGo”。尤其本版没有强制 playout，所以没有相应的计数扣除；采用的是源码中的通用 retrospective weight reduction。现支持以下同回合子树复用。
 
 ## 隐藏信息与随机补充
 
@@ -159,9 +159,23 @@ KataGo 的围棋没有市场抽样；这一部分是 Harmonies 的适配。真�
 
 确定性动作共享同一子节点。`endTurn` 后以公开局面键区分不同补充结果，同一父边聚合所有抽样回报；补充结果本身不参与 PUCT 竞争。NN 始终只接收公开 observation。搜索既不固定一份“已知未来”，也不把不同随机补充错误合并成同一个子状态。抽样分支较多时，每个分支通常只到 NN 叶，属于初版的效率限制。
 
+## 同回合子树复用
+
+`SearchTree` 持有当前树。下一次请求的实际公开局面若等于当前根，继续搜索；若等于当前根某个已展开的确定性子节点，将该节点提升为根，并丢弃祖先及其他分支。保留节点 NN value、policy prior、各边 visits / 累计效用及全部后续子树。实际执行动作可以不同于上次推荐动作，只要对应子节点存在且局面匹配即可。
+
+复用只限同一玩家、同一回合。换手、回合变化、撤销、跳过多个动作、公开资源分布变化或状态不匹配时重建；改变效用权重、PUCT 或根噪声参数也重建。同根改变 seed 会重建，新子根可使用新的 seed。模型权重视为不可变，换模型必须创建新的 `SearchTree`；Worker 重新加载权重时自动清树。公开局面键保留 pending 和持牌顺序，避免复用旧动作的位置索引。
+
+`simulations=32/128` 仍表示**本次新增模拟数**。响应的 `reusedVisits` 是搜索前继承的根访问次数，`rootVisits=reusedVisits+simulations=Σ_a N_a`；`reused` 表示是否复用了节点（即使该子节点刚展开、访问数仍为零）。`nodes`、`chanceOutcomes` 只统计本次新增部分。policy target 使用继承与新增访问的总统计。
+
+每个节点成为实际决策根时只加一次根噪声；对同一根追加搜索不再次混合噪声。同根的模拟 RNG 连续保留，执行动作的温度采样使用独立的确定性 RNG，不消耗模拟随机数。因此，相同初始状态、模型和搜索参数下，同根分两段搜索 `k+n` 次，与一次连续搜索 `k+n` 次的最终策略、Q 和选择一致，包括随机补充分支。
+
+“继承子树的 k 次访问等于新建根树的前 k 次访问”有条件成立：后续状态与估值确定、无根噪声、参数相同。一般情况下，子树成为根后会加入根噪声，过去访问使用的随机补充序列也可能不同，不能要求与重新 seeded 的新树完全一致。另需区分父边与子节点：本实现第一次经过父边只创建并估值子节点，不访问其出边；确定性非终局边被访问 N 次时，子节点自身通常是 N−1 次。
+
+`collect` 和 NN 评测 agent 默认启用复用；每局创建或重置自己的树。单次 `search(view,evaluator,config)` 和 CLI `act` 保持新建树语义，便于基准对照；需要复用时持有一个 `SearchTree` 实例。
+
 ## 数据、损失与验证
 
-每行 JSONL 是一局：schema、模型文件 SHA-256、环境 seed、first、完整搜索参数、动作序列、终局 scores/ranks，以及每个原子动作的数值输入、卡牌 ID、合法动作 ID、原始 visits、修正 policy、选中动作及三个终局 value target。模型、种子、规则版本相同时可以重放和重新搜索。`scores/ranks` 按游戏座位顺序；样本内所有 value 对按该状态行动玩家在前。
+每行 JSONL 是一局：schema、模型文件 SHA-256、环境 seed、first、完整搜索参数、`treeReuse:"within-turn"`、动作序列、终局 scores/ranks，以及每个原子动作的数值输入、卡牌 ID、合法动作 ID、原始 visits、`reusedVisits` / `rootVisits`、修正 policy、选中动作及三个终局 value target。模型、种子、搜索算法和规则版本相同时可以重放和重新搜索。`scores/ranks` 按游戏座位顺序；样本内所有 value 对按该状态行动玩家在前。复用不改变特征或模型 schema；旧 v2 轨迹仍可用于训练，但其搜索过程不启用复用。
 
 ```text
 L = CE(π, softmax(legal_logits))
@@ -176,11 +190,13 @@ L = CE(π, softmax(legal_logits))
 
 ## Serving 接入
 
-HTTP 仅监听 `127.0.0.1`，`GET /health` 返回模型哈希和预算，`POST /action` 的 body 是 `observe(game)` 的 JSON。响应包含 `action`、`actionId`、根 NN `value`、各动作 prior/visits/q/selectionWeight/target、节点数和模拟数。`q` 是搜索平均组合效用；`value` 明确是根 NN 三个 head 的原始预测。
+HTTP 仅监听 `127.0.0.1`，`GET /health` 返回模型哈希和预算，`POST /action` 的 body 是 `observe(game)` 的 JSON。响应包含 `action`、`actionId`、根 NN `value`、各动作 prior/visits/q/selectionWeight/target、新增节点和模拟数，以及 `reused` / `reusedVisits` / `rootVisits`。`q` 是搜索平均组合效用；`value` 明确是根 NN 三个 head 的原始预测。
+
+HTTP 请求带 `X-MCTS-Session` 后，在该会话内复用树；不同对局／客户端使用不同标识。新局可更换标识，或发送 `X-MCTS-Reset: true`。最多保留 64 个会话，超出后移除最久未使用的会话。未提供会话标识的请求保持无状态，不与其他请求共享树。
 
 ```bash
 npm run rl -- act --model rl/runs/iteration-1.json --input observation.json --simulations 128
-curl http://127.0.0.1:8765/action -H 'Content-Type: application/json' --data-binary @observation.json
+curl http://127.0.0.1:8765/action -H 'Content-Type: application/json' -H 'X-MCTS-Session: game-1' --data-binary @observation.json
 ```
 
 也可直接在 TypeScript 调用：
@@ -188,18 +204,30 @@ curl http://127.0.0.1:8765/action -H 'Content-Type: application/json' --data-bin
 ```ts
 import { observe } from "./src/game/ai/observation";
 import { Network } from "./src/game/ai/rl/network";
-import { search } from "./src/game/ai/rl/mcts";
+import { SearchTree } from "./src/game/ai/rl/mcts";
 import { applyAction } from "./src/game/engine";
 
 const network = new Network(exportedWeights);
-const result = search(observe(game), network, { simulations: 128, seed: 1729 });
+const tree = new SearchTree(network); // 每局持有一个实例，不能在每个动作前重新创建。
+const result = tree.search(observe(game), { simulations: 128, seed: 1729 });
 game = applyAction(game, result.action);
-// 使用真实补充后的 game 再请求下一步，不执行抽样未来的回合计划。
+const next = tree.search(observe(game), { simulations: 128, seed: 1730 });
+// 使用实际局面请求下一步。新局使用 tree.reset()，换模型则创建新的实例。
 ```
 
-浏览器使用新增 Worker：先 `postMessage({weights})` 等待 `{ready:true}`，随后 `postMessage({id,view:observe(game),config})` 接收 `{id,result}`。它返回单步 Action，不冒充原启发式搜索的 `TurnPlan` 或 `AIDecisionLog`。当前游戏 UI 的设置面板尚未增加 NN 模型上传／切换控件，可通过这些 API 接入；原默认对局仍由现有启发式 AI 执行。
+浏览器使用新增 Worker：先 `postMessage({weights})` 等待 `{ready:true}`，随后 `postMessage({id,view:observe(game),config})` 接收 `{id,result}`。每个 Worker 持有自己的树；新局发送 `postMessage({reset:true})`，也可与下一次搜索请求合并；重新发送 weights 会清除旧树。它返回单步 Action，不冒充原启发式搜索的 `TurnPlan` 或 `AIDecisionLog`。当前游戏 UI 的设置面板尚未增加 NN 模型上传／切换控件，可通过这些 API 接入；原默认对局仍由现有启发式 AI 执行。
 
 ## 已执行验证
+
+100 局随机自对弈、200 个最后回合局面的 MCTS / 穷举验证及 HTML 报告入口见 [ai-mcts-audit.md](ai-mcts-audit.md)。
+
+树复用验证：新增 8 项测试，覆盖确定性子树与 fresh-k 对照、带噪声／随机补充的同根分段一致性、NN value 不重复计算、根噪声不重复加入、实际动作匹配、状态／参数改变时清树、返回值隔离和训练 policy 统计。全量 79 项测试及 2 项 PyTorch 集成测试通过。
+
+另对既有随机样本中 100 个后手最后回合执行每动作 128 次新增模拟：共 562 次决策，462 次复用，继承 16,199 次访问。每一步都与同局面 fresh 搜索 `reusedVisits+128` 次对照，policy、Q、根 value、推荐动作全部一致，所有动作合法。此实验关闭根噪声，使用当前分 value，终局前无随机补充，满足上述确定性条件。记录在本地 `rl/runs/tree-reuse-smoke/deterministic-100.json`。
+
+HTTP 实测通过会话复用、会话隔离、同根追加、无状态兼容和显式重置；Worker 通过子树复用、重置和模型重载测试，记录在 `rl/runs/tree-reuse-smoke/serving.json`。其中一次 HTTP 请求继承 6 次访问，再新增 64 次，响应根总访问为 70。
+
+使用现有默认 128×128 smoke 模型、每动作新增 32 次模拟，完成两局自对弈，收集 170 条样本，累计继承 845 次访问；另完成两局先后手交换的随机对手评测。产物在 `rl/runs/tree-reuse-smoke/nn-games.jsonl` 和 `evaluation.json`，只用于验证接入，不据此判断棋力。
 
 旧 v1 编码的 128×128 模型小规模采样、训练速度及完整产物审计见 [ai-rl-benchmark.md](ai-rl-benchmark.md)，不代表 v2 的实测速率。可用 `rl/benchmark.py` 对当前版本重新测试；采样 CLI 和训练 CLI 会输出结构化分阶段计时。
 

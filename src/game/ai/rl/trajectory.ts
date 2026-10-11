@@ -11,7 +11,7 @@ import { observe, sampleGame } from "../observation";
 import type { AIObservation } from "../types";
 import { encode, VERSION, type Features } from "./encoding";
 import {
-  search,
+  SearchTree,
   searchConfig,
   terminalValues,
   type SearchConfig,
@@ -25,6 +25,8 @@ export interface Sample extends Features {
   visits: number[];
   value: Values;
   actionId: number;
+  reusedVisits: number;
+  rootVisits: number;
 }
 export interface Trajectory {
   version: typeof VERSION;
@@ -32,13 +34,28 @@ export interface Trajectory {
   seed: number;
   first: number;
   search: SearchConfig;
+  treeReuse: "within-turn";
   actions: Action[];
   samples: Sample[];
   scores: number[];
   ranks: number[];
   phase: "ended";
 }
-export type Agent = (view: AIObservation, step: number) => Action;
+export type Agent = ((view: AIObservation, step: number) => Action) & {
+  reset?: () => void;
+};
+export function mctsAgent(
+  evaluator: Evaluator,
+  config: Partial<SearchConfig> = {},
+): Agent {
+  const tree = new SearchTree(evaluator),
+    c = searchConfig(config);
+  return Object.assign(
+    (view: AIObservation, step: number) =>
+      tree.search(view, { ...c, seed: c.seed + step * 1009 }).action,
+    { reset: () => tree.reset() },
+  );
+}
 export const newGame = (seed: number, first = 0) =>
   createGame({
     names: ["P0", "P1"],
@@ -53,6 +70,7 @@ export function playGame(
   first = 0,
   maxActions = 512,
 ): Game {
+  for (const agent of new Set(agents)) agent.reset?.();
   let game = newGame(seed, first),
     step = 0;
   while (game.phase !== "ended") {
@@ -84,8 +102,9 @@ export function collect(
   });
   const samples: Sample[] = [],
     actions: Action[] = [];
+  const tree = new SearchTree(evaluator);
   const agent: Agent = (view, step) => {
-    const result = search(view, evaluator, {
+    const result = tree.search(view, {
       ...config,
       seed: config.seed + step * 1009,
     });
@@ -97,6 +116,8 @@ export function collect(
       visits: result.policy.map((e) => e.visits),
       value: result.value,
       actionId: result.actionId,
+      reusedVisits: result.reusedVisits,
+      rootVisits: result.rootVisits,
     });
     actions.push(result.action);
     return result.action;
@@ -118,6 +139,7 @@ export function collect(
     seed: options.seed,
     first,
     search: config,
+    treeReuse: "within-turn",
     actions,
     samples,
     phase: "ended",

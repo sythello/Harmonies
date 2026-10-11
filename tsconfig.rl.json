@@ -3,7 +3,10 @@
   "include": [
     "src/game",
     "scripts/rl.ts",
+    "scripts/mcts-audit.ts",
+    "tests/mcts-audit.test.ts",
     "tests/rl.test.ts",
+    "tests/rl-reuse.test.ts",
     "tests/helpers/rl-parity.ts"
   ]
 }

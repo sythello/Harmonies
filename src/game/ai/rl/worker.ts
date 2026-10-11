@@ -1,8 +1,8 @@
 import { Network, type Weights } from "./network";
-import { search, type SearchConfig } from "./mcts";
+import { SearchTree, type SearchConfig } from "./mcts";
 import type { AIObservation } from "../types";
 
-let network: Network | undefined;
+let tree: SearchTree | undefined;
 /** Initialize once with exported JSON; subsequent requests only send public views. */
 self.onmessage = (
   event: MessageEvent<{
@@ -10,16 +10,21 @@ self.onmessage = (
     weights?: Weights;
     view?: AIObservation;
     config?: Partial<SearchConfig>;
+    reset?: boolean;
   }>,
 ) => {
-  const { id, weights, view, config } = event.data;
+  const { id, weights, view, config, reset } = event.data;
   try {
-    if (weights) network = new Network(weights);
-    if (!network)
+    if (weights) {
+      tree = undefined;
+      tree = new SearchTree(new Network(weights));
+    }
+    if (!tree)
       throw new Error("Initialize the RL worker with model weights first");
+    if (reset) tree.reset();
     self.postMessage({
       id,
-      ...(view ? { result: search(view, network, config) } : { ready: true }),
+      ...(view ? { result: tree.search(view, config) } : { ready: true }),
     });
   } catch (error) {
     self.postMessage({ id, error: String(error) });

@@ -1,5 +1,6 @@
 import {
   applyAction,
+  clone,
   ranking,
   seededRandom,
   type Action,
@@ -76,8 +77,25 @@ export interface SearchResult {
   policy: EdgeStats[];
   value: Values;
   simulations: number;
+  /** Visits inherited before this call; simulations are always additional. */
+  reusedVisits: number;
+  rootVisits: number;
+  reused: boolean;
   nodes: number;
   chanceOutcomes: number;
+}
+/** Optional diagnostic observer. Must not mutate the supplied endpoint.
+ * Receives only complete root-player turns actually visited by this search.
+ */
+export interface SearchObserver {
+  onTurnEnd?(actions: readonly Action[], endpoint: Game): void;
+  /** Detached root statistics after promotion/noise, before any new simulations. */
+  onRoot?(root: RootStats): void;
+}
+export interface RootStats {
+  visits: number;
+  value: Values;
+  policy: Pick<EdgeStats, "action" | "id" | "prior" | "visits" | "q">[];
 }
 interface Edge {
   action: Action;
@@ -88,10 +106,51 @@ interface Edge {
   outcomes: Map<string, Node>;
 }
 interface Node {
+  key: string;
   seat: number;
   visits: number;
   value: Values;
   edges: Edge[];
+}
+
+// Include both players and the public hidden-resource distribution. Preserve
+// pending/card order because stored engine actions contain positional indices.
+// Names, controller settings and explanatory finalReason text are not game state.
+function observationKey(view: AIObservation): string {
+  return JSON.stringify([
+    view.version,
+    view.side,
+    view.spirits,
+    view.active,
+    view.round,
+    view.phase,
+    view.finalRound,
+    view.turn,
+    view.supply,
+    view.market,
+    view.discardedTokens,
+    view.discardedCards,
+    view.bagCount,
+    view.deckCount,
+    view.bagCounts,
+    view.unseenAnimals,
+    view.needsSpiritChoice,
+    view.players.map((p) => [p.id, p.turns, p.board, p.cards, p.spiritChoices]),
+  ]);
+}
+
+function rootStats(root: Node, c: SearchConfig): RootStats {
+  return clone({
+    visits: root.visits,
+    value: root.value,
+    policy: root.edges.map((e) => ({
+      action: e.action,
+      id: e.id,
+      prior: e.prior,
+      visits: e.visits,
+      q: e.visits ? e.sum / e.visits : utility(root.value, c)[0],
+    })),
+  });
 }
 
 export function terminalValues(game: Game, seat = game.active): Values {
@@ -184,141 +243,234 @@ export function search(
   view: AIObservation,
   evaluator: Evaluator,
   config: Partial<SearchConfig> = {},
+  observer?: SearchObserver,
 ): SearchResult {
-  assertSupported(view);
-  if (view.phase !== "playing")
-    throw new Error("Cannot search a finished game");
-  const c = searchConfig(config),
-    random = seededRandom(c.seed);
-  let nodes = 0,
-    chanceOutcomes = 0;
-  const makeNode = (game: Game): Node => {
-    const publicView = observe(game),
-      actions = legalActions(game);
-    if (!actions.length)
-      throw new Error("Nonterminal state has no legal actions");
-    const prediction = evaluator.predict(publicView);
-    if (
-      (["rank", "relative", "absolute"] as const).some(
-        (head) =>
-          prediction.value[head].length !== 2 ||
-          prediction.value[head].some((x) => !Number.isFinite(x)),
-      )
-    )
-      throw new Error("Invalid NN values");
-    const ids = actions.map((a) => actionId(publicView, a));
-    const priors = softmax(ids.map((id) => prediction.logits[id]));
-    nodes++;
-    return {
-      seat: game.active,
-      visits: 0,
-      value: prediction.value,
-      edges: actions.map((action, i) => ({
-        action,
-        id: ids[i],
-        prior: priors[i],
-        visits: 0,
-        sum: 0,
-        outcomes: new Map(),
-      })),
-    };
-  };
-  const root = makeNode(sampleGame(view, c.seed));
-  if (c.noiseWeight) {
-    const noise = root.edges.map(() =>
-      gamma(c.noiseConcentration / root.edges.length, random),
-    );
-    const total = noise.reduce((a, b) => a + b, 0);
-    root.edges.forEach((edge, i) => {
-      edge.prior =
-        (1 - c.noiseWeight) * edge.prior +
-        c.noiseWeight * (total > 0 ? noise[i] / total : 1 / noise.length);
-    });
+  return new SearchTree(evaluator).search(view, config, observer);
+}
+
+/** One instance per game/agent. Only identical roots and immediate deterministic
+ * children in the same player's turn are reusable. Ancestors are discarded.
+ * Treat evaluator weights as immutable; create a new tree when replacing them.
+ */
+export class SearchTree {
+  private root?: Node;
+  private round = -1;
+  private signature = "";
+  private seed = 0;
+  private random = seededRandom(0);
+  constructor(private readonly evaluator: Evaluator) {}
+
+  reset() {
+    this.root = undefined;
   }
-  const visit = (node: Node, game: Game): Pair => {
-    const visitedMass = node.edges.reduce(
-      (s, e) => s + (e.visits ? e.prior : 0),
-      0,
-    );
-    const fpu =
-      utility(node.value, c)[0] - c.fpuReduction * Math.sqrt(visitedMass);
-    const scale = exploration(node.visits, c);
-    let selected = node.edges[0],
-      best = -Infinity;
-    for (const edge of node.edges) {
-      const score =
-        (edge.visits ? edge.sum / edge.visits : fpu) +
-        (scale * edge.prior) / (1 + edge.visits);
-      if (score > best) {
-        best = score;
-        selected = edge;
+
+  search(
+    view: AIObservation,
+    config: Partial<SearchConfig> = {},
+    observer?: SearchObserver,
+  ): SearchResult {
+    try {
+      return this.run(view, config, observer);
+    } catch (error) {
+      this.reset();
+      throw error;
+    }
+  }
+
+  private run(
+    view: AIObservation,
+    config: Partial<SearchConfig>,
+    observer?: SearchObserver,
+  ): SearchResult {
+    assertSupported(view);
+    if (view.phase !== "playing")
+      throw new Error("Cannot search a finished game");
+    const c = searchConfig(config);
+    const signature = JSON.stringify([
+      c.cpuct,
+      c.cpuctLog,
+      c.cpuctBase,
+      c.fpuReduction,
+      c.noiseWeight,
+      c.noiseConcentration,
+      c.rankWeight,
+      c.relativeWeight,
+      c.absoluteWeight,
+    ]);
+    const key = observationKey(view);
+    let root: Node | undefined;
+    let sameRoot = false;
+    if (
+      this.signature === signature &&
+      this.round === view.round &&
+      this.root?.seat === view.active
+    ) {
+      if (this.root.key === key) {
+        if (this.seed === c.seed) {
+          root = this.root;
+          sameRoot = true;
+        }
+      } else {
+        root = this.root.edges
+          .filter((e) => e.action.type !== "endTurn")
+          .map((e) => e.outcomes.get("deterministic"))
+          .find((child) => child?.key === key);
       }
     }
-    const next = applyAction(game, selected.action);
-    next.log = [];
-    let result: Pair;
-    if (next.phase === "ended") {
-      result = utility(terminalValues(next, 0), c); // Physical seats, never negate absolute score.
-    } else {
-      // Different random refills share the parent edge, but never the child state.
-      const key =
-        selected.action.type === "endTurn"
-          ? positionKey(next)
-          : "deterministic";
-      let child = selected.outcomes.get(key);
-      if (!child) {
-        child = makeNode(next);
-        selected.outcomes.set(key, child);
-        if (selected.action.type === "endTurn") chanceOutcomes++;
-        const v = utility(child.value, c);
-        result = next.active === 0 ? v : [v[1], v[0]];
-      } else result = visit(child, next);
-    }
-    selected.visits++;
-    selected.sum += result[node.seat];
-    node.visits++;
-    return result;
-  };
-  for (let i = 0; i < c.simulations; i++)
-    visit(root, sampleGame(view, Math.floor(random() * 2 ** 32)));
-  const stats = root.edges.map((e) => ({
-    action: e.action,
-    id: e.id,
-    prior: e.prior,
-    visits: e.visits,
-    q: e.visits ? e.sum / e.visits : utility(root.value, c)[0],
-  }));
-  const weights = selectionWeights(stats, c),
-    total = weights.reduce((a, b) => a + b, 0);
-  const policy = stats.map((e, i) => ({
-    ...e,
-    selectionWeight: weights[i],
-    target: weights[i] / total,
-  }));
-  let index = 0;
-  if (c.temperature === 0) {
-    for (let i = 1; i < policy.length; i++)
+    const reused = !!root,
+      reusedVisits = root?.visits ?? 0;
+    if (!sameRoot) this.random = seededRandom(c.seed);
+    const random = this.random;
+    let nodes = 0,
+      chanceOutcomes = 0;
+    const path: Action[] = [];
+    const makeNode = (game: Game): Node => {
+      const publicView = observe(game),
+        actions = legalActions(game);
+      if (!actions.length)
+        throw new Error("Nonterminal state has no legal actions");
+      const prediction = this.evaluator.predict(publicView);
       if (
-        weights[i] > weights[index] ||
-        (weights[i] === weights[index] && policy[i].q > policy[index].q)
+        (["rank", "relative", "absolute"] as const).some(
+          (head) =>
+            prediction.value[head].length !== 2 ||
+            prediction.value[head].some((x) => !Number.isFinite(x)),
+        )
       )
-        index = i;
-  } else {
-    const max = Math.max(...weights);
-    const probs = weights.map((w) =>
-      w ? Math.exp(Math.log(w / max) / c.temperature) : 0,
-    );
-    let draw = random() * probs.reduce((a, b) => a + b, 0);
-    index = probs.findIndex((p) => (draw -= p) < 0);
-    if (index < 0) index = probs.length - 1;
+        throw new Error("Invalid NN values");
+      const ids = actions.map((a) => actionId(publicView, a));
+      const priors = softmax(ids.map((id) => prediction.logits[id]));
+      nodes++;
+      return {
+        key: observationKey(publicView),
+        seat: game.active,
+        visits: 0,
+        value: clone(prediction.value),
+        edges: actions.map((action, i) => ({
+          action,
+          id: ids[i],
+          prior: priors[i],
+          visits: 0,
+          sum: 0,
+          outcomes: new Map(),
+        })),
+      };
+    };
+    root ??= makeNode(sampleGame(view, c.seed));
+    this.root = root;
+    this.round = view.round;
+    this.signature = signature;
+    this.seed = c.seed;
+    // A promoted child becomes a root once. Repeated searches of that same root
+    // must not blend noise again or restart the simulation RNG.
+    if (!sameRoot && c.noiseWeight) {
+      const noise = root.edges.map(() =>
+        gamma(c.noiseConcentration / root.edges.length, random),
+      );
+      const total = noise.reduce((a, b) => a + b, 0);
+      root.edges.forEach((edge, i) => {
+        edge.prior =
+          (1 - c.noiseWeight) * edge.prior +
+          c.noiseWeight * (total > 0 ? noise[i] / total : 1 / noise.length);
+      });
+    }
+    observer?.onRoot?.(rootStats(root, c));
+    const visit = (node: Node, game: Game): Pair => {
+      const visitedMass = node.edges.reduce(
+        (s, e) => s + (e.visits ? e.prior : 0),
+        0,
+      );
+      const fpu =
+        utility(node.value, c)[0] - c.fpuReduction * Math.sqrt(visitedMass);
+      const scale = exploration(node.visits, c);
+      let selected = node.edges[0],
+        best = -Infinity;
+      for (const edge of node.edges) {
+        const score =
+          (edge.visits ? edge.sum / edge.visits : fpu) +
+          (scale * edge.prior) / (1 + edge.visits);
+        if (score > best) {
+          best = score;
+          selected = edge;
+        }
+      }
+      const next = applyAction(game, selected.action);
+      next.log = [];
+      if (observer?.onTurnEnd) {
+        path.push(selected.action);
+        if (
+          selected.action.type === "endTurn" &&
+          game.active === view.active &&
+          game.round === view.round
+        )
+          observer.onTurnEnd([...path], next);
+      }
+      let result: Pair;
+      if (next.phase === "ended") {
+        result = utility(terminalValues(next, 0), c); // Physical seats, never negate absolute score.
+      } else {
+        // Different random refills share the parent edge, but never the child state.
+        const key =
+          selected.action.type === "endTurn"
+            ? positionKey(next)
+            : "deterministic";
+        let child = selected.outcomes.get(key);
+        if (!child) {
+          child = makeNode(next);
+          selected.outcomes.set(key, child);
+          if (selected.action.type === "endTurn") chanceOutcomes++;
+          const v = utility(child.value, c);
+          result = next.active === 0 ? v : [v[1], v[0]];
+        } else result = visit(child, next);
+      }
+      selected.visits++;
+      selected.sum += result[node.seat];
+      node.visits++;
+      if (observer?.onTurnEnd) path.pop();
+      return result;
+    };
+    for (let i = 0; i < c.simulations; i++)
+      visit(root, sampleGame(view, Math.floor(random() * 2 ** 32)));
+    const stats = rootStats(root, c).policy;
+    const weights = selectionWeights(stats, c),
+      total = weights.reduce((a, b) => a + b, 0);
+    const policy = stats.map((e, i) => ({
+      ...e,
+      selectionWeight: weights[i],
+      target: weights[i] / total,
+    }));
+    let index = 0;
+    if (c.temperature === 0) {
+      for (let i = 1; i < policy.length; i++)
+        if (
+          weights[i] > weights[index] ||
+          (weights[i] === weights[index] && policy[i].q > policy[index].q)
+        )
+          index = i;
+    } else {
+      const max = Math.max(...weights);
+      const probs = weights.map((w) =>
+        w ? Math.exp(Math.log(w / max) / c.temperature) : 0,
+      );
+      // Choosing an action must not consume the simulation RNG: continuing a root
+      // for K then N simulations is identical to a single K+N simulation search.
+      let draw =
+        seededRandom(c.seed ^ root.visits ^ 0x9e3779b9)() *
+        probs.reduce((a, b) => a + b, 0);
+      index = probs.findIndex((p) => (draw -= p) < 0);
+      if (index < 0) index = probs.length - 1;
+    }
+    return {
+      action: policy[index].action,
+      actionId: policy[index].id,
+      policy,
+      value: clone(root.value),
+      simulations: c.simulations,
+      reusedVisits,
+      rootVisits: root.visits,
+      reused,
+      nodes,
+      chanceOutcomes,
+    };
   }
-  return {
-    action: policy[index].action,
-    actionId: policy[index].id,
-    policy,
-    value: root.value,
-    simulations: c.simulations,
-    nodes,
-    chanceOutcomes,
-  };
 }
