@@ -11,6 +11,9 @@
 | `src/game/ai/rl/worker.ts` | 浏览器模型初始化及逐动作搜索接口 |
 | `scripts/rl.ts` | 收集、评测、单次决策、HTTP serving |
 | `rl/train.py` | 网络、损失、训练、验证、checkpoint 与 JSON 导出 |
+| `rl/loop.py`、`rl/replay.py`、`rl/loop_metrics.py` | 自动多轮 self-play、最近窗口 replay 采样、训练及监控大盘 |
+
+完整自动迭代入口与指标口径见 [Self-play loop](ai-selfplay-loop.md)。默认每轮 1000 局、每个原子动作新增 32 次模拟、从增长窗口消费 400,000 行进行一遍训练；下方独立 CLI 仍可单独使用。
 
 ## 快速运行
 
@@ -42,7 +45,7 @@ npm run rl -- serve --model rl/runs/iteration-2.json --simulations 128 --port 87
 
 无 checkpoint 时也可以显式用 `--model uniform` 收集首批数据；它返回均匀 policy 和零 value，是 bootstrap 基线。通常从 `init` 的小随机网络开始即可。`--hidden 64 64 --embedding-dim 8` 可以缩小模型；`--device cuda` / `--device mps` 可选择 PyTorch 后端，默认 CPU。
 
-`collect` 向 JSONL 追加已完成的整局。中断或超过 512 个原子动作会报错，未完成局不输出终局标签。默认每批奇偶局交换先手；环境 seed 和搜索 seed 分离，后者每步递增 1009。数据量大时自行滚动文件，并在训练的 `--data` 中选择最近若干文件，初版不做分布式采样或自动模型晋升。
+`collect` 向 JSONL 追加已完成的整局。中断或超过 512 个原子动作会报错，未完成局不输出终局标签。默认每批奇偶局交换先手；环境 seed 和搜索 seed 分离，后者每步递增 1009。单独调用训练 CLI 时可手动选择历史文件；`rl/loop.py` 自动管理最近窗口，采用最优模型采样、最新模型续训。每轮训练后执行 100 局 serving 晋级测试，胜局加半数平局达到 50% 才替换最优模型；详见 [Self-play loop](ai-selfplay-loop.md)。初版不做分布式采样。
 
 评测对手支持 `random`、`uniform`、另一个 JSON 模型，以及现有 `heuristic`。例如：
 

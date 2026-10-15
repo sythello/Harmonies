@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>Harmonies · Self-play loop</title>
+<style>
+body{font:15px system-ui;margin:0;background:#f3f5f2;color:#23332e}main{max-width:1280px;margin:auto;padding:28px}
+h1{font-size:28px}h2{font-size:19px}h3{font-size:16px}p{line-height:1.7}a{color:#196a57}.plots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+section,details{background:white;border:1px solid #dae1db;border-radius:12px;padding:18px;margin:18px 0}.plot{background:#fff;padding:18px;border-radius:12px}
+svg{width:100%;height:auto}table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:9px;text-align:right;border-bottom:1px solid #edf0ed}td:first-child,th:first-child{text-align:left}
+.scroll{overflow-x:auto}pre{white-space:pre-wrap;overflow-wrap:anywhere}summary{cursor:pointer}small{color:#52665d}.muted{color:#62756a}
+nav{display:flex;gap:10px;margin:24px 0}button{font:inherit;border:1px solid #b3c6ba;background:white;color:#215a43;padding:11px 22px;border-radius:8px;cursor:pointer}
+button[aria-selected=true]{background:#215a43;color:white}button:focus-visible{outline:3px solid #d09c34;outline-offset:2px}.pass{color:#196740;font-weight:700}.fail{color:#a03e34;font-weight:700}
+[hidden]{display:none!important}@media(max-width:650px){main{padding:14px}.plots{grid-template-columns:1fr}td,th{padding:7px}}
+</style>
+<main>
+<h1>Harmonies · Self-play loop</h1><p id="status"></p><p id="models"></p>
+<p>最优模型采集数据 → 最新模型续训 → 与当前最优模型进行晋级测试 → 达标后更新最优模型。</p>
+<p><a href="metrics.json">完整指标 JSON</a> · <a href="state.json">运行状态</a> · 刷新页面查看最新进展</p>
+<nav role="tablist" aria-label="训练监控">
+<button id="tab-selfplay" role="tab" aria-controls="panel-selfplay" aria-selected="true">训练self-play</button>
+<button id="tab-gatekeeper" role="tab" aria-controls="panel-gatekeeper" aria-selected="false" tabindex="-1">晋级测试</button>
+</nav>
+<div id="panel-selfplay" role="tabpanel" aria-labelledby="tab-selfplay">
+<div class="plots" id="selfplay-plots"></div>
+<section><h2>训练轮次概览</h2><div id="selfplay-rounds"></div></section><div id="selfplay-details"></div>
+</div>
+<div id="panel-gatekeeper" role="tabpanel" aria-labelledby="tab-gatekeeper" hidden>
+<section><h2>晋级规则</h2><p>默认每轮 100 局：50 个环境 seed，交换先后手。Serving 搜索：温度 0、根噪声 0、每动作新增 128 次模拟，并复用回合内子树。实际配置显示在各轮明细。</p>
+<p>晋级胜率 =（胜局 + 0.5 × 平局）/ 总局数。完整对战后达到 50% 即晋级，包括恰好 50%。未晋级仍保留最新 checkpoint 用于续训；下一轮采样继续使用当前最优模型。</p>
+<p class="muted">测试对局独立统计，不进入 replay buffer。这里的 rows 表示原子决策次数；不产生梯度或训练 loss。</p></section>
+<p id="gate-totals"></p><p id="gate-empty" class="muted"></p><div class="plots" id="gate-plots"></div>
+<section><h2>晋级测试结果</h2><div id="gate-rounds"></div></section><div id="gate-details"></div>
+</div>
+<section><h2>指标口径</h2><p>P1/P2 为先手/后手；候选/最优为模型身份，交换先后手后保持对应关系。宽度同时记录根合法动作数和已访问动作数；深度为新增模拟路径的原子动作数。</p>
+<p>Search value 为根节点访问加权回传 utility，network value 为原始网络 utility。utility = rank + 0.25 relative + 0.05 absolute；均为当前行动玩家视角。继承差值仅统计继承 visits &gt; 0 的子节点。</p>
+<p>Policy 分别记录合法 NN 分布与搜索监督分布；entropy 使用自然对数。训练均值按消费 rows 加权；gradnorm 为每个参数张量裁剪前的 L2 norm。均值、Std 和有效样本数见轮次明细。</p></section>
+</main>
+<script>
+const data=__LOOP_DATA__;
+const fmt=x=>x==null?'—':Number(x).toLocaleString(undefined,{maximumFractionDigits:5});
+const pct=x=>x==null?'—':fmt(100*x)+'%';
+const node=(tag,text)=>{const n=document.createElement(tag);if(text!=null)n.textContent=text;return n};
+const status=data.status, hs=data.iterations;
+document.querySelector('#status').textContent=`状态：${status.phase} · 已完成 ${status.completedIterations} 轮 · 训练总对局 ${fmt(status.totals?.games)} · 训练总样本 ${fmt(status.totals?.rows)}${status.error?' · '+status.error:''}`;
+document.querySelector('#models').textContent=`当前最优：${status.bestModel??status.model} · 最新训练：${status.latestModel??status.model}`;
+function selectTab(name){for(const t of ['selfplay','gatekeeper']){const active=t===name,b=document.querySelector('#tab-'+t);b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1;document.querySelector('#panel-'+t).hidden=!active}history.replaceState(null,'','#'+name)}
+for(const name of ['selfplay','gatekeeper']){const b=document.querySelector('#tab-'+name);b.onclick=()=>selectTab(name);b.onkeydown=e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const target=e.key==='Home'?'selfplay':e.key==='End'?'gatekeeper':name==='selfplay'?'gatekeeper':'selfplay';selectTab(target);document.querySelector('#tab-'+target).focus()}}}
+selectTab(location.hash==='#gatekeeper'?'gatekeeper':'selfplay');
+function table(parent,headers,rows){const wrap=node('div');wrap.className='scroll';const t=node('table');for(const [i,row]of [headers,...rows].entries()){const tr=node('tr');for(const value of row)tr.append(node(i===0?'th':'td',typeof value==='number'?fmt(value):(value??'—')));t.append(tr)}wrap.append(t);parent.append(wrap);return t}
+function sectionTable(parent,title,headers,rows){parent.append(node('h3',title));return table(parent,headers,rows)}
+function plots(parent,entries,configs){for(const [title,f,threshold]of configs){const ys=entries.map(f),good=ys.filter(x=>x!=null);let lo=Math.min(...good),hi=Math.max(...good);if(!good.length){lo=0;hi=1}if(threshold!=null){lo=Math.min(lo,threshold);hi=Math.max(hi,threshold)}if(lo===hi)hi=lo+1;
+const xy=(y,i)=>[62+i*365/Math.max(1,ys.length-1),155-(y-lo)/(hi-lo)*125],pts=ys.map((y,i)=>y==null?'':xy(y,i).join(',')).filter(Boolean).join(' ');
+const circles=ys.map((y,i)=>y==null?'':`<circle cx="${xy(y,i)[0]}" cy="${xy(y,i)[1]}" r="3" fill="#23765c"/>`).join('');
+const line=threshold==null?'':`<path d="M62 ${xy(threshold,0)[1]}H445" stroke="#ad8442" stroke-dasharray="5 4"/>`;
+const box=node('div');box.className='plot';box.innerHTML=`<b>${title}</b><svg viewBox="0 0 470 190"><path d="M62 25V155H450" stroke="#becac3" fill="none"/><text x="2" y="25" font-size="10">${fmt(hi)}</text><text x="2" y="158" font-size="10">${fmt(lo)}</text>${line}<polyline points="${pts}" fill="none" stroke="#23765c" stroke-width="2"/>${circles}<text x="62" y="181" font-size="11">轮次 ${entries.map(r=>r.iteration).join(' → ')||'—'}</text></svg>`;parent.append(box)}}
+function detail(parent,title){const d=node('details');d.append(node('summary',title));parent.append(d);return d}
+function telemetry(parent,t,title){sectionTable(parent,title,['指标','N','均值','Std','平均绝对值','最大值'],Object.entries(t.metrics).map(([k,v])=>[k,v.count,v.mean,v.std,v.meanAbs,v.max]));sectionTable(parent,'Legality',['检查项','次数'],Object.entries(t.legality))}
+function raw(parent,value){const d=detail(parent,'原始 JSON');d.append(node('pre',JSON.stringify(value,null,2)))}
+plots(document.querySelector('#selfplay-plots'),hs,[['累计训练数据行',r=>r.totals.rows],['根合法动作宽度',r=>r.selfplay.metrics['search.rootWidth']?.mean],['Search value',r=>r.selfplay.metrics['value.searchValue']?.mean],['搜索 policy entropy',r=>r.selfplay.metrics['policy.searchPolicy.entropy']?.mean],['Policy loss',r=>r.training?.loss?.policy],['Absolute value loss',r=>r.training?.loss?.absolute]]);
+table(document.querySelector('#selfplay-rounds'),['轮次','总 games','总 rows','window','训练 rows','steps','P1 / P2 / draw','轮次数 mean / P10 / P50 / P90'],hs.map(r=>[r.iteration,r.totals.games,r.totals.rows,r.window.rows,r.training?.rows,r.training?.steps,Object.values(r.selfplay.results).map(pct).join(' / '),Object.values(r.selfplay.rounds).map(fmt).join(' / ')]));
+for(const r of hs){const d=detail(document.querySelector('#selfplay-details'),`第 ${r.iteration} 轮训练明细`);sectionTable(d,'模型来源',['用途','Checkpoint'],[['本轮采样',r.selfplayModel??r.sourceModel],['本轮续训起点',r.sourceModel],['本轮最新模型',r.latestModel??r.model],['本轮完成后最优',r.bestModel??r.model]]);telemetry(d,r.selfplay,'Search / Value / Policy / Consistency');
+if(r.training){sectionTable(d,'训练 Loss',['Head','Loss'],Object.entries(r.training.loss));sectionTable(d,'Value 均值',['Head','Label own','Label opponent','Predict own','Predict opponent'],Object.keys(r.training.labelAvg).map(k=>[k,...r.training.labelAvg[k],...r.training.predictAvg[k]]));sectionTable(d,'参数梯度范数（裁剪前）',['参数','Mean','Max','Last'],Object.entries(r.training.gradnorm).map(([k,v])=>[k,v.mean,v.max,v.last]));sectionTable(d,'全局梯度范数',['阶段','Mean','Max','Last'],Object.entries(r.training.globalGradnorm).map(([k,v])=>[k,v.mean,v.max,v.last]));}raw(d,r)}
+const gs=hs.filter(r=>r.gatekeeper);
+document.querySelector('#gate-totals').textContent=`累计测试对局 ${fmt(gs.reduce((n,r)=>n+r.gatekeeper.games,0))} · 累计测试原子决策 ${fmt(gs.reduce((n,r)=>n+r.gatekeeper.telemetry.rows,0))} · 已完成晋级测试 ${gs.filter(r=>r.gatekeeper.complete).length} 轮`;
+document.querySelector('#gate-empty').textContent=gs.length?'':'暂无晋级测试记录；历史轮次不会被标记为已通过。';
+plots(document.querySelector('#gate-plots'),gs,[['候选晋级胜率（虚线为 50%）',r=>r.gatekeeper.winRate,0.5],['候选平均分差',r=>r.gatekeeper.meanMargin],['候选 Search value',r=>r.gatekeeper.byModel.candidate.metrics['value.searchValue']?.mean],['最优 Search value',r=>r.gatekeeper.byModel.incumbent.metrics['value.searchValue']?.mean],['平均分支深度',r=>r.gatekeeper.telemetry.metrics['search.meanDepth']?.mean],['搜索 policy entropy',r=>r.gatekeeper.telemetry.metrics['policy.searchPolicy.entropy']?.mean]]);
+table(document.querySelector('#gate-rounds'),['轮次','完成局数','胜 / 平 / 负','晋级胜率','结果','候选 / 最优均分','原子决策数','P1 / P2 / draw','轮次数 mean / P10 / P50 / P90'],gs.map(r=>{const g=r.gatekeeper,t=g.telemetry;return [r.iteration,`${g.games} / ${g.requiredGames}`,`${g.wins} / ${g.draws} / ${g.losses}`,pct(g.winRate),g.promoted==null?'进行中':g.promoted?'晋级':'未晋级',`${fmt(g.meanCandidateScore)} / ${fmt(g.meanIncumbentScore)}`,t.rows,Object.values(t.results).map(pct).join(' / '),Object.values(t.rounds).map(fmt).join(' / ')]}));
+for(const r of gs){const g=r.gatekeeper,d=detail(document.querySelector('#gate-details'),`第 ${r.iteration} 轮晋级测试 · ${g.promoted==null?'进行中':g.promoted?'晋级':'未晋级'} · ${pct(g.winRate)}`);sectionTable(d,'对战配置',['字段','值'],[['候选模型',g.candidateModel],['对手最优模型',g.incumbentModel],['每动作新增模拟',g.simulations],['温度',g.temperature],['根噪声',g.noiseWeight],['晋级阈值',pct(g.threshold)],['每模型先手局数',g.complete?g.games/2:'等待完成']]);telemetry(d,g.telemetry,'全部测试决策');for(const [name,label]of [['candidate','候选模型'],['incumbent','最优模型']]){const part=detail(d,label+'的搜索指标');telemetry(part,g.byModel[name],label)}raw(d,g)}
+</script>
+</html>

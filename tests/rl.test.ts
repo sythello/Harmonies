@@ -1,6 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { applyAction, clone, CARDS, ranking } from "../src/game/engine";
+import {
+  applyAction,
+  clone,
+  CARDS,
+  ranking,
+  seededRandom,
+} from "../src/game/engine";
 import { legalActions } from "../src/game/ai/actions";
 import { observe } from "../src/game/ai/observation";
 import {
@@ -9,6 +15,7 @@ import {
   CARD_INPUTS,
   encode,
   FEATURE_SIZE,
+  VERSION,
   schema,
 } from "../src/game/ai/rl/encoding";
 import {
@@ -19,12 +26,64 @@ import {
 } from "../src/game/ai/rl/mcts";
 import {
   uniformEvaluator,
+  Network,
+  type Dense,
   validateWeights,
   type Evaluator,
   type Weights,
 } from "../src/game/ai/rl/network";
 import { collect, newGame } from "../src/game/ai/rl/trajectory";
 import storedSchema from "../rl/schema.json" with { type: "json" };
+
+test("sparse NN inference preserves dense summation and predictions exactly", () => {
+  const random = seededRandom(19);
+  const dense = (input: number, output: number): Dense => ({
+    weight: Array.from({ length: output }, () =>
+      Array.from({ length: input }, () => random() - 0.5),
+    ),
+    bias: Array.from({ length: output }, () => random() - 0.5),
+  });
+  const weights: Weights = {
+    version: VERSION,
+    embedding: Array.from({ length: 33 }, (_, i) => [
+      i ? random() : 0,
+      i ? random() : 0,
+    ]),
+    trunk: [dense(FEATURE_SIZE + CARD_INPUTS * 2, 16), dense(16, 8)],
+    heads: {
+      policy: dense(8, ACTION_SIZE),
+      rank: dense(8, 2),
+      relative: dense(8, 2),
+      absolute: dense(8, 2),
+    },
+  };
+  const network = new Network(weights);
+  const legacy = (x: number[], layer: Dense) =>
+    layer.weight.map((row, i) => {
+      let y = layer.bias[i];
+      for (let j = 0; j < x.length; j++) y += row[j] * x[j];
+      return y;
+    });
+  let game = newGame(19);
+  for (let i = 0; i < 24; i++) {
+    const view = observe(game),
+      f = encode(view);
+    let x = [...f.numeric, ...f.cards.flatMap((id) => weights.embedding[id])];
+    for (const layer of weights.trunk)
+      x = legacy(x, layer).map((v) => Math.max(0, v));
+    const expected = {
+      logits: legacy(x, weights.heads.policy),
+      value: {
+        rank: legacy(x, weights.heads.rank).map(Math.tanh),
+        relative: legacy(x, weights.heads.relative),
+        absolute: legacy(x, weights.heads.absolute),
+      },
+    };
+    assert.deepEqual(network.predict(view), expected);
+    const legal = legalActions(game);
+    game = applyAction(game, legal[Math.floor(random() * legal.length)]);
+  }
+});
 
 test("RL schema includes full stacks, occupation, all cards, market, pending and seat", () => {
   assert.deepEqual(schema, storedSchema);

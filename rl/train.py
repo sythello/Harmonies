@@ -58,45 +58,52 @@ def load(path, device="cpu"):
     return model, checkpoint
 
 
-def read_games(paths):
-    games = []
+def validate_game(game):
+    if game.get("version") != SCHEMA["version"]:
+        raise ValueError(f"Incompatible trajectory schema; expected {SCHEMA['version']}")
+    if game.get("phase") != "ended" or not game.get("samples"):
+        raise ValueError("Only complete, nonempty trajectories may be trained")
+    if len(game["samples"]) != len(game["actions"]):
+        raise ValueError("Trajectory sample/action mismatch")
+    for sample in game["samples"]:
+        legal, policy = sample["legal"], sample["policy"]
+        if (len(sample["numeric"]) != SCHEMA["featureSize"] or
+                not all(math.isfinite(v) for v in sample["numeric"]) or
+                len(sample["cards"]) != SCHEMA["cardInputs"] or
+                any(type(c) is not int or not 0 <= c < SCHEMA["cardVocabulary"] for c in sample["cards"])):
+            raise ValueError("Invalid feature schema")
+        if (not legal or len(legal) != len(policy) or len(set(legal)) != len(legal) or
+                any(type(i) is not int or not 0 <= i < SCHEMA["actionSize"] for i in legal) or
+                sample["actionId"] not in legal or
+                any(not math.isfinite(p) or p < 0 for p in policy) or abs(sum(policy) - 1) > 1e-5):
+            raise ValueError("Invalid legal policy target")
+        seat = sample["seat"]
+        if seat not in (0, 1):
+            raise ValueError("Invalid player seat")
+        ranks, scores = game["ranks"], game["scores"]
+        rank = (ranks[1 - seat] > ranks[seat]) - (ranks[1 - seat] < ranks[seat])
+        relative = (scores[seat] - scores[1 - seat]) / SCHEMA["scoreScale"]
+        expected = {"rank": [rank, -rank], "relative": [relative, -relative],
+                    "absolute": [scores[seat] / SCHEMA["scoreScale"], scores[1 - seat] / SCHEMA["scoreScale"]]}
+        for head in VALUE_HEADS:
+            if (len(sample["value"][head]) != 2 or
+                    any(not math.isfinite(a) or abs(a - b) > 1e-6
+                        for a, b in zip(sample["value"][head], expected[head]))):
+                raise ValueError("Value target does not match the terminal outcome")
+
+
+def iter_games(paths):
     for path in paths:
-        for line in Path(path).read_text().splitlines():
-            if not line.strip():
-                continue
-            game = json.loads(line)
-            if game.get("version") != SCHEMA["version"]:
-                raise ValueError(f"Incompatible trajectory schema; expected {SCHEMA['version']}")
-            if game.get("phase") != "ended" or not game.get("samples"):
-                raise ValueError("Only complete, nonempty trajectories may be trained")
-            if len(game["samples"]) != len(game["actions"]):
-                raise ValueError("Trajectory sample/action mismatch")
-            for sample in game["samples"]:
-                legal, policy = sample["legal"], sample["policy"]
-                if (len(sample["numeric"]) != SCHEMA["featureSize"] or
-                        not all(math.isfinite(v) for v in sample["numeric"]) or
-                        len(sample["cards"]) != SCHEMA["cardInputs"] or
-                        any(type(c) is not int or not 0 <= c < SCHEMA["cardVocabulary"] for c in sample["cards"])):
-                    raise ValueError("Invalid feature schema")
-                if (not legal or len(legal) != len(policy) or len(set(legal)) != len(legal) or
-                        any(type(i) is not int or not 0 <= i < SCHEMA["actionSize"] for i in legal) or
-                        sample["actionId"] not in legal or
-                        any(not math.isfinite(p) or p < 0 for p in policy) or abs(sum(policy) - 1) > 1e-5):
-                    raise ValueError("Invalid legal policy target")
-                seat = sample["seat"]
-                if seat not in (0, 1):
-                    raise ValueError("Invalid player seat")
-                ranks, scores = game["ranks"], game["scores"]
-                rank = (ranks[1 - seat] > ranks[seat]) - (ranks[1 - seat] < ranks[seat])
-                relative = (scores[seat] - scores[1 - seat]) / SCHEMA["scoreScale"]
-                expected = {"rank": [rank, -rank], "relative": [relative, -relative],
-                            "absolute": [scores[seat] / SCHEMA["scoreScale"], scores[1 - seat] / SCHEMA["scoreScale"]]}
-                for head in VALUE_HEADS:
-                    if (len(sample["value"][head]) != 2 or
-                            any(not math.isfinite(a) or abs(a - b) > 1e-6
-                                for a, b in zip(sample["value"][head], expected[head]))):
-                        raise ValueError("Value target does not match the terminal outcome")
-            games.append(game)
+        with Path(path).open() as stream:
+            for line in stream:
+                if line.strip():
+                    game = json.loads(line)
+                    validate_game(game)
+                    yield game
+
+
+def read_games(paths):
+    games = list(iter_games(paths))
     if not games:
         raise ValueError("No training games")
     return games
@@ -117,6 +124,10 @@ def batch(samples, device):
 def losses(model, samples, device):
     numeric, cards, target, mask, values = batch(samples, device)
     out = model(numeric, cards)
+    return loss_components(out, target, mask, values)
+
+
+def loss_components(out, target, mask, values):
     # Finite sentinel avoids 0 * -inf in soft-target cross entropy.
     log_policy = F.log_softmax(out["policy"].masked_fill(~mask, -1e9), dim=1)
     return {"policy": -(target * log_policy).sum(1).mean(),

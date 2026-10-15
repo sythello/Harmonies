@@ -32,12 +32,20 @@ export interface Weights {
   trunk: Dense[];
   heads: { policy: Dense; rank: Dense; relative: Dense; absolute: Dense };
 }
-const dense = (x: number[], layer: Dense) =>
-  layer.weight.map((row, i) => {
+const dense = (x: number[], layer: Dense) => {
+  // Board one-hots and ReLU outputs are sparse. Keep the original summation
+  // order while skipping zero products; the large input layer benefits most.
+  const nonzero: number[] = [];
+  for (let j = 0; j < x.length; j++) if (x[j] !== 0) nonzero.push(j);
+  return layer.weight.map((row, i) => {
     let value = layer.bias[i];
-    for (let j = 0; j < x.length; j++) value += row[j] * x[j];
+    for (let k = 0; k < nonzero.length; k++) {
+      const j = nonzero[k];
+      value += row[j] * x[j];
+    }
     return value;
   });
+};
 function validateMatrix(matrix: number[][], rows: number, columns: number) {
   if (
     !Array.isArray(matrix) ||

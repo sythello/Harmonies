@@ -4,9 +4,12 @@
     "src/game",
     "scripts/rl.ts",
     "scripts/mcts-audit.ts",
+    "scripts/nn-fit.ts",
+    "tests/nn-fit.test.ts",
     "tests/mcts-audit.test.ts",
     "tests/rl.test.ts",
     "tests/rl-reuse.test.ts",
+    "tests/rl-diagnostics.test.ts",
     "tests/helpers/rl-parity.ts"
   ]
 }

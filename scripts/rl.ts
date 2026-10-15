@@ -14,10 +14,16 @@ import {
   uniformEvaluator,
   type Evaluator,
 } from "../src/game/ai/rl/network";
-import { defaults, search, SearchTree } from "../src/game/ai/rl/mcts";
+import {
+  defaults,
+  search,
+  SearchTree,
+  RLDiagnosticError,
+} from "../src/game/ai/rl/mcts";
 import {
   collect,
   evaluate,
+  evaluateGame,
   randomAgent,
   mctsAgent,
   type Agent,
@@ -37,6 +43,8 @@ const { positionals, values: args } = parseArgs({
     seed: { type: "string", default: "1729" },
     port: { type: "string", default: "8765" },
     "heuristic-ms": { type: "string", default: "100" },
+    "game-offset": { type: "string", default: "0" },
+    "error-output": { type: "string" },
   },
 });
 const integer = (name: keyof typeof args, min = 1) => {
@@ -67,9 +75,13 @@ async function main() {
     else console.log(JSON.stringify(schema));
     return;
   }
-  if (!["collect", "evaluate", "serve", "act", "predict"].includes(command))
+  if (
+    !["collect", "evaluate", "gate", "serve", "act", "predict"].includes(
+      command,
+    )
+  )
     throw new Error(
-      "Usage: npm run rl -- schema|collect|evaluate|serve|act|predict [--model model.json]",
+      "Usage: npm run rl -- schema|collect|evaluate|gate|serve|act|predict [--model model.json]",
     );
   const model = load(args.model),
     simulations = integer("simulations"),
@@ -80,7 +92,9 @@ async function main() {
     if (!args.output)
       throw new Error("collect requires --output trajectories.jsonl");
     mkdirSync(dirname(args.output), { recursive: true });
-    for (let i = 0; i < integer("games"); i++) {
+    const offset = integer("game-offset", 0);
+    for (let n = 0; n < integer("games"); n++) {
+      const i = offset + n;
       const started = performance.now();
       const trajectory = collect(model.evaluator, {
         seed: seed + i,
@@ -89,6 +103,7 @@ async function main() {
         search: { simulations, seed: seed + i * 1000003 },
       });
       const collectSeconds = (performance.now() - started) / 1000;
+      trajectory.collectionSeconds = collectSeconds;
       // Append only complete games. A stopped game cannot leave partially labeled rows.
       appendFileSync(args.output, JSON.stringify(trajectory) + "\n");
       console.log(
@@ -105,6 +120,39 @@ async function main() {
             (n, s) => n + s.reusedVisits,
             0,
           ),
+        }),
+      );
+    }
+  } else if (command === "gate") {
+    if (!args.output || ["random", "heuristic"].includes(args.opponent))
+      throw new Error(
+        "gate requires --opponent model.json and --output games.jsonl",
+      );
+    const opponent = load(args.opponent),
+      offset = integer("game-offset", 0);
+    mkdirSync(dirname(args.output), { recursive: true });
+    // Unlike evaluate's --games (seed pairs), gate's --games counts actual games.
+    for (let n = 0; n < integer("games"); n++) {
+      const i = offset + n,
+        started = performance.now();
+      const game = evaluateGame(model.evaluator, opponent.evaluator, {
+        seed: seed + Math.floor(i / 2),
+        first: i % 2,
+        simulations,
+        models: [model.id, opponent.id],
+      });
+      const collectionSeconds = (performance.now() - started) / 1000;
+      appendFileSync(
+        args.output,
+        JSON.stringify({ ...game, collectionSeconds }) + "\n",
+      );
+      console.log(
+        JSON.stringify({
+          event: "gate_game",
+          game: i,
+          result: game.result,
+          rows: game.decisions.length,
+          collectionSeconds,
         }),
       );
     }
@@ -227,6 +275,18 @@ async function main() {
   }
 }
 main().catch((error) => {
+  if (args["error-output"]) {
+    mkdirSync(dirname(args["error-output"]), { recursive: true });
+    appendFileSync(
+      args["error-output"],
+      JSON.stringify({
+        event: "collection_error",
+        kind: error instanceof RLDiagnosticError ? error.kind : "other",
+        message: String(error),
+        time: new Date().toISOString(),
+      }) + "\n",
+    );
+  }
   console.error(error);
   process.exitCode = 1;
 });

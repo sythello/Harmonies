@@ -9,7 +9,12 @@ import {
 import { legalActions, positionKey } from "../actions";
 import { observe, sampleGame } from "../observation";
 import type { AIObservation } from "../types";
-import { actionId, assertSupported, SCORE_SCALE } from "./encoding";
+import {
+  actionId,
+  assertSupported,
+  SCORE_SCALE,
+  ACTION_SIZE,
+} from "./encoding";
 import type { Evaluator, Pair, Values } from "./network";
 
 export interface SearchConfig {
@@ -83,6 +88,50 @@ export interface SearchResult {
   reused: boolean;
   nodes: number;
   chanceOutcomes: number;
+  diagnostics: SearchDiagnostics;
+}
+export class RLDiagnosticError extends Error {
+  constructor(
+    public readonly kind: "illegalMove" | "maskConflict",
+    message: string,
+  ) {
+    super(message);
+  }
+}
+export function checkActionMask(ids: number[]) {
+  if (
+    !ids.length ||
+    new Set(ids).size !== ids.length ||
+    ids.some((id) => !Number.isInteger(id) || id < 0 || id >= ACTION_SIZE)
+  )
+    throw new RLDiagnosticError(
+      "maskConflict",
+      "Legal actions do not map one-to-one onto policy IDs",
+    );
+}
+export function policySummary(probabilities: number[]) {
+  const sorted = [...probabilities].sort((a, b) => b - a);
+  return {
+    top1: sorted[0],
+    top5: sorted.slice(0, 5).reduce((a, b) => a + b, 0),
+    entropy: -probabilities.reduce(
+      (s, p) => s + (p > 0 ? p * Math.log(p) : 0),
+      0,
+    ),
+  };
+}
+export interface SearchDiagnostics {
+  rootWidth: number;
+  visitedWidth: number;
+  meanDepth: number;
+  maxDepth: number;
+  networkValue: number;
+  searchValue: number;
+  inheritedSearchValue: number | null;
+  networkPolicy: ReturnType<typeof policySummary>;
+  searchPolicy: ReturnType<typeof policySummary>;
+  checkedNodes: number;
+  checkedEdges: number;
 }
 /** Optional diagnostic observer. Must not mutate the supplied endpoint.
  * Receives only complete root-player turns actually visited by this search.
@@ -110,6 +159,7 @@ interface Node {
   seat: number;
   visits: number;
   value: Values;
+  networkPolicy: number[];
   edges: Edge[];
 }
 
@@ -319,10 +369,18 @@ export class SearchTree {
     }
     const reused = !!root,
       reusedVisits = root?.visits ?? 0;
+    const meanSearchValue = (n: Node) =>
+      n.edges.reduce((s, e) => s + e.sum, 0) / n.visits;
+    const inheritedSearchValue =
+      root && !sameRoot && root.visits ? meanSearchValue(root) : null;
     if (!sameRoot) this.random = seededRandom(c.seed);
     const random = this.random;
     let nodes = 0,
-      chanceOutcomes = 0;
+      chanceOutcomes = 0,
+      checkedEdges = 0,
+      depthSum = 0,
+      maxDepth = 0,
+      simulationDepth = 0;
     const path: Action[] = [];
     const makeNode = (game: Game): Node => {
       const publicView = observe(game),
@@ -339,6 +397,8 @@ export class SearchTree {
       )
         throw new Error("Invalid NN values");
       const ids = actions.map((a) => actionId(publicView, a));
+      checkActionMask(ids);
+      checkedEdges += ids.length;
       const priors = softmax(ids.map((id) => prediction.logits[id]));
       nodes++;
       return {
@@ -346,6 +406,7 @@ export class SearchTree {
         seat: game.active,
         visits: 0,
         value: clone(prediction.value),
+        networkPolicy: priors,
         edges: actions.map((action, i) => ({
           action,
           id: ids[i],
@@ -375,7 +436,8 @@ export class SearchTree {
       });
     }
     observer?.onRoot?.(rootStats(root, c));
-    const visit = (node: Node, game: Game): Pair => {
+    const visit = (node: Node, game: Game, depth = 1): Pair => {
+      simulationDepth = depth;
       const visitedMass = node.edges.reduce(
         (s, e) => s + (e.visits ? e.prior : 0),
         0,
@@ -394,7 +456,15 @@ export class SearchTree {
           selected = edge;
         }
       }
-      const next = applyAction(game, selected.action);
+      let next: Game;
+      try {
+        next = applyAction(game, selected.action);
+      } catch (error) {
+        throw new RLDiagnosticError(
+          "illegalMove",
+          `Search action rejected: ${String(error)}`,
+        );
+      }
       next.log = [];
       if (observer?.onTurnEnd) {
         path.push(selected.action);
@@ -421,7 +491,7 @@ export class SearchTree {
           if (selected.action.type === "endTurn") chanceOutcomes++;
           const v = utility(child.value, c);
           result = next.active === 0 ? v : [v[1], v[0]];
-        } else result = visit(child, next);
+        } else result = visit(child, next, depth + 1);
       }
       selected.visits++;
       selected.sum += result[node.seat];
@@ -429,8 +499,11 @@ export class SearchTree {
       if (observer?.onTurnEnd) path.pop();
       return result;
     };
-    for (let i = 0; i < c.simulations; i++)
+    for (let i = 0; i < c.simulations; i++) {
       visit(root, sampleGame(view, Math.floor(random() * 2 ** 32)));
+      depthSum += simulationDepth;
+      maxDepth = Math.max(maxDepth, simulationDepth);
+    }
     const stats = rootStats(root, c).policy;
     const weights = selectionWeights(stats, c),
       total = weights.reduce((a, b) => a + b, 0);
@@ -471,6 +544,19 @@ export class SearchTree {
       reused,
       nodes,
       chanceOutcomes,
+      diagnostics: {
+        rootWidth: policy.length,
+        visitedWidth: policy.filter((e) => e.visits > 0).length,
+        meanDepth: depthSum / c.simulations,
+        maxDepth,
+        networkValue: utility(root.value, c)[0],
+        searchValue: meanSearchValue(root),
+        inheritedSearchValue,
+        networkPolicy: policySummary(root.networkPolicy),
+        searchPolicy: policySummary(policy.map((e) => e.target)),
+        checkedNodes: nodes,
+        checkedEdges,
+      },
     };
   }
 }

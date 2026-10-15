@@ -14,7 +14,11 @@ import {
   SearchTree,
   searchConfig,
   terminalValues,
+  RLDiagnosticError,
+  checkActionMask,
+  type SearchDiagnostics,
   type SearchConfig,
+  type SearchResult,
 } from "./mcts";
 import type { Evaluator, Values } from "./network";
 
@@ -27,6 +31,7 @@ export interface Sample extends Features {
   actionId: number;
   reusedVisits: number;
   rootVisits: number;
+  diagnostics?: SearchDiagnostics;
 }
 export interface Trajectory {
   version: typeof VERSION;
@@ -40,6 +45,9 @@ export interface Trajectory {
   scores: number[];
   ranks: number[];
   phase: "ended";
+  rounds?: number;
+  turns?: number[];
+  collectionSeconds?: number;
 }
 export type Agent = ((view: AIObservation, step: number) => Action) & {
   reset?: () => void;
@@ -47,14 +55,31 @@ export type Agent = ((view: AIObservation, step: number) => Action) & {
 export function mctsAgent(
   evaluator: Evaluator,
   config: Partial<SearchConfig> = {},
+  onDecision?: (view: AIObservation, result: SearchResult) => void,
 ): Agent {
   const tree = new SearchTree(evaluator),
     c = searchConfig(config);
   return Object.assign(
-    (view: AIObservation, step: number) =>
-      tree.search(view, { ...c, seed: c.seed + step * 1009 }).action,
+    (view: AIObservation, step: number) => {
+      const result = tree.search(view, { ...c, seed: c.seed + step * 1009 });
+      checkPolicy(result);
+      onDecision?.(view, result);
+      return result.action;
+    },
     { reset: () => tree.reset() },
   );
+}
+function checkPolicy(result: SearchResult) {
+  checkActionMask(result.policy.map((e) => e.id));
+  if (
+    !result.policy.some((e) => e.id === result.actionId && e.target > 0) ||
+    result.policy.some((e) => !Number.isFinite(e.target) || e.target < 0) ||
+    Math.abs(result.policy.reduce((s, e) => s + e.target, 0) - 1) > 1e-6
+  )
+    throw new RLDiagnosticError(
+      "maskConflict",
+      "Search policy/action disagrees with legal mask",
+    );
 }
 export const newGame = (seed: number, first = 0) =>
   createGame({
@@ -77,10 +102,15 @@ export function playGame(
     if (step >= maxActions)
       throw new Error("Game exceeded maxActions; no terminal labels emitted");
     const view = observe(game);
-    game = applyAction(
-      game,
-      agents[game.players[game.active].id](view, step++),
-    );
+    const action = agents[game.players[game.active].id](view, step++);
+    try {
+      game = applyAction(game, action);
+    } catch (error) {
+      throw new RLDiagnosticError(
+        "illegalMove",
+        `Played action rejected: ${String(error)}`,
+      );
+    }
     game.log = [];
   }
   return game;
@@ -108,6 +138,7 @@ export function collect(
       ...config,
       seed: config.seed + step * 1009,
     });
+    checkPolicy(result);
     samples.push({
       ...encode(view),
       seat: view.active,
@@ -118,6 +149,7 @@ export function collect(
       actionId: result.actionId,
       reusedVisits: result.reusedVisits,
       rootVisits: result.rootVisits,
+      diagnostics: result.diagnostics,
     });
     actions.push(result.action);
     return result.action;
@@ -143,6 +175,8 @@ export function collect(
     actions,
     samples,
     phase: "ended",
+    rounds: game.round,
+    turns: game.players.map((p) => p.turns),
     scores: game.players.map(
       (p) => ranks.find((r) => r.player.id === p.id)!.score.total,
     ),
@@ -156,6 +190,80 @@ export function randomAgent(seed: number): Agent {
   return (view) => {
     const actions = legalActions(sampleGame(view, 0));
     return actions[Math.floor(random() * actions.length)];
+  };
+}
+
+/** Candidate is player ID 0, incumbent ID 1, regardless of first-player rotation.
+ * Uses the exact serving agent with optional diagnostics, never explore sampling.
+ * Decisions deliberately omit training features; evaluation games are not replay.
+ */
+export function evaluateGame(
+  candidate: Evaluator,
+  incumbent: Evaluator,
+  options: {
+    seed: number;
+    first: number;
+    simulations: number;
+    models: [string, string];
+  },
+) {
+  const config = searchConfig({
+    seed: options.seed,
+    simulations: options.simulations,
+    noiseWeight: 0,
+    temperature: 0,
+  });
+  const decisions: {
+    playerId: number;
+    seat: number;
+    rootVisits: number;
+    reusedVisits: number;
+    diagnostics: SearchDiagnostics;
+  }[] = [];
+  const actions: Action[] = [];
+  const record = (view: AIObservation, result: SearchResult) => {
+    decisions.push({
+      playerId: view.players[view.active].id,
+      seat: view.active,
+      rootVisits: result.rootVisits,
+      reusedVisits: result.reusedVisits,
+      diagnostics: result.diagnostics,
+    });
+    actions.push(result.action);
+  };
+  const game = playGame(
+    [
+      mctsAgent(candidate, config, record),
+      mctsAgent(incumbent, config, record),
+    ],
+    options.seed,
+    options.first,
+  );
+  const entries = ranking(game),
+    a = entries.find((e) => e.player.id === 0)!,
+    b = entries.find((e) => e.player.id === 1)!;
+  return {
+    version: VERSION,
+    phase: "ended" as const,
+    purpose: "gatekeeper" as const,
+    seed: options.seed,
+    first: options.first,
+    models: options.models,
+    search: config,
+    treeReuse: "within-turn" as const,
+    rounds: game.round,
+    turns: game.players.map((p) => p.turns),
+    scores: game.players.map(
+      (p) => entries.find((e) => e.player.id === p.id)!.score.total,
+    ),
+    ranks: game.players.map(
+      (p) => entries.find((e) => e.player.id === p.id)!.rank,
+    ),
+    candidateScore: a.score.total,
+    incumbentScore: b.score.total,
+    result: a.rank === b.rank ? 0.5 : a.rank < b.rank ? 1 : 0,
+    actions,
+    decisions,
   };
 }
 
