@@ -306,6 +306,7 @@ export class SearchTree {
   private root?: Node;
   private round = -1;
   private signature = "";
+  private rootNoiseSignature = "";
   private seed = 0;
   private random = seededRandom(0);
   constructor(private readonly evaluator: Evaluator) {}
@@ -341,11 +342,13 @@ export class SearchTree {
       c.cpuctLog,
       c.cpuctBase,
       c.fpuReduction,
-      c.noiseWeight,
-      c.noiseConcentration,
       c.rankWeight,
       c.relativeWeight,
       c.absoluteWeight,
+    ]);
+    const rootNoiseSignature = JSON.stringify([
+      c.noiseWeight,
+      c.noiseConcentration,
     ]);
     const key = observationKey(view);
     let root: Node | undefined;
@@ -356,7 +359,10 @@ export class SearchTree {
       this.root?.seat === view.active
     ) {
       if (this.root.key === key) {
-        if (this.seed === c.seed) {
+        if (
+          this.seed === c.seed &&
+          this.rootNoiseSignature === rootNoiseSignature
+        ) {
           root = this.root;
           sameRoot = true;
         }
@@ -421,7 +427,10 @@ export class SearchTree {
     this.root = root;
     this.round = view.round;
     this.signature = signature;
+    this.rootNoiseSignature = rootNoiseSignature;
     this.seed = c.seed;
+    // Noise only affected the discarded parent, so a promoted child can reuse
+    // visits even when switching expensive/cheap mode. Same-root changes rebuild.
     // A promoted child becomes a root once. Repeated searches of that same root
     // must not blend noise again or restart the simulation RNG.
     if (!sameRoot && c.noiseWeight) {

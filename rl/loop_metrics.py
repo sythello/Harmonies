@@ -5,6 +5,9 @@ from pathlib import Path
 
 import numpy as np
 
+TERMINAL_FIELDS = {"score": "scores", "settledAnimals": "settledAnimals",
+                   "completedAnimalCards": "completedAnimalCards"}
+
 
 def moments(values):
     xs = list(values)
@@ -28,7 +31,7 @@ def merge_moments(items):
 
 
 def game_metrics(game, player_id=None):
-    decisions = game.get("samples", game.get("decisions", []))
+    decisions = game.get("decisions", game.get("samples", []))
     if player_id is not None:
         decisions = [s for s in decisions if s["playerId"] == player_id]
     ds = [s["diagnostics"] for s in decisions]
@@ -41,7 +44,15 @@ def game_metrics(game, player_id=None):
     metrics["consistency.rootMinusInherited"] = moments(d["searchValue"] - d["inheritedSearchValue"]
                                                        for d in ds if d["inheritedSearchValue"] is not None)
     result = "draw" if game["ranks"][0] == game["ranks"][1] else ("P1" if game["ranks"][0] < game["ranks"][1] else "P2")
-    return {"rows": len(ds), "rounds": game["rounds"], "turns": game["turns"], "result": result,
+    # Player IDs rotate with first; outcomes are stored in physical seat order.
+    seats = range(2) if player_id is None else [(player_id - game["first"]) % 2]
+    terminal = {key: moments(game[field][seat] for seat in seats) if field in game else moments([])
+                for key, field in TERMINAL_FIELDS.items()}
+    return {"rows": len(game["samples"]) if "samples" in game else len(ds),
+            "decisions": len(ds),
+            "playoutCaps": {mode: sum(s.get("mode") == mode for s in decisions) for mode in ("expensive", "cheap")},
+            "rounds": game["rounds"], "turns": game["turns"], "result": result,
+            "terminal": terminal,
             "firstPlayerId": game["first"], "collectionSeconds": game.get("collectionSeconds", 0), "metrics": metrics,
             "legality": {"checkedActions": len(ds), "checkedNodes": sum(d["checkedNodes"] for d in ds),
                          "checkedEdges": sum(d["checkedEdges"] for d in ds)},
@@ -51,10 +62,15 @@ def game_metrics(game, player_id=None):
 def collection_metrics(games, errors=()):
     rounds = [g["rounds"] for g in games]
     result = {"games": len(games), "rows": sum(g["rows"] for g in games),
+              "decisions": sum(g.get("decisions", g["rows"]) for g in games),
+              "playoutCaps": {mode: sum(g.get("playoutCaps", {}).get(mode, 0) for g in games)
+                              for mode in ("expensive", "cheap")},
               "rounds": {"mean": float(np.mean(rounds)) if rounds else None,
                          **{f"p{p}": float(np.percentile(rounds, p)) if rounds else None for p in (10, 50, 90)}},
               "results": {key: sum(g["result"] == key for g in games) / len(games) if games else None for key in ("P1", "P2", "draw")},
               "metrics": {k: merge_moments(g["metrics"][k] for g in games) for k in (games[0]["metrics"] if games else [])},
+              "terminal": {k: merge_moments(g.get("terminal", {}).get(k, moments([])) for g in games)
+                           for k in TERMINAL_FIELDS},
               "collectionSeconds": sum(g["collectionSeconds"] for g in games),
               "simulations": sum(g["simulations"] for g in games),
               "legality": {**{k: sum(g["legality"][k] for g in games) for k in ("checkedActions", "checkedNodes", "checkedEdges")},

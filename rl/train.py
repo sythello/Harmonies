@@ -61,9 +61,32 @@ def load(path, device="cpu"):
 def validate_game(game):
     if game.get("version") != SCHEMA["version"]:
         raise ValueError(f"Incompatible trajectory schema; expected {SCHEMA['version']}")
-    if game.get("phase") != "ended" or not game.get("samples"):
+    caps = game.get("playoutCapRandomization")
+    if game.get("phase") != "ended" or not game.get("actions") or (not caps and not game.get("samples")):
         raise ValueError("Only complete, nonempty trajectories may be trained")
-    if len(game["samples"]) != len(game["actions"]):
+    if caps:
+        decisions = game.get("decisions", [])
+        search = game["search"]
+        if (not 0 <= caps["cheapProbability"] <= 1 or
+                not 1 <= caps["cheapSimulations"] <= search["simulations"] or search["noiseWeight"] <= 0 or
+                len(decisions) != len(game["actions"])):
+            raise ValueError("Invalid playout cap trajectory")
+        for step, decision in enumerate(decisions):
+            cheap = decision["mode"] == "cheap"
+            simulations = caps["cheapSimulations"] if cheap else search["simulations"]
+            noise = 0 if cheap else search["noiseWeight"]
+            if (decision["step"] != step or decision["mode"] not in ("cheap", "expensive") or
+                    decision["simulations"] != simulations or decision["noiseWeight"] != noise or
+                    decision["rootVisits"] - decision["reusedVisits"] != simulations):
+                raise ValueError("Decision does not match its playout cap/noise")
+        eligible = [d for d in decisions if d["mode"] == "expensive"]
+        if len(eligible) != len(game["samples"]):
+            raise ValueError("Only expensive decisions may enter training")
+        for sample, decision in zip(game["samples"], eligible):
+            if (any(sample[k] != decision[k] for k in ("step", "seat", "actionId", "rootVisits", "reusedVisits")) or
+                    sum(sample["visits"]) != sample["rootVisits"]):
+                raise ValueError("Training sample does not match expensive decision")
+    elif len(game["samples"]) != len(game["actions"]):
         raise ValueError("Trajectory sample/action mismatch")
     for sample in game["samples"]:
         legal, policy = sample["legal"], sample["policy"]

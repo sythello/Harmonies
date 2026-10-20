@@ -10,15 +10,22 @@ import unittest
 import numpy as np
 import torch
 
-from loop import batches, repair_tail
+from loop import batches, repair_tail, training_rows, DEFAULTS
 from loop_metrics import collection_metrics, game_metrics, merge_moments, moments
 from replay import ReplayBuffer, sampling_passes, window_size
-from train import SCHEMA, batch, load
+from train import SCHEMA, batch, load, validate_game
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class ReplayTest(unittest.TestCase):
+    def test_training_budget_never_trains_a_window_row_more_than_twice(self):
+        for window, expected in [(1, 2), (49999, 99998), (200000, 400000), (271165, 400000)]:
+            count = training_rows(DEFAULTS, window)
+            self.assertEqual(count, expected)
+            ids = np.asarray([i for b in batches(1, window + 1, count, 64, 71) for i in b])
+            self.assertLessEqual(np.unique(ids, return_counts=True)[1].max(), 2)
+        self.assertEqual(training_rows({"train_rows": 400000}, 1), 400000)  # legacy
     def test_katago_window_schedule_and_without_replacement_passes(self):
         expected = {0: 0, 10: 10, 100000: 100000, 150000: 117512, 200000: 132072,
                     1000000: 277827, 10000000: 1029451}
@@ -82,6 +89,22 @@ class ReplayTest(unittest.TestCase):
             with self.assertRaises(json.JSONDecodeError):
                 repair_tail(path)
 
+    def test_terminal_metrics_weight_players_equally_and_follow_model_identity(self):
+        a = {"first": 0, "rounds": 9, "turns": [9, 9], "ranks": [1, 2], "decisions": [],
+             "scores": [100, 60], "settledAnimals": [7, 3], "completedAnimalCards": [2, 0]}
+        b = {**a, "first": 1, "scores": [80, 120], "settledAnimals": [4, 8], "completedAnimalCards": [1, 3]}
+        for player, expected in [(None, [90, 5.5, 1.5]), (0, [110, 7.5, 2.5]), (1, [70, 3.5, 0.5])]:
+            result = collection_metrics([game_metrics(g, player) for g in (a, b)])
+            for key, mean in zip(("score", "settledAnimals", "completedAnimalCards"), expected):
+                self.assertEqual(result["terminal"][key]["mean"], mean)
+                self.assertEqual(result["terminal"][key]["count"], 4 if player is None else 2)
+        legacy = {k: v for k, v in a.items() if k not in ("settledAnimals", "completedAnimalCards")}
+        result = collection_metrics([game_metrics(a), game_metrics(legacy)])
+        self.assertEqual(result["terminal"]["score"]["count"], 4)
+        self.assertEqual(result["terminal"]["settledAnimals"]["count"], 2)
+        self.assertEqual(result["terminal"]["settledAnimals"]["mean"], 5)
+        self.assertIsNone(collection_metrics([])["terminal"]["completedAnimalCards"]["mean"])
+
 
 class LoopIntegrationTest(unittest.TestCase):
     def command(self, directory, iterations, *options):
@@ -94,6 +117,7 @@ class LoopIntegrationTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             directory = Path(tmp)
             self.command(directory, 1, "--games-per-iteration", "2", "--simulations", "4",
+                         "--cheap-search-probability", "0", "--max-window-passes", "0",
                          "--train-rows", "513", "--min-rows", "50", "--taper-scale", "25", "--hidden", "16", "16")
             self.command(directory, 2)  # inherits original configuration
             reports = [json.loads((directory / f"iteration-{i:04d}" / "metrics.json").read_text()) for i in (1, 2)]
@@ -116,6 +140,8 @@ class LoopIntegrationTest(unittest.TestCase):
                 games = [json.loads(line) for line in (path / "games.jsonl").read_text().splitlines()]
                 merged = collection_metrics([game_metrics(g) for g in games])
                 self.assertEqual(merged, report["selfplay"])
+                self.assertEqual(report["selfplay"]["terminal"]["score"]["count"], 4)
+                self.assertEqual(report["gatekeeper"]["telemetry"]["terminal"]["settledAnimals"]["count"], 4)
                 self.assertEqual(report["selfplay"]["simulations"], report["selfplay"]["rows"] * 4)
                 self.assertEqual(report["gatekeeper"]["games"], 2)
                 self.assertTrue(report["gatekeeper"]["complete"])
@@ -143,7 +169,7 @@ class LoopIntegrationTest(unittest.TestCase):
     def test_warmup_and_resume_partial_collection(self):
         with tempfile.TemporaryDirectory() as tmp:
             directory = Path(tmp)
-            self.command(directory, 1, "--games-per-iteration", "2", "--simulations", "2", "--hidden", "8", "8", "--wait-for-min-rows")
+            self.command(directory, 1, "--games-per-iteration", "2", "--simulations", "2", "--cheap-search-probability", "0", "--hidden", "8", "8", "--wait-for-min-rows")
             first = directory / "iteration-0001"
             report = json.loads((first / "metrics.json").read_text())
             self.assertTrue(report["warmup"])
@@ -164,12 +190,53 @@ class LoopIntegrationTest(unittest.TestCase):
     def test_default_trains_immediately_below_min_rows(self):
         with tempfile.TemporaryDirectory() as tmp:
             directory = Path(tmp)
-            self.command(directory, 1, "--games-per-iteration", "1", "--simulations", "2", "--train-rows", "513", "--hidden", "8", "8")
+            self.command(directory, 1, "--games-per-iteration", "1", "--simulations", "2", "--cheap-search-probability", "0", "--train-rows", "513", "--hidden", "8", "8")
             report = json.loads((directory / "iteration-0001/metrics.json").read_text())
             self.assertLess(report["totals"]["rows"], 100000)
             self.assertEqual(report["window"]["rows"], report["totals"]["rows"])
-            self.assertEqual(report["training"]["rows"], 513)
-            self.assertGreater(report["training"]["sampling"]["passes"], 1)
+            self.assertEqual(report["training"]["rows"], min(513, 2 * report["window"]["rows"]))
+            self.assertEqual(report["training"]["sampling"]["passes"], 2)
+
+    def test_playout_cap_loop_replay_is_expensive_only_and_resume_is_deterministic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp)
+            self.command(directory, 1, "--games-per-iteration", "2", "--hidden", "8", "8")
+            current = directory / "iteration-0001"
+            report = json.loads((current / "metrics.json").read_text())
+            games = [json.loads(line) for line in (current / "games.jsonl").read_text().splitlines()]
+            expensive = sum(len(g["samples"]) for g in games)
+            cheap = sum(len(g["actions"]) - len(g["samples"]) for g in games)
+            self.assertGreater(expensive, 0)
+            self.assertGreater(cheap, 0)
+            self.assertEqual(report["selfplay"]["rows"], expensive)
+            self.assertEqual(report["selfplay"]["decisions"], expensive + cheap)
+            self.assertEqual(report["selfplay"]["simulations"], expensive * 64 + cheap * 16)
+            self.assertEqual(report["selfplay"]["playoutCaps"], {"expensive": expensive, "cheap": cheap})
+            self.assertEqual(report["training"]["rows"], expensive * 2)
+            ids = np.fromfile(current / "sampled-rows.i64", dtype="<i8")
+            self.assertTrue((np.unique(ids, return_counts=True)[1] == 2).all())
+            buffer = ReplayBuffer(directory / "replay.sqlite3")
+            self.assertEqual(buffer.totals(), {"games": 2, "rows": expensive})
+            samples = [s for g in games for s in g["samples"]]
+            a, b = buffer.batch(list(range(1, expensive + 1))), batch(samples, "cpu")
+            for x, y in zip(a[:4], b[:4]):
+                torch.testing.assert_close(x, y, rtol=0, atol=0)
+            buffer.close()
+            bad = copy.deepcopy(games[0])
+            bad["samples"][0]["step"] = next(d["step"] for d in bad["decisions"] if d["mode"] == "cheap")
+            with self.assertRaisesRegex(ValueError, "expensive"):
+                validate_game(bad)
+            # A complete game can, by chance, have no trainable states.
+            empty = copy.deepcopy(games[0])
+            empty["samples"] = []
+            for d in empty["decisions"]:
+                d.update(mode="cheap", simulations=16, noiseWeight=0, rootVisits=d["reusedVisits"] + 16)
+            validate_game(empty)
+            checkpoint = (current / "model.pt").read_bytes()
+            (current / "metrics.json").unlink()
+            self.command(directory, 1)
+            self.assertEqual((current / "model.pt").read_bytes(), checkpoint)
+            self.assertEqual(json.loads((current / "metrics.json").read_text())["totals"], report["totals"])
 
 
 if __name__ == "__main__":

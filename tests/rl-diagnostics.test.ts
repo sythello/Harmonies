@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { applyAction } from "../src/game/engine";
+import { applyAction, CARDS } from "../src/game/engine";
 import { observe, sampleGame } from "../src/game/ai/observation";
 import { ACTION_SIZE } from "../src/game/ai/rl/encoding";
 import {
@@ -16,6 +16,7 @@ import {
   evaluateGame,
   mctsAgent,
   playGame,
+  terminalStats,
 } from "../src/game/ai/rl/trajectory";
 import { ranking } from "../src/game/engine";
 import { uniformEvaluator } from "../src/game/ai/rl/network";
@@ -105,6 +106,31 @@ test("mask conflicts fail with a countable diagnostic error; whole-game records 
       (s) => s.diagnostics && s.rootVisits - s.reusedVisits === 2,
     ),
   );
+  const replayed = game.actions.reduce(
+    applyAction,
+    newGame(game.seed, game.first),
+  );
+  const terminal = terminalStats(replayed);
+  assert.deepEqual(game.settledAnimals, terminal.settledAnimals);
+  assert.deepEqual(game.completedAnimalCards, terminal.completedAnimalCards);
+});
+
+test("terminal counts include fully completed animal cards and exclude spirits", () => {
+  const game = newGame(11, 1);
+  game.players[0].cards = [
+    { id: 1, placed: CARDS[1].points.length },
+    { id: 2, placed: CARDS[2].points.length - 1 },
+    { id: 33, placed: CARDS[33].points.length },
+  ];
+  for (const [i, animal] of [1, 1, 2, 33].entries())
+    game.players[0].board[i].animal = animal;
+  const stats = terminalStats(game);
+  assert.deepEqual(stats.settledAnimals, [3, 0]);
+  assert.deepEqual(stats.completedAnimalCards, [1, 0]);
+  assert.equal(
+    stats.scores[0],
+    ranking(game).find((r) => r.player.id === 1)!.score.total,
+  );
 });
 
 test("gatekeeper uses serving actions, pairs seats, and attributes diagnostics to model identity", () => {
@@ -137,6 +163,12 @@ test("gatekeeper uses serving actions, pairs seats, and attributes diagnostics t
       first,
     );
     assert.deepEqual(tested.actions, actions);
+    const terminal = terminalStats(reference);
+    assert.deepEqual(tested.settledAnimals, terminal.settledAnimals);
+    assert.deepEqual(
+      tested.completedAnimalCards,
+      terminal.completedAnimalCards,
+    );
     assert.equal(tested.search.noiseWeight, 0);
     assert.equal(tested.search.temperature, 0);
     assert.equal(

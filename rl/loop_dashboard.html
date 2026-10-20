@@ -21,6 +21,9 @@ button[aria-selected=true]{background:#215a43;color:white}button:focus-visible{o
 <button id="tab-gatekeeper" role="tab" aria-controls="panel-gatekeeper" aria-selected="false" tabindex="-1">晋级测试</button>
 </nav>
 <div id="panel-selfplay" role="tabpanel" aria-labelledby="tab-selfplay">
+<p class="muted">rows 仅统计进入 replay 的训练样本。启用 playout cap randomization 时，仅保留 expensive 状态；搜索、策略、合法性指标覆盖全部 expensive + cheap 决策。终局统计按每位玩家计数。</p>
+<div class="plots" id="selfplay-terminal-plots"></div>
+<section><h2>终局表现（每位玩家）</h2><div id="selfplay-terminal"></div></section>
 <div class="plots" id="selfplay-plots"></div>
 <section><h2>训练轮次概览</h2><div id="selfplay-rounds"></div></section><div id="selfplay-details"></div>
 </div>
@@ -28,10 +31,14 @@ button[aria-selected=true]{background:#215a43;color:white}button:focus-visible{o
 <section><h2>晋级规则</h2><p>默认每轮 100 局：50 个环境 seed，交换先后手。Serving 搜索：温度 0、根噪声 0、每动作新增 128 次模拟，并复用回合内子树。实际配置显示在各轮明细。</p>
 <p>晋级胜率 =（胜局 + 0.5 × 平局）/ 总局数。完整对战后达到 50% 即晋级，包括恰好 50%。未晋级仍保留最新 checkpoint 用于续训；下一轮采样继续使用当前最优模型。</p>
 <p class="muted">测试对局独立统计，不进入 replay buffer。这里的 rows 表示原子决策次数；不产生梯度或训练 loss。</p></section>
-<p id="gate-totals"></p><p id="gate-empty" class="muted"></p><div class="plots" id="gate-plots"></div>
+<p id="gate-totals"></p><p id="gate-empty" class="muted"></p>
+<div class="plots" id="gate-terminal-plots"></div>
+<section><h2>终局表现（每位玩家）</h2><div id="gate-terminal"></div></section>
+<div class="plots" id="gate-plots"></div>
 <section><h2>晋级测试结果</h2><div id="gate-rounds"></div></section><div id="gate-details"></div>
 </div>
 <section><h2>指标口径</h2><p>P1/P2 为先手/后手；候选/最优为模型身份，交换先后手后保持对应关系。宽度同时记录根合法动作数和已访问动作数；深度为新增模拟路径的原子动作数。</p>
+<p>终局三项指标按每局每位玩家等权平均，不按原子决策数加权。入住动物数为终局版图上的动物方块数；完整动物牌数为全部入住目标均已完成的动物牌数，均排除自然之灵。历史数据缺失时显示“—”，不视为零。</p>
 <p>Search value 为根节点访问加权回传 utility，network value 为原始网络 utility。utility = rank + 0.25 relative + 0.05 absolute；均为当前行动玩家视角。继承差值仅统计继承 visits &gt; 0 的子节点。</p>
 <p>Policy 分别记录合法 NN 分布与搜索监督分布；entropy 使用自然对数。训练均值按消费 rows 加权；gradnorm 为每个参数张量裁剪前的 L2 norm。均值、Std 和有效样本数见轮次明细。</p></section>
 </main>
@@ -54,15 +61,22 @@ const circles=ys.map((y,i)=>y==null?'':`<circle cx="${xy(y,i)[0]}" cy="${xy(y,i)
 const line=threshold==null?'':`<path d="M62 ${xy(threshold,0)[1]}H445" stroke="#ad8442" stroke-dasharray="5 4"/>`;
 const box=node('div');box.className='plot';box.innerHTML=`<b>${title}</b><svg viewBox="0 0 470 190"><path d="M62 25V155H450" stroke="#becac3" fill="none"/><text x="2" y="25" font-size="10">${fmt(hi)}</text><text x="2" y="158" font-size="10">${fmt(lo)}</text>${line}<polyline points="${pts}" fill="none" stroke="#23765c" stroke-width="2"/>${circles}<text x="62" y="181" font-size="11">轮次 ${entries.map(r=>r.iteration).join(' → ')||'—'}</text></svg>`;parent.append(box)}}
 function detail(parent,title){const d=node('details');d.append(node('summary',title));parent.append(d);return d}
-function telemetry(parent,t,title){sectionTable(parent,title,['指标','N','均值','Std','平均绝对值','最大值'],Object.entries(t.metrics).map(([k,v])=>[k,v.count,v.mean,v.std,v.meanAbs,v.max]));sectionTable(parent,'Legality',['检查项','次数'],Object.entries(t.legality))}
+const terminalFields=[['score','平均终局分数'],['settledAnimals','平均入住动物数'],['completedAnimalCards','平均完成完整动物牌数']];
+function terminalTable(parent,rows){table(parent,['轮次','范围',...terminalFields.map(([,label])=>label)],rows.map(([iteration,label,t])=>[iteration,label,...terminalFields.map(([key])=>t.terminal?.[key]?.mean)]))}
+function terminalPlots(parent,entries,get){plots(parent,entries,terminalFields.map(([key,label])=>[label,r=>get(r).terminal?.[key]?.mean]))}
+function telemetry(parent,t,title){sectionTable(parent,'终局统计（N 为玩家终局数）',['指标','N','均值','Std'],terminalFields.map(([k,label])=>{const v=t.terminal?.[k];return [label,v?.count,v?.mean,v?.std]}));sectionTable(parent,title,['指标','N','均值','Std','平均绝对值','最大值'],Object.entries(t.metrics).map(([k,v])=>[k,v.count,v.mean,v.std,v.meanAbs,v.max]));sectionTable(parent,'Legality',['检查项','次数'],Object.entries(t.legality))}
 function raw(parent,value){const d=detail(parent,'原始 JSON');d.append(node('pre',JSON.stringify(value,null,2)))}
+terminalPlots(document.querySelector('#selfplay-terminal-plots'),hs,r=>r.selfplay);
+terminalTable(document.querySelector('#selfplay-terminal'),hs.map(r=>[r.iteration,'双方',r.selfplay]));
 plots(document.querySelector('#selfplay-plots'),hs,[['累计训练数据行',r=>r.totals.rows],['根合法动作宽度',r=>r.selfplay.metrics['search.rootWidth']?.mean],['Search value',r=>r.selfplay.metrics['value.searchValue']?.mean],['搜索 policy entropy',r=>r.selfplay.metrics['policy.searchPolicy.entropy']?.mean],['Policy loss',r=>r.training?.loss?.policy],['Absolute value loss',r=>r.training?.loss?.absolute]]);
-table(document.querySelector('#selfplay-rounds'),['轮次','总 games','总 rows','window','训练 rows','steps','P1 / P2 / draw','轮次数 mean / P10 / P50 / P90'],hs.map(r=>[r.iteration,r.totals.games,r.totals.rows,r.window.rows,r.training?.rows,r.training?.steps,Object.values(r.selfplay.results).map(pct).join(' / '),Object.values(r.selfplay.rounds).map(fmt).join(' / ')]));
+table(document.querySelector('#selfplay-rounds'),['轮次','总 games','总 rows','本轮决策','expensive / cheap','expensive 占比','window','训练 rows','steps','P1 / P2 / draw','轮次数 mean / P10 / P50 / P90'],hs.map(r=>[r.iteration,r.totals.games,r.totals.rows,r.selfplay.decisions??r.selfplay.rows,r.selfplay.playoutCaps?`${fmt(r.selfplay.playoutCaps.expensive)} / ${fmt(r.selfplay.playoutCaps.cheap)}`:'—',r.selfplay.playoutCaps?.expensive?pct(r.selfplay.playoutCaps.expensive/r.selfplay.decisions):'—',r.window.rows,r.training?.rows,r.training?.steps,Object.values(r.selfplay.results).map(pct).join(' / '),Object.values(r.selfplay.rounds).map(fmt).join(' / ')]));
 for(const r of hs){const d=detail(document.querySelector('#selfplay-details'),`第 ${r.iteration} 轮训练明细`);sectionTable(d,'模型来源',['用途','Checkpoint'],[['本轮采样',r.selfplayModel??r.sourceModel],['本轮续训起点',r.sourceModel],['本轮最新模型',r.latestModel??r.model],['本轮完成后最优',r.bestModel??r.model]]);telemetry(d,r.selfplay,'Search / Value / Policy / Consistency');
 if(r.training){sectionTable(d,'训练 Loss',['Head','Loss'],Object.entries(r.training.loss));sectionTable(d,'Value 均值',['Head','Label own','Label opponent','Predict own','Predict opponent'],Object.keys(r.training.labelAvg).map(k=>[k,...r.training.labelAvg[k],...r.training.predictAvg[k]]));sectionTable(d,'参数梯度范数（裁剪前）',['参数','Mean','Max','Last'],Object.entries(r.training.gradnorm).map(([k,v])=>[k,v.mean,v.max,v.last]));sectionTable(d,'全局梯度范数',['阶段','Mean','Max','Last'],Object.entries(r.training.globalGradnorm).map(([k,v])=>[k,v.mean,v.max,v.last]));}raw(d,r)}
 const gs=hs.filter(r=>r.gatekeeper);
 document.querySelector('#gate-totals').textContent=`累计测试对局 ${fmt(gs.reduce((n,r)=>n+r.gatekeeper.games,0))} · 累计测试原子决策 ${fmt(gs.reduce((n,r)=>n+r.gatekeeper.telemetry.rows,0))} · 已完成晋级测试 ${gs.filter(r=>r.gatekeeper.complete).length} 轮`;
 document.querySelector('#gate-empty').textContent=gs.length?'':'暂无晋级测试记录；历史轮次不会被标记为已通过。';
+terminalPlots(document.querySelector('#gate-terminal-plots'),gs,r=>r.gatekeeper.telemetry);
+terminalTable(document.querySelector('#gate-terminal'),gs.flatMap(r=>[[r.iteration,'双方',r.gatekeeper.telemetry],[r.iteration,'候选模型',r.gatekeeper.byModel.candidate],[r.iteration,'最优模型',r.gatekeeper.byModel.incumbent]]));
 plots(document.querySelector('#gate-plots'),gs,[['候选晋级胜率（虚线为 50%）',r=>r.gatekeeper.winRate,0.5],['候选平均分差',r=>r.gatekeeper.meanMargin],['候选 Search value',r=>r.gatekeeper.byModel.candidate.metrics['value.searchValue']?.mean],['最优 Search value',r=>r.gatekeeper.byModel.incumbent.metrics['value.searchValue']?.mean],['平均分支深度',r=>r.gatekeeper.telemetry.metrics['search.meanDepth']?.mean],['搜索 policy entropy',r=>r.gatekeeper.telemetry.metrics['policy.searchPolicy.entropy']?.mean]]);
 table(document.querySelector('#gate-rounds'),['轮次','完成局数','胜 / 平 / 负','晋级胜率','结果','候选 / 最优均分','原子决策数','P1 / P2 / draw','轮次数 mean / P10 / P50 / P90'],gs.map(r=>{const g=r.gatekeeper,t=g.telemetry;return [r.iteration,`${g.games} / ${g.requiredGames}`,`${g.wins} / ${g.draws} / ${g.losses}`,pct(g.winRate),g.promoted==null?'进行中':g.promoted?'晋级':'未晋级',`${fmt(g.meanCandidateScore)} / ${fmt(g.meanIncumbentScore)}`,t.rows,Object.values(t.results).map(pct).join(' / '),Object.values(t.rounds).map(fmt).join(' / ')]}));
 for(const r of gs){const g=r.gatekeeper,d=detail(document.querySelector('#gate-details'),`第 ${r.iteration} 轮晋级测试 · ${g.promoted==null?'进行中':g.promoted?'晋级':'未晋级'} · ${pct(g.winRate)}`);sectionTable(d,'对战配置',['字段','值'],[['候选模型',g.candidateModel],['对手最优模型',g.incumbentModel],['每动作新增模拟',g.simulations],['温度',g.temperature],['根噪声',g.noiseWeight],['晋级阈值',pct(g.threshold)],['每模型先手局数',g.complete?g.games/2:'等待完成']]);telemetry(d,g.telemetry,'全部测试决策');for(const [name,label]of [['candidate','候选模型'],['incumbent','最优模型']]){const part=detail(d,label+'的搜索指标');telemetry(part,g.byModel[name],label)}raw(d,g)}

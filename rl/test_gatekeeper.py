@@ -36,6 +36,7 @@ class GatekeeperTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             directory = Path(tmp)
             config = {**DEFAULTS, "games_per_iteration": 1, "simulations": 2, "train_rows": 65,
+                      "cheap_search_probability": 0, "max_window_passes": 0,
                       "hidden": [8, 8], "gate_games": 2, "gate_simulations": 4}
             comparisons = []
 
@@ -65,6 +66,7 @@ class GatekeeperTest(unittest.TestCase):
             directory = Path(tmp)
             command = [sys.executable, "rl/loop.py", "--out", str(directory), "--iterations", "1"]
             subprocess.check_output([*command, "--games-per-iteration", "1", "--simulations", "2",
+                                     "--cheap-search-probability", "0", "--max-window-passes", "0",
                                      "--train-rows", "65", "--hidden", "8", "8", "--gate-games", "4",
                                      "--gate-simulations", "4"], cwd=ROOT, text=True)
             current = directory/"iteration-0001"
@@ -96,11 +98,14 @@ class GatekeeperTest(unittest.TestCase):
             directory = Path(tmp)
             command = [sys.executable, "rl/loop.py", "--out", str(directory), "--iterations", "1"]
             subprocess.check_output([*command, "--games-per-iteration", "1", "--simulations", "2", "--hidden", "8", "8",
+                                     "--cheap-search-probability", "0",
                                      "--wait-for-min-rows"], cwd=ROOT, text=True)
             path = directory/"config.json"
             config = json.loads(path.read_text())
             config.pop("gate_games")
             config.pop("gate_simulations")
+            for key in ("cheap_search_probability", "cheap_simulations", "max_window_passes"):
+                config.pop(key)
             path.write_text(json.dumps(config))
             path = directory/"iteration-0001/metrics.json"
             report = json.loads(path.read_text())
@@ -109,6 +114,8 @@ class GatekeeperTest(unittest.TestCase):
             path.write_text(json.dumps(report))
             subprocess.check_output(command, cwd=ROOT, text=True)
             self.assertEqual(json.loads((directory/"config.json").read_text())["gate_games"], 100)
+            self.assertEqual(json.loads((directory/"config.json").read_text())["cheap_search_probability"], 0)
+            self.assertEqual(json.loads((directory/"config.json").read_text())["max_window_passes"], 0)
             self.assertNotIn("gatekeeper", json.loads(path.read_text()))
             status = json.loads((directory/"state.json").read_text())
             self.assertEqual(status["bestModel"], status["latestModel"])

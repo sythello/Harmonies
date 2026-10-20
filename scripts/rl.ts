@@ -45,6 +45,8 @@ const { positionals, values: args } = parseArgs({
     "heuristic-ms": { type: "string", default: "100" },
     "game-offset": { type: "string", default: "0" },
     "error-output": { type: "string" },
+    "cheap-search-probability": { type: "string" },
+    "cheap-simulations": { type: "string", default: "16" },
   },
 });
 const integer = (name: keyof typeof args, min = 1) => {
@@ -93,6 +95,13 @@ async function main() {
       throw new Error("collect requires --output trajectories.jsonl");
     mkdirSync(dirname(args.output), { recursive: true });
     const offset = integer("game-offset", 0);
+    const caps =
+      args["cheap-search-probability"] === undefined
+        ? undefined
+        : {
+            cheapProbability: Number(args["cheap-search-probability"]),
+            cheapSimulations: integer("cheap-simulations"),
+          };
     for (let n = 0; n < integer("games"); n++) {
       const i = offset + n;
       const started = performance.now();
@@ -101,6 +110,7 @@ async function main() {
         first: i % 2,
         model: model.id,
         search: { simulations, seed: seed + i * 1000003 },
+        playoutCapRandomization: caps,
       });
       const collectSeconds = (performance.now() - started) / 1000;
       trajectory.collectionSeconds = collectSeconds;
@@ -110,13 +120,17 @@ async function main() {
         JSON.stringify({
           game: i,
           samples: trajectory.samples.length,
+          decisions: trajectory.actions.length,
           scores: trajectory.scores,
           collectSeconds,
           writeSeconds: (performance.now() - started) / 1000 - collectSeconds,
           samplesPerSecond: trajectory.samples.length / collectSeconds,
           simulationsPerSecond:
-            (trajectory.samples.length * simulations) / collectSeconds,
-          reusedVisits: trajectory.samples.reduce(
+            (trajectory.decisions ?? trajectory.samples).reduce(
+              (n, s) => n + s.rootVisits - s.reusedVisits,
+              0,
+            ) / collectSeconds,
+          reusedVisits: (trajectory.decisions ?? trajectory.samples).reduce(
             (n, s) => n + s.reusedVisits,
             0,
           ),

@@ -1,6 +1,8 @@
 import {
   applyAction,
+  CARDS,
   createGame,
+  isComplete,
   ranking,
   seededRandom,
   type Action,
@@ -23,6 +25,8 @@ import {
 import type { Evaluator, Values } from "./network";
 
 export interface Sample extends Features {
+  /** Index into actions when only expensive decisions are retained. */
+  step?: number;
   seat: number;
   legal: number[];
   policy: number[];
@@ -33,6 +37,21 @@ export interface Sample extends Features {
   rootVisits: number;
   diagnostics?: SearchDiagnostics;
 }
+export interface PlayoutCapRandomization {
+  cheapProbability: number;
+  cheapSimulations: number;
+}
+export interface CollectionDecision {
+  step: number;
+  seat: number;
+  mode: "expensive" | "cheap";
+  simulations: number;
+  noiseWeight: number;
+  actionId: number;
+  reusedVisits: number;
+  rootVisits: number;
+  diagnostics: SearchDiagnostics;
+}
 export interface Trajectory {
   version: typeof VERSION;
   model: string;
@@ -42,8 +61,12 @@ export interface Trajectory {
   treeReuse: "within-turn";
   actions: Action[];
   samples: Sample[];
+  playoutCapRandomization?: PlayoutCapRandomization;
+  decisions?: CollectionDecision[];
   scores: number[];
   ranks: number[];
+  settledAnimals?: number[];
+  completedAnimalCards?: number[];
   phase: "ended";
   rounds?: number;
   turns?: number[];
@@ -89,6 +112,22 @@ export const newGame = (seed: number, first = 0) =>
     side: "A",
     spirits: false,
   });
+
+/** Final player outcomes in seat order, independent of decision counts. */
+export function terminalStats(game: Game) {
+  const ranks = ranking(game);
+  const entries = game.players.map((p) =>
+    ranks.find((r) => r.player.id === p.id)!,
+  );
+  return {
+    scores: entries.map((r) => r.score.total),
+    ranks: entries.map((r) => r.rank),
+    settledAnimals: entries.map((r) => r.score.cubes),
+    completedAnimalCards: game.players.map(
+      (p) => p.cards.filter((c) => !CARDS[c.id].spirit && isComplete(c)).length,
+    ),
+  };
+}
 export function playGame(
   agents: [Agent, Agent],
   seed: number,
@@ -122,6 +161,7 @@ export function collect(
     first?: number;
     model: string;
     search?: Partial<SearchConfig>;
+    playoutCapRandomization?: PlayoutCapRandomization;
     maxActions?: number;
   },
 ): Trajectory {
@@ -132,25 +172,59 @@ export function collect(
   });
   const samples: Sample[] = [],
     actions: Action[] = [];
+  const caps = options.playoutCapRandomization;
+  if (
+    caps &&
+    (!Number.isFinite(caps.cheapProbability) ||
+      caps.cheapProbability < 0 ||
+      caps.cheapProbability > 1 ||
+      !Number.isInteger(caps.cheapSimulations) ||
+      caps.cheapSimulations < 1 ||
+      caps.cheapSimulations > config.simulations ||
+      config.noiseWeight <= 0)
+  )
+    throw new Error("Invalid playout cap randomization");
+  // Separate RNG: neither search length nor noise draws change mode selection.
+  const capRandom = seededRandom(options.seed ^ 0x6a09e667);
+  const decisions: CollectionDecision[] = [];
   const tree = new SearchTree(evaluator);
   const agent: Agent = (view, step) => {
+    const cheap = caps ? capRandom() < caps.cheapProbability : false;
+    const simulations = cheap ? caps!.cheapSimulations : config.simulations;
+    const noiseWeight = cheap ? 0 : config.noiseWeight;
     const result = tree.search(view, {
       ...config,
+      simulations,
+      noiseWeight,
       seed: config.seed + step * 1009,
     });
     checkPolicy(result);
-    samples.push({
-      ...encode(view),
-      seat: view.active,
-      legal: result.policy.map((e) => e.id),
-      policy: result.policy.map((e) => e.target),
-      visits: result.policy.map((e) => e.visits),
-      value: result.value,
-      actionId: result.actionId,
-      reusedVisits: result.reusedVisits,
-      rootVisits: result.rootVisits,
-      diagnostics: result.diagnostics,
-    });
+    if (caps)
+      decisions.push({
+        step,
+        seat: view.active,
+        mode: cheap ? "cheap" : "expensive",
+        simulations,
+        noiseWeight,
+        actionId: result.actionId,
+        reusedVisits: result.reusedVisits,
+        rootVisits: result.rootVisits,
+        diagnostics: result.diagnostics,
+      });
+    if (!cheap)
+      samples.push({
+        ...(caps ? { step } : {}),
+        ...encode(view),
+        seat: view.active,
+        legal: result.policy.map((e) => e.id),
+        policy: result.policy.map((e) => e.target),
+        visits: result.policy.map((e) => e.visits),
+        value: result.value,
+        actionId: result.actionId,
+        reusedVisits: result.reusedVisits,
+        rootVisits: result.rootVisits,
+        diagnostics: result.diagnostics,
+      });
     actions.push(result.action);
     return result.action;
   };
@@ -164,7 +238,6 @@ export function collect(
   // Overwrite every value with the actual terminal outcome, never a search bootstrap.
   for (const sample of samples)
     sample.value = terminalValues(game, sample.seat);
-  const ranks = ranking(game);
   return {
     version: VERSION,
     model: options.model,
@@ -174,15 +247,11 @@ export function collect(
     treeReuse: "within-turn",
     actions,
     samples,
+    ...(caps ? { playoutCapRandomization: caps, decisions } : {}),
     phase: "ended",
     rounds: game.round,
     turns: game.players.map((p) => p.turns),
-    scores: game.players.map(
-      (p) => ranks.find((r) => r.player.id === p.id)!.score.total,
-    ),
-    ranks: game.players.map(
-      (p) => ranks.find((r) => r.player.id === p.id)!.rank,
-    ),
+    ...terminalStats(game),
   };
 }
 export function randomAgent(seed: number): Agent {
@@ -239,9 +308,11 @@ export function evaluateGame(
     options.seed,
     options.first,
   );
-  const entries = ranking(game),
-    a = entries.find((e) => e.player.id === 0)!,
-    b = entries.find((e) => e.player.id === 1)!;
+  const outcome = terminalStats(game),
+    candidateSeat = game.players.findIndex((p) => p.id === 0),
+    incumbentSeat = 1 - candidateSeat,
+    a = outcome.ranks[candidateSeat],
+    b = outcome.ranks[incumbentSeat];
   return {
     version: VERSION,
     phase: "ended" as const,
@@ -253,15 +324,10 @@ export function evaluateGame(
     treeReuse: "within-turn" as const,
     rounds: game.round,
     turns: game.players.map((p) => p.turns),
-    scores: game.players.map(
-      (p) => entries.find((e) => e.player.id === p.id)!.score.total,
-    ),
-    ranks: game.players.map(
-      (p) => entries.find((e) => e.player.id === p.id)!.rank,
-    ),
-    candidateScore: a.score.total,
-    incumbentScore: b.score.total,
-    result: a.rank === b.rank ? 0.5 : a.rank < b.rank ? 1 : 0,
+    ...outcome,
+    candidateScore: outcome.scores[candidateSeat],
+    incumbentScore: outcome.scores[incumbentSeat],
+    result: a === b ? 0.5 : a < b ? 1 : 0,
     actions,
     decisions,
   };

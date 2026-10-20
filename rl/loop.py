@@ -1,4 +1,4 @@
-"""Sequential self-play -> recent replay window -> exactly N training rows."""
+"""Sequential self-play -> recent replay window -> bounded training rows."""
 import argparse
 import fcntl
 import hashlib
@@ -17,11 +17,25 @@ from replay import ReplayBuffer, sampling_passes, window_size
 from train import Model, VALUE_HEADS, load, loss_components, save
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULTS = dict(games_per_iteration=1000, simulations=32, train_rows=400_000,
+DEFAULTS = dict(games_per_iteration=2000, simulations=64, train_rows=400_000,
+                cheap_search_probability=0.75, cheap_simulations=16, max_window_passes=2,
                 min_rows=100_000, taper_scale=50_000, expand_window_per_row=0.4,
                 taper_window_exponent=0.65, batch_size=64, lr=0.001, seed=1729,
                 threads=1, device="cpu", hidden=[128, 128], embedding_dim=8,
                 initial=None, wait_for_min_rows=False, gate_games=100, gate_simulations=128)
+# Preserve historical runs' sampling/training semantics on resume.
+LEGACY_PLAY_DEFAULTS = dict(cheap_search_probability=0.0, cheap_simulations=16, max_window_passes=0)
+
+
+def training_rows(config, window_rows):
+    passes = config.get("max_window_passes", 0)
+    return min(config["train_rows"], passes * window_rows) if passes else config["train_rows"]
+
+
+def playout_caps(config):
+    return ({"cheapProbability": config["cheap_search_probability"],
+             "cheapSimulations": config["cheap_simulations"]}
+            if config.get("cheap_search_probability", 0) else None)
 
 
 class TrainingMaskError(ValueError):
@@ -62,6 +76,7 @@ def batches(start, stop, rows, size, seed):
 
 
 def train_iteration(buffer, source, destination, config, start, stop, iteration):
+    budget = training_rows(config, stop - start)
     torch.manual_seed(config["seed"] + iteration)
     model, old = load(str(source) + ".pt", config["device"])
     model.train()
@@ -76,7 +91,7 @@ def train_iteration(buffer, source, destination, config, start, stop, iteration)
     path = destination.parent
     sample_hash = hashlib.sha256()
     with (path / "training.jsonl").open("w") as log, (path / "sampled-rows.i64").open("wb") as selections:
-        for ids in batches(start, stop, config["train_rows"], config["batch_size"], config["seed"] + iteration):
+        for ids in batches(start, stop, budget, config["batch_size"], config["seed"] + iteration):
             raw_ids = np.asarray(ids, dtype="<i8").tobytes()
             selections.write(raw_ids)
             sample_hash.update(raw_ids)
@@ -120,7 +135,7 @@ def train_iteration(buffer, source, destination, config, start, stop, iteration)
                 log.flush()
                 print(json.dumps({"event": "training_progress", "iteration": iteration, "steps": steps, "rows": rows,
                                   "loss": losses}), flush=True)
-    if rows != config["train_rows"] or steps != math.ceil(rows / config["batch_size"]):
+    if rows != budget or steps != math.ceil(rows / config["batch_size"]):
         raise AssertionError("Training row budget mismatch")
     checkpoint(model, optimizer, destination, old["steps"] + steps)
     elapsed = time.perf_counter() - started
@@ -141,6 +156,7 @@ def train_or_resume(buffer, source, destination, config, start, stop, iteration)
                 "window": [start, stop], "config": config}
     if marker.exists():
         saved = json.loads(marker.read_text())
+        saved["identity"]["config"] = {**LEGACY_PLAY_DEFAULTS, **saved["identity"]["config"]}
         if saved["identity"] != identity:
             raise ValueError("Completed training does not match the source/window/config")
         if all(Path(str(destination) + suffix).exists() and
@@ -164,7 +180,8 @@ def collect_iteration(buffer, directory, source, config, iteration, status):
         game = json.loads(line)
         index = base + count
         if (game["seed"] != config["seed"] + index or game["first"] != index % 2 or
-                game["model"] != model_id or game["search"]["simulations"] != config["simulations"]):
+                game["model"] != model_id or game["search"]["simulations"] != config["simulations"] or
+                game.get("playoutCapRandomization") != playout_caps(config)):
             raise ValueError("Collected game does not match iteration/model/seed/budget")
         buffer.add_game(game, iteration, count, game_metrics(game))
         count += 1
@@ -181,6 +198,9 @@ def collect_iteration(buffer, directory, source, config, iteration, status):
                "--games", str(config["games_per_iteration"] - count), "--simulations", str(config["simulations"]),
                "--seed", str(config["seed"]), "--game-offset", str(base + count), "--output", str(trajectory),
                "--error-output", str(directory / "errors.jsonl")]
+    if playout_caps(config):
+        command.extend(["--cheap-search-probability", str(config["cheap_search_probability"]),
+                        "--cheap-simulations", str(config["cheap_simulations"])])
     with trajectory.open() as games, (directory / "collection.log").open("a") as log:
         games.seek(0, 2)
         process = subprocess.Popen(command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
@@ -250,7 +270,7 @@ def run(directory, config, iterations):
                       "selfplayModel": str(best.relative_to(directory)), "gatekeeper": None,
                       "selfplay": collection_metrics(buffer.game_metrics(iteration), error_records(current / "errors.jsonl")),
                       "window": {"rows": n, "firstRowId": start, "lastRowId": stop-1}, "training": None}
-            if not config["wait_for_min_rows"] or totals["rows"] >= config["min_rows"]:
+            if n and (not config["wait_for_min_rows"] or totals["rows"] >= config["min_rows"]):
                 status["phase"] = "training"
                 atomic_json(directory / "state.json", status)
                 dashboard(directory, [*history, report], status)
@@ -320,14 +340,16 @@ def main():
             parser.error("Another loop process owns this run directory")
         config_path = directory / "config.json"
         saved = json.loads(config_path.read_text()) if config_path.exists() else None
-        baseline = {**DEFAULTS, **(saved or {})}
+        baseline = {**DEFAULTS, **(LEGACY_PLAY_DEFAULTS if saved else {}), **(saved or {})}
         config = {k: getattr(args, k) if getattr(args, k) is not None else baseline[k] for k in DEFAULTS}
         if config["initial"]:
             config["initial"] = str(Path(config["initial"]).resolve())
         if saved and any(config[k] != saved[k] for k in saved):
             parser.error("Resume requires the original configuration; use a new output directory to change it")
-        ints = ("games_per_iteration", "simulations", "train_rows", "min_rows", "taper_scale", "batch_size", "threads", "embedding_dim", "gate_games", "gate_simulations")
+        ints = ("games_per_iteration", "simulations", "cheap_simulations", "train_rows", "min_rows", "taper_scale", "batch_size", "threads", "embedding_dim", "gate_games", "gate_simulations")
         if (args.iterations < 1 or any(config[k] < 1 for k in ints) or min(config["hidden"]) < 1 or config["seed"] < 0 or
+                config["max_window_passes"] < 0 or not 0 <= config["cheap_search_probability"] <= 1 or
+                (config["cheap_search_probability"] > 0 and config["cheap_simulations"] > config["simulations"]) or
                 config["simulations"] > 100000 or config["gate_simulations"] > 100000 or config["gate_games"] % 2 != 0 or not 0 < config["expand_window_per_row"] <= 1 or
                 not 0 < config["taper_window_exponent"] <= 1 or not math.isfinite(config["lr"]) or config["lr"] <= 0):
             parser.error("Invalid loop configuration")

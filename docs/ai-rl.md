@@ -154,7 +154,7 @@ w_a = 0                                        未访问动作
 
 `π` 是训练监督。实际自博弈动作按 `w^(1/temperature)` 采样（默认温度 1）；serving 选最大 w，相同 w 时选较大 Q，再按引擎稳定枚举顺序。温度只作用于执行动作，不再次改变训练目标。访问次数已通过 PUCT 受 NN value 引导，修正权重又显式使用搜索平均 Q。
 
-为保持最小实现，未实现 KataGo 的方差自适应 cpuct、LCB 提升、非等权 value aggregation、强制 playout、额外 chosenMoveSubtract/Prune、playout cap randomization、辅助 optimistic policy 或多线程。上述差异不是“完整复刻 KataGo”。尤其本版没有强制 playout，所以没有相应的计数扣除；采用的是源码中的通用 retrospective weight reduction。现支持以下同回合子树复用。
+为保持最小实现，未实现 KataGo 的方差自适应 cpuct、LCB 提升、非等权 value aggregation、强制 playout、额外 chosenMoveSubtract/Prune、辅助 optimistic policy 或多线程。上述差异不是“完整复刻 KataGo”。尤其本版没有强制 playout，所以没有相应的计数扣除；采用的是源码中的通用 retrospective weight reduction。现支持以下同回合子树复用。
 
 ## 隐藏信息与随机补充
 
@@ -252,3 +252,5 @@ v2 使用默认 128×128 模型完成了两局采样（177 条样本、每步 8 
 ```
 
 此前还跑通了配对评测和 HTTP 请求。生成的 smoke checkpoint 仅验证框架可运行，未进行足量强化学习或稳定强度测量；没有把短期 smoke 胜率当作模型能力结论。
+
+2026-10-18：self-play loop 已支持逐原子决策 playout cap randomization（25% 64 次 + 根噪声、75% 16 次无根噪声），仅 expensive 状态进入 replay。细节和 KataGo 代码参考见 [self-play loop 文档](ai-selfplay-loop.md)。单独 `collect` CLI 需传入 `--cheap-search-probability 0.75 --cheap-simulations 16 --simulations 64` 启用；省略时保持旧全状态采样。
