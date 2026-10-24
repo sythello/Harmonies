@@ -5,6 +5,8 @@
     "scripts/rl.ts",
     "scripts/mcts-audit.ts",
     "scripts/nn-fit.ts",
+    "scripts/value-variance.ts",
+    "tests/value-variance.test.ts",
     "tests/nn-fit.test.ts",
     "tests/mcts-audit.test.ts",
     "tests/rl.test.ts",
