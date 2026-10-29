@@ -3,6 +3,7 @@
 rl/runs/
 # Versioned experiment documentation is tracked; large local run artifacts are not.
 rl/experiments/10-rounds/*/run/
+rl/experiments/10-rounds/comparisons/*/run/
 __pycache__/
 *.py[codz]
 *$py.class

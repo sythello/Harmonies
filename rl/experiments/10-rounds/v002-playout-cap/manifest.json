@@ -459,5 +459,18 @@
     "sha256Inventory": "artifacts.sha256",
     "relocation": "relocation.json"
   },
-  "verificationPassed": true
+  "verificationPassed": true,
+  "comparisons": [
+    {
+      "id": "v002-vs-v001-20261029",
+      "date": "2026-10-29",
+      "status": "complete",
+      "opponent": "v001-fixed32",
+      "games": 100,
+      "scoreRate": 0.58,
+      "simulations": 128,
+      "result": "../comparisons/v002-vs-v001-20261029/result.json",
+      "meets400GameBenchmark": false
+    }
+  ]
 }
