@@ -1,6 +1,6 @@
 # Value 目标的条件方差实验
 
-本实验检查同一个模型可见输入的终局标签波动。正式运行目录为 `rl/runs/value-variance-20261020`，固定使用 `playout-cap-10rounds-20261018/iteration-0010/model.json`（第 10 轮 best，SHA256 `f4128e2cf621490b100afd6df08f7fbf79f9c9e16777a10850ce54206790acf3`）。不更新模型或训练 replay。
+本实验检查同一个模型可见输入的终局标签波动。正式运行目录为 `rl/runs/value-variance-20261020`，固定使用 [v002-playout-cap](../rl/experiments/10-rounds/v002-playout-cap/README.md) 的 `run/iteration-0010/model.json`（第 10 轮 best，SHA256 `f4128e2cf621490b100afd6df08f7fbf79f9c9e16777a10850ce54206790acf3`）。不更新模型或训练 replay。
 
 ## 采样口径
 
@@ -29,7 +29,7 @@
 ```bash
 .venv-rl/bin/python rl/value_variance.py \
   --out rl/runs/value-variance-20261020 \
-  --model rl/runs/playout-cap-10rounds-20261018/iteration-0010/model.json \
+  --model rl/experiments/10-rounds/v002-playout-cap/run/iteration-0010/model.json \
   --games 100 --repeats 10 --workers 4
 ```
 

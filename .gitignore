@@ -1,6 +1,8 @@
 # Byte-compiled / optimized / DLL files
 .venv-rl/
 rl/runs/
+# Versioned experiment documentation is tracked; large local run artifacts are not.
+rl/experiments/10-rounds/*/run/
 __pycache__/
 *.py[codz]
 *$py.class

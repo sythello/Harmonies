@@ -1,0 +1,50 @@
+{
+  "checkedOn": "2026-10-29",
+  "versions": [
+    {
+      "version": "v001-fixed32",
+      "completeIterations": 10,
+      "checkpointHashesChecked": 6,
+      "replayRows": 953730,
+      "legacyPathsResolve": true,
+      "metadataMatchesArtifacts": true
+    },
+    {
+      "version": "v002-playout-cap",
+      "completeIterations": 10,
+      "checkpointHashesChecked": 6,
+      "replayRows": 487277,
+      "legacyPathsResolve": true,
+      "metadataMatchesArtifacts": true
+    }
+  ],
+  "markdownLinksChecked": 49,
+  "typescriptAuditBundles": "passed (3 entrypoints, esbuild)",
+  "passed": true,
+  "dashboardStaticChecks": [
+    {
+      "version": "v001-fixed32",
+      "tabElements": 2,
+      "iterations": 10,
+      "resourceReferences": [
+        "metrics.json",
+        "state.json"
+      ],
+      "htmlUnchangedSha256": true
+    },
+    {
+      "version": "v002-playout-cap",
+      "tabElements": 2,
+      "iterations": 10,
+      "resourceReferences": [
+        "metrics.json",
+        "state.json"
+      ],
+      "htmlUnchangedSha256": true
+    }
+  ],
+  "browserRecheck": {
+    "status": "not-completed",
+    "reason": "Headless Chrome terminated in sandbox; browser tool disallowed file: URLs. No browser workaround attempted. Dashboard HTML is byte-identical to the previously verified original."
+  }
+}

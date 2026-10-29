@@ -1,0 +1,43 @@
+{
+  "organizedOn": "2026-10-29",
+  "passed": true,
+  "originalRun": "rl/runs/playout-cap-10rounds-20261018",
+  "run": "rl/experiments/10-rounds/v002-playout-cap/run",
+  "compatibilitySymlink": "../experiments/10-rounds/v002-playout-cap/run",
+  "originalFileCount": 145,
+  "originalBytes": 3822316778,
+  "preservedOriginalFiles": 141,
+  "pathOnlyScriptChanges": [
+    {
+      "path": "verify-metrics.py",
+      "beforeSha256": "95af81968b732831d3cd325a1b3a7e4e28dfc4c6dfe8bec71cc4e9635674e06d",
+      "afterSha256": "fe770f973be290b314a0a00596019bf2a07931022940b1cf0ce99b3911d2f7d4",
+      "originalSavedAt": "_relocation-originals/verify-metrics.py"
+    },
+    {
+      "path": "verify-replay.ts",
+      "beforeSha256": "5e0fcdf7fe660ef66a25c773cafc4a2fe8ca2b180d4d1f9554c70fa5a472c593",
+      "afterSha256": "05885517793b6da01f0717bb3cc0f97924611950fca31d69c46aa6d40f59f05b",
+      "originalSavedAt": "_relocation-originals/verify-replay.ts"
+    },
+    {
+      "path": "value-audit-20261020/extract.ts",
+      "beforeSha256": "cd4b8c2d13fcc6d01c898d36307646ab7adcbf5d19dcd8d65d36671fa73c43d9",
+      "afterSha256": "26358a02d3eb81fa828290983b4bd93e85e0ee81091513d940e6aaeb02d54818",
+      "originalSavedAt": "_relocation-originals/value-audit-20261020/extract.ts"
+    },
+    {
+      "path": "value-audit-20261020/evaluate.py",
+      "beforeSha256": "0fcf23de3a14c63cff3a4882b93fecb7e48b2252ae5ddd50d49eb05db7454552",
+      "afterSha256": "e6a9251f90f7914ef2af5b88e20c5f35948fbb0d489bed2d5ff3c50fcf486f0e",
+      "originalSavedAt": "_relocation-originals/value-audit-20261020/evaluate.py"
+    }
+  ],
+  "checks": [
+    "run complete with 10 iteration metrics and passed verification",
+    "exclusive run lock held during relocation",
+    "every unedited original file SHA256 and byte size unchanged",
+    "original copies of all path-edited scripts preserved",
+    "legacy path resolves to canonical versioned run"
+  ]
+}

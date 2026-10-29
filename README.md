@@ -33,7 +33,9 @@ npm run dev
 
 运行命令、数据与特征定义、KataGo 固定提交的具体源码引用和算法简化见 [docs/ai-rl.md](docs/ai-rl.md)。
 
-自动自对弈迭代、增长窗口 replay buffer、每轮 40 万行训练、100 局 gatekeeper 晋级测试和双 tab 监控大盘见 [docs/ai-selfplay-loop.md](docs/ai-selfplay-loop.md)。最优模型负责采样，最新 checkpoint 持续训练。
+自动自对弈迭代、增长窗口 replay buffer、expensive/cheap 采样、每轮最多 40 万行且最多两遍窗口的训练、100 局 gatekeeper 晋级测试和双 tab 监控大盘见 [docs/ai-selfplay-loop.md](docs/ai-selfplay-loop.md)。最优模型负责采样，最新 checkpoint 持续训练。
+
+完整 10 轮训练实验统一保存于 [版本索引与对比](rl/experiments/10-rounds/README.md)：每版有独立的完整 run、方案文档、配置与结果 manifest、模型哈希和看板入口。
 
 ## 验证
 

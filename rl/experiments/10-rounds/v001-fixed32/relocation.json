@@ -1,0 +1,31 @@
+{
+  "organizedOn": "2026-10-29",
+  "passed": true,
+  "originalRun": "rl/runs/selfplay-10rounds-20261015",
+  "run": "rl/experiments/10-rounds/v001-fixed32/run",
+  "compatibilitySymlink": "../experiments/10-rounds/v001-fixed32/run",
+  "originalFileCount": 133,
+  "originalBytes": 4949030603,
+  "preservedOriginalFiles": 131,
+  "pathOnlyScriptChanges": [
+    {
+      "path": "verify-metrics.py",
+      "beforeSha256": "6cc5a553d140c1deb5ace9a908880b23277177bdb9a2fba2a66fc92d91eb2a80",
+      "afterSha256": "e756641e3c2bd679cd15de3bd4eb4b62dfe87c13625e53b60953c3b1e4472dcb",
+      "originalSavedAt": "_relocation-originals/verify-metrics.py"
+    },
+    {
+      "path": "verify-replay.ts",
+      "beforeSha256": "62f285452ee27fc643602cc34b4989b8a603d4964891f3eca3b6958305c90766",
+      "afterSha256": "f0513e3367fe8fa347d52e6337db6da1d15b1502ea771e4dd98099ab08be99c7",
+      "originalSavedAt": "_relocation-originals/verify-replay.ts"
+    }
+  ],
+  "checks": [
+    "run complete with 10 iteration metrics and passed verification",
+    "exclusive run lock held during relocation",
+    "every unedited original file SHA256 and byte size unchanged",
+    "original copies of all path-edited scripts preserved",
+    "legacy path resolves to canonical versioned run"
+  ]
+}

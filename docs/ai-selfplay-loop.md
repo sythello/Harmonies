@@ -2,6 +2,8 @@
 
 `rl/loop.py` 串行调度现有 TypeScript 自对弈与 PyTorch 训练，不复制游戏规则。支持 A 面、两人、无自然之灵。每轮用最优模型采样，从最新 checkpoint 续训，再进行 serving 对战晋级测试。
 
+完整 10 轮正式实验的统一入口为 [版本索引与对比](../rl/experiments/10-rounds/README.md)。`v001-fixed32` 与 `v002-playout-cap` 各自保存完整 run、配置、逐轮结果及模型哈希；以下历史实测使用新目录，旧 `rl/runs/` 路径仍以兼容符号链接保留。
+
 ## 运行
 
 在仓库根目录安装 `rl/requirements.txt`，然后执行：
@@ -205,14 +207,16 @@ Gatekeeper 测试另覆盖恰好 50%、平局半胜、低于 50% 拒绝、未完
 正式 10 轮训练使用独立新目录，从随机初始化的默认 `128 128` 网络开始，命令如下（运行状态见该目录 `state.json`，不要把此命令或计划轮数视为已完成轮数）：
 
 ```bash
-.venv-rl/bin/python rl/loop.py --out rl/runs/selfplay-10rounds-20261015 --iterations 10
+.venv-rl/bin/python rl/loop.py --out rl/experiments/10-rounds/v001-fixed32/run --iterations 10 \
+  --games-per-iteration 1000 --simulations 32 --cheap-search-probability 0 \
+  --train-rows 400000 --max-window-passes 0 --hidden 128 128
 ```
 
 该运行保留每轮 1000 局采样 / 32 次模拟 / 400k 行训练，以及 100 局晋级测试 / 128 次模拟的完整默认预算。
 
 ## 正式 10 轮实测（2026-10-15）
 
-`rl/runs/selfplay-10rounds-20261015/` 已实际完成 10 轮。每轮 1000 局 self-play / 32 次模拟 / 400000 行训练 / 100 局晋级测试 / 128 次模拟，网络为默认 `128 128`。总计 **10000 局训练 self-play、953730 行 replay 样本、400 万行训练消费、62500 次参数更新，以及 1000 局晋级测试、101362 次测试原子决策**。耗时约 **3 小时 59 分钟**：采样 9681.74s、训练与模型保存 161.99s、晋级对局 4463.64s，其余为数据写入、聚合等开销。
+`rl/experiments/10-rounds/v001-fixed32/run/` 已实际完成 10 轮。每轮 1000 局 self-play / 32 次模拟 / 400000 行训练 / 100 局晋级测试 / 128 次模拟，网络为默认 `128 128`。总计 **10000 局训练 self-play、953730 行 replay 样本、400 万行训练消费、62500 次参数更新，以及 1000 局晋级测试、101362 次测试原子决策**。耗时约 **3 小时 59 分钟**：采样 9681.74s、训练与模型保存 161.99s、晋级对局 4463.64s，其余为数据写入、聚合等开销。
 
 训练 self-play 终局均值（每局双方各计一次；本轮采样使用上一轮最优模型）：
 
@@ -255,10 +259,12 @@ Gatekeeper 测试另覆盖恰好 50%、平局半胜、低于 50% 拒绝、未完
 
 实现通过 91 项 TypeScript 测试、17 项 Python 测试、生产构建和 RL 类型检查。新增测试覆盖逐原子决策随机模式、64/16 实际新增模拟数、根噪声切换时子树复用、expensive 样本与动作 step/特征/终局标签的对应、cheap-only 完整轨迹、仅 expensive 入库、每行每轮最多两次抽样，以及断点恢复。
 
-正式目录 `rl/runs/playout-cap-10rounds-20261018/` 已完成全部 **10 轮**，没有缩减预算或重启训练。启动命令为：
+正式目录 `rl/experiments/10-rounds/v002-playout-cap/run/` 已完成全部 **10 轮**，没有缩减预算或重启训练。启动命令为：
 
 ```bash
-.venv-rl/bin/python rl/loop.py --out rl/runs/playout-cap-10rounds-20261018 --iterations 10
+.venv-rl/bin/python rl/loop.py --out rl/experiments/10-rounds/v002-playout-cap/run --iterations 10 \
+  --games-per-iteration 2000 --simulations 64 --cheap-search-probability 0.75 \
+  --cheap-simulations 16 --train-rows 400000 --max-window-passes 2 --hidden 128 128
 ```
 
 使用全部新默认配置：2000 局/轮、25% expensive（新增 64 模拟、根噪声 0.25）/75% cheap（新增 16 模拟、根噪声 0）、温度均为 1、回合内复用树；仅 expensive 训练，预算 `min(400000,2W)`；128×128 网络；每轮 100 局 serving 晋级测试，每动作新增 128 模拟、温度/根噪声均为 0。初始 JSON 权重与旧 `selfplay-10rounds-20261015` 实验逐字节一致，replay 独立。
@@ -384,4 +390,4 @@ Exact/MSE 平均己方与对手输出。得分 exact 是还原到整数分后完
 
 这些结果支持排名存在明显泛化/校准问题，但 explore 训练与 serving 测试的策略、状态分布不同，不能把全部差距单独归因于过拟合。按每局等权的晋级方向准确率为 58.57%，以 50 配对 seed bootstrap 的描述性 95% 区间为 51.26%–65.44%，不能把同局相关状态当成独立对局扩大置信度。
 
-原记录与重算 TS utility 完全一致；PyTorch/TS 三个 head 最大误差 4.10e-6，独立 NumPy 指标复核通过。原模型/replay 未修改。完整报告及阶段统计、预测数组、复现脚本位于 `rl/runs/playout-cap-10rounds-20261018/value-audit-20261020/report.md`，原始结果为同目录 `results.json` / `metrics.csv` / `verification.json`。
+原记录与重算 TS utility 完全一致；PyTorch/TS 三个 head 最大误差 4.10e-6，独立 NumPy 指标复核通过。原模型/replay 未修改。完整报告及阶段统计、预测数组、复现脚本位于 `rl/experiments/10-rounds/v002-playout-cap/run/value-audit-20261020/report.md`，原始结果为同目录 `results.json` / `metrics.csv` / `verification.json`。

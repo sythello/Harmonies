@@ -1,0 +1,463 @@
+{
+  "formatVersion": 1,
+  "version": "v002-playout-cap",
+  "title": "Expensive / cheap 采样",
+  "registeredOn": "2026-10-29",
+  "status": "complete",
+  "completedIterations": 10,
+  "previousVersion": "v001-fixed32",
+  "historicalRunName": "playout-cap-10rounds-20261018",
+  "canonicalRun": "rl/experiments/10-rounds/v002-playout-cap/run",
+  "legacyRunAlias": "rl/runs/playout-cap-10rounds-20261018",
+  "sourceCommit": null,
+  "sourceCommitNote": "历史 run 未保存独立的启动 commit；不以整理时 HEAD 代替。",
+  "changes": [
+    "相对 v001，每轮 self-play 从 1000 局增加到 2000 局。",
+    "每个原子决策独立抽样：25% expensive 新增 64 模拟、根噪声 0.25；75% cheap 新增 16 模拟、根噪声 0。两者温度均为 1，回合内复用树。",
+    "只将 expensive 状态加入 replay；cheap 仍参与真实对局和监控。",
+    "训练预算从固定 400000 行改为 min(400000, 2 × 实际窗口行数)，每行每轮最多两次。跨轮仍可重复训练。",
+    "网络、特征、loss、窗口公式、优化器及 gatekeeper 不变。使用与 v001 相同的随机初始权重，独立生成 replay。"
+  ],
+  "config": {
+    "games_per_iteration": 2000,
+    "simulations": 64,
+    "train_rows": 400000,
+    "cheap_search_probability": 0.75,
+    "cheap_simulations": 16,
+    "max_window_passes": 2,
+    "min_rows": 100000,
+    "taper_scale": 50000,
+    "expand_window_per_row": 0.4,
+    "taper_window_exponent": 0.65,
+    "batch_size": 64,
+    "lr": 0.001,
+    "seed": 1729,
+    "threads": 1,
+    "device": "cpu",
+    "hidden": [
+      128,
+      128
+    ],
+    "embedding_dim": 8,
+    "initial": null,
+    "wait_for_min_rows": false,
+    "gate_games": 100,
+    "gate_simulations": 128
+  },
+  "collection": {
+    "expensiveProbability": 0.25,
+    "expensiveSimulations": 64,
+    "expensiveRootNoiseWeight": 0.25,
+    "cheapSimulations": 16,
+    "cheapRootNoiseWeight": 0,
+    "temperature": 1,
+    "treeReuseWithinTurn": true,
+    "replaySelection": "expensive-only"
+  },
+  "model": {
+    "numericInputs": 1614,
+    "marketCardSlots": 5,
+    "embeddingDim": 8,
+    "cardVocabulary": 33,
+    "hidden": [
+      128,
+      128
+    ],
+    "policyOutputs": 885,
+    "valueHeads": [
+      "rank",
+      "relative",
+      "absolute"
+    ],
+    "outputsPerValueHead": 2,
+    "parameters": 343555
+  },
+  "initial": {
+    "prefix": "initial",
+    "json": "run/initial.json",
+    "pt": "run/initial.pt",
+    "jsonSha256": "5aefa6b6738d821ae4d11166e5d6fd738d52f5d3c5b4de34ef8f41f4ec1155d5",
+    "ptSha256": "193841c4997dc168dd98371b0762e32028f153ef7c0fc68049332b30fe9d81ce"
+  },
+  "best": {
+    "prefix": "iteration-0010/model",
+    "json": "run/iteration-0010/model.json",
+    "pt": "run/iteration-0010/model.pt",
+    "jsonSha256": "f4128e2cf621490b100afd6df08f7fbf79f9c9e16777a10850ce54206790acf3",
+    "ptSha256": "dafa9f7e78c2ecad27a90b78e5ec2648ee05409df466d009842f86122bd32211"
+  },
+  "latest": {
+    "prefix": "iteration-0010/model",
+    "json": "run/iteration-0010/model.json",
+    "pt": "run/iteration-0010/model.pt",
+    "jsonSha256": "f4128e2cf621490b100afd6df08f7fbf79f9c9e16777a10850ce54206790acf3",
+    "ptSha256": "dafa9f7e78c2ecad27a90b78e5ec2648ee05409df466d009842f86122bd32211"
+  },
+  "summary": {
+    "trainingGames": 20000,
+    "replayRows": 487277,
+    "trainingRowsConsumed": 2799410,
+    "optimizerSteps": 43746,
+    "gateGames": 1000,
+    "totalSeconds": 25434.493203002494,
+    "promotedIterations": [
+      1,
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      10
+    ],
+    "lastSelfplayTerminal": {
+      "score": 40.046,
+      "settledAnimals": 2.49275,
+      "completedAnimalCards": 0.16375
+    },
+    "lastGateTerminal": {
+      "score": 51.235,
+      "settledAnimals": 3.72,
+      "completedAnimalCards": 0.34
+    }
+  },
+  "iterations": [
+    {
+      "iteration": 1,
+      "newReplayRows": 45598,
+      "windowRows": 45598,
+      "trainingRows": 91196,
+      "trainingSteps": 1425,
+      "selfplayModel": "initial",
+      "trainingSource": "initial",
+      "bestModel": "iteration-0001/model",
+      "latestModel": "iteration-0001/model",
+      "gate": {
+        "wins": 74,
+        "draws": 0,
+        "losses": 26,
+        "winRate": 0.74,
+        "promoted": true,
+        "candidateModel": "iteration-0001/model",
+        "incumbentModel": "initial",
+        "modelHashes": [
+          "b3ea32f118b2cc7fcd5e303071bfb5b2d9d4a96a029c63f76e85a321d0b14f09",
+          "5aefa6b6738d821ae4d11166e5d6fd738d52f5d3c5b4de34ef8f41f4ec1155d5"
+        ]
+      },
+      "trainingOnlineLoss": {
+        "policy": 2.177336011237651,
+        "rank": 0.4829495332106053,
+        "relative": 0.0066424216626992955,
+        "absolute": 0.005021235252918414
+      },
+      "metrics": "run/iteration-0001/metrics.json"
+    },
+    {
+      "iteration": 2,
+      "newReplayRows": 46905,
+      "windowRows": 92503,
+      "trainingRows": 185006,
+      "trainingSteps": 2891,
+      "selfplayModel": "iteration-0001/model",
+      "trainingSource": "iteration-0001/model",
+      "bestModel": "iteration-0002/model",
+      "latestModel": "iteration-0002/model",
+      "gate": {
+        "wins": 50,
+        "draws": 1,
+        "losses": 49,
+        "winRate": 0.505,
+        "promoted": true,
+        "candidateModel": "iteration-0002/model",
+        "incumbentModel": "iteration-0001/model",
+        "modelHashes": [
+          "5cffa652625d2d3349402758ecaa23e9111fce1cac6aae9966d36a310a0e46a4",
+          "b3ea32f118b2cc7fcd5e303071bfb5b2d9d4a96a029c63f76e85a321d0b14f09"
+        ]
+      },
+      "trainingOnlineLoss": {
+        "policy": 2.1378701151821375,
+        "rank": 0.3738564355634243,
+        "relative": 0.006501568748747966,
+        "absolute": 0.005828062301761004
+      },
+      "metrics": "run/iteration-0002/metrics.json"
+    },
+    {
+      "iteration": 3,
+      "newReplayRows": 48194,
+      "windowRows": 114543,
+      "trainingRows": 229086,
+      "trainingSteps": 3580,
+      "selfplayModel": "iteration-0002/model",
+      "trainingSource": "iteration-0002/model",
+      "bestModel": "iteration-0003/model",
+      "latestModel": "iteration-0003/model",
+      "gate": {
+        "wins": 54,
+        "draws": 0,
+        "losses": 46,
+        "winRate": 0.54,
+        "promoted": true,
+        "candidateModel": "iteration-0003/model",
+        "incumbentModel": "iteration-0002/model",
+        "modelHashes": [
+          "a83219749d485fd3e541ddaf6c49689b86c12989cb3c27d7e9af9842155328fe",
+          "5cffa652625d2d3349402758ecaa23e9111fce1cac6aae9966d36a310a0e46a4"
+        ]
+      },
+      "trainingOnlineLoss": {
+        "policy": 2.0427894106010585,
+        "rank": 0.3544358818003049,
+        "relative": 0.007158827811993628,
+        "absolute": 0.00692845173855201
+      },
+      "metrics": "run/iteration-0003/metrics.json"
+    },
+    {
+      "iteration": 4,
+      "newReplayRows": 48878,
+      "windowRows": 129197,
+      "trainingRows": 258394,
+      "trainingSteps": 4038,
+      "selfplayModel": "iteration-0003/model",
+      "trainingSource": "iteration-0003/model",
+      "bestModel": "iteration-0003/model",
+      "latestModel": "iteration-0004/model",
+      "gate": {
+        "wins": 47,
+        "draws": 2,
+        "losses": 51,
+        "winRate": 0.48,
+        "promoted": false,
+        "candidateModel": "iteration-0004/model",
+        "incumbentModel": "iteration-0003/model",
+        "modelHashes": [
+          "03e0e5f61600f5a59c83d34cf0bfc0a50773268e05568c4003488d424b1eb210",
+          "a83219749d485fd3e541ddaf6c49689b86c12989cb3c27d7e9af9842155328fe"
+        ]
+      },
+      "trainingOnlineLoss": {
+        "policy": 1.934979441691915,
+        "rank": 0.35975685536534324,
+        "relative": 0.008242949683578785,
+        "absolute": 0.007857985986205053
+      },
+      "metrics": "run/iteration-0004/metrics.json"
+    },
+    {
+      "iteration": 5,
+      "newReplayRows": 49413,
+      "windowRows": 142255,
+      "trainingRows": 284510,
+      "trainingSteps": 4446,
+      "selfplayModel": "iteration-0003/model",
+      "trainingSource": "iteration-0004/model",
+      "bestModel": "iteration-0005/model",
+      "latestModel": "iteration-0005/model",
+      "gate": {
+        "wins": 59,
+        "draws": 0,
+        "losses": 41,
+        "winRate": 0.59,
+        "promoted": true,
+        "candidateModel": "iteration-0005/model",
+        "incumbentModel": "iteration-0003/model",
+        "modelHashes": [
+          "548ad1061d9612c8e904ded3a291e49b7f5073993e34c58072313687b06f9444",
+          "a83219749d485fd3e541ddaf6c49689b86c12989cb3c27d7e9af9842155328fe"
+        ]
+      },
+      "trainingOnlineLoss": {
+        "policy": 1.8647050980017235,
+        "rank": 0.36039835781624713,
+        "relative": 0.008921898747935579,
+        "absolute": 0.008328853604524164
+      },
+      "metrics": "run/iteration-0005/metrics.json"
+    },
+    {
+      "iteration": 6,
+      "newReplayRows": 48959,
+      "windowRows": 154050,
+      "trainingRows": 308100,
+      "trainingSteps": 4815,
+      "selfplayModel": "iteration-0005/model",
+      "trainingSource": "iteration-0005/model",
+      "bestModel": "iteration-0006/model",
+      "latestModel": "iteration-0006/model",
+      "gate": {
+        "wins": 56,
+        "draws": 0,
+        "losses": 44,
+        "winRate": 0.56,
+        "promoted": true,
+        "candidateModel": "iteration-0006/model",
+        "incumbentModel": "iteration-0005/model",
+        "modelHashes": [
+          "093def6950ba32b6fc5e86c7974eb99c10340c1ac8ec0f5ad8b690f09b0636c9",
+          "548ad1061d9612c8e904ded3a291e49b7f5073993e34c58072313687b06f9444"
+        ]
+      },
+      "trainingOnlineLoss": {
+        "policy": 1.8280670523217883,
+        "rank": 0.3713421512063604,
+        "relative": 0.009206654036315433,
+        "absolute": 0.008690189460509494
+      },
+      "metrics": "run/iteration-0006/metrics.json"
+    },
+    {
+      "iteration": 7,
+      "newReplayRows": 49515,
+      "windowRows": 165140,
+      "trainingRows": 330280,
+      "trainingSteps": 5161,
+      "selfplayModel": "iteration-0006/model",
+      "trainingSource": "iteration-0006/model",
+      "bestModel": "iteration-0007/model",
+      "latestModel": "iteration-0007/model",
+      "gate": {
+        "wins": 56,
+        "draws": 0,
+        "losses": 44,
+        "winRate": 0.56,
+        "promoted": true,
+        "candidateModel": "iteration-0007/model",
+        "incumbentModel": "iteration-0006/model",
+        "modelHashes": [
+          "89ff1aa265cd85bbdc0c988b1afbd66fd350e00c18a318e0606ca58efcae039a",
+          "093def6950ba32b6fc5e86c7974eb99c10340c1ac8ec0f5ad8b690f09b0636c9"
+        ]
+      },
+      "trainingOnlineLoss": {
+        "policy": 1.8061507904920824,
+        "rank": 0.359798021259212,
+        "relative": 0.009378827408358114,
+        "absolute": 0.008946735459661043
+      },
+      "metrics": "run/iteration-0007/metrics.json"
+    },
+    {
+      "iteration": 8,
+      "newReplayRows": 49587,
+      "windowRows": 175592,
+      "trainingRows": 351184,
+      "trainingSteps": 5488,
+      "selfplayModel": "iteration-0007/model",
+      "trainingSource": "iteration-0007/model",
+      "bestModel": "iteration-0008/model",
+      "latestModel": "iteration-0008/model",
+      "gate": {
+        "wins": 50,
+        "draws": 2,
+        "losses": 48,
+        "winRate": 0.51,
+        "promoted": true,
+        "candidateModel": "iteration-0008/model",
+        "incumbentModel": "iteration-0007/model",
+        "modelHashes": [
+          "ed37b02631bcaf75b3d321cc4e1abab5eab71ccd8e11ffbae317539c8ae82d09",
+          "89ff1aa265cd85bbdc0c988b1afbd66fd350e00c18a318e0606ca58efcae039a"
+        ]
+      },
+      "trainingOnlineLoss": {
+        "policy": 1.7788059723079055,
+        "rank": 0.3642405045748604,
+        "relative": 0.009310396124845029,
+        "absolute": 0.009150448225623935
+      },
+      "metrics": "run/iteration-0008/metrics.json"
+    },
+    {
+      "iteration": 9,
+      "newReplayRows": 50129,
+      "windowRows": 185624,
+      "trainingRows": 371248,
+      "trainingSteps": 5801,
+      "selfplayModel": "iteration-0008/model",
+      "trainingSource": "iteration-0008/model",
+      "bestModel": "iteration-0008/model",
+      "latestModel": "iteration-0009/model",
+      "gate": {
+        "wins": 48,
+        "draws": 2,
+        "losses": 50,
+        "winRate": 0.49,
+        "promoted": false,
+        "candidateModel": "iteration-0009/model",
+        "incumbentModel": "iteration-0008/model",
+        "modelHashes": [
+          "a8df06ef9da1421d66059aae8141806d934664feb559e2c9eecf4035093b77ea",
+          "ed37b02631bcaf75b3d321cc4e1abab5eab71ccd8e11ffbae317539c8ae82d09"
+        ]
+      },
+      "trainingOnlineLoss": {
+        "policy": 1.7574298587003843,
+        "rank": 0.3684004639924685,
+        "relative": 0.009514030465596181,
+        "absolute": 0.009297085283206517
+      },
+      "metrics": "run/iteration-0009/metrics.json"
+    },
+    {
+      "iteration": 10,
+      "newReplayRows": 50099,
+      "windowRows": 195203,
+      "trainingRows": 390406,
+      "trainingSteps": 6101,
+      "selfplayModel": "iteration-0008/model",
+      "trainingSource": "iteration-0009/model",
+      "bestModel": "iteration-0010/model",
+      "latestModel": "iteration-0010/model",
+      "gate": {
+        "wins": 52,
+        "draws": 0,
+        "losses": 48,
+        "winRate": 0.52,
+        "promoted": true,
+        "candidateModel": "iteration-0010/model",
+        "incumbentModel": "iteration-0008/model",
+        "modelHashes": [
+          "f4128e2cf621490b100afd6df08f7fbf79f9c9e16777a10850ce54206790acf3",
+          "ed37b02631bcaf75b3d321cc4e1abab5eab71ccd8e11ffbae317539c8ae82d09"
+        ]
+      },
+      "trainingOnlineLoss": {
+        "policy": 1.742555323280653,
+        "rank": 0.37609477105027367,
+        "relative": 0.009670303669435127,
+        "absolute": 0.009403409058017818
+      },
+      "metrics": "run/iteration-0010/metrics.json"
+    }
+  ],
+  "diagnostics": [
+    {
+      "type": "frozen-model-value-audit",
+      "report": "run/value-audit-20261020/report.md"
+    },
+    {
+      "type": "conditional-value-variance",
+      "report": "../../../runs/value-variance-20261020/report.html",
+      "documentation": "../../../../docs/ai-value-variance.md"
+    }
+  ],
+  "independentBenchmark": {
+    "status": "not-run",
+    "referenceVersion": "v002-playout-cap",
+    "metric": "(wins + 0.5 * draws) / games",
+    "note": "晋级对局不作为跨版本独立基准测试。"
+  },
+  "artifacts": {
+    "dashboard": "run/dashboard.html",
+    "config": "run/config.json",
+    "state": "run/state.json",
+    "metrics": "run/metrics.json",
+    "verification": "run/verification.json",
+    "sha256Inventory": "artifacts.sha256",
+    "relocation": "relocation.json"
+  },
+  "verificationPassed": true
+}
