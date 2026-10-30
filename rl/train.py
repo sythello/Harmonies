@@ -11,24 +11,56 @@ from torch import nn
 from torch.nn import functional as F
 
 SCHEMA = json.loads((Path(__file__).parent / "schema.json").read_text())
+SPATIAL = json.loads((Path(__file__).parent / "spatial.json").read_text())
 VALUE_HEADS = ("rank", "relative", "absolute")
+ARCHITECTURES = ("ffn-v2", "spatial-v3")
+
+
+class Spatial(nn.Module):
+    """Shared local linear filters + ReLU on the engine's hex grid, then flatten."""
+    def __init__(self):
+        super().__init__()
+        self.filters = nn.ModuleDict({k["name"]: nn.Linear(len(k["offsets"]) * (SPATIAL["cellTypes"] + 1),
+                                                       SPATIAL["channels"]) for k in SPATIAL["kernels"]})
+        for kernel in SPATIAL["kernels"]:
+            self.register_buffer(kernel["name"], torch.tensor(kernel["indices"]), persistent=False)
+
+    def forward(self, numeric):
+        cells, types = SPATIAL["cells"], SPATIAL["cellTypes"]
+        boards = torch.stack([numeric[:, start:start + cells * types].reshape(-1, cells, types)
+                              for start in SPATIAL["playerOffsets"]], dim=1)
+        boards = F.pad(boards, (0, 1, 0, 1))  # distinct boundary category, not the empty category
+        boards[:, :, cells, types] = 1
+        # Stable output order: kernel, active/opponent, anchor cell, output channel.
+        return torch.cat([F.relu(layer(boards[:, :, getattr(self, name)].flatten(-2))).flatten(1)
+                          for name, layer in self.filters.items()], dim=1)
 
 
 class Model(nn.Module):
-    def __init__(self, hidden=(128, 128), embedding_dim=8):
+    def __init__(self, hidden=None, embedding_dim=8, architecture="ffn-v2"):
         super().__init__()
-        self.config = {"hidden": list(hidden), "embedding_dim": embedding_dim}
+        if architecture not in ARCHITECTURES:
+            raise ValueError(f"Unknown architecture: {architecture}")
+        hidden = hidden or ((512, 128) if architecture == "spatial-v3" else (128, 128))
+        if not hidden or min(*hidden, embedding_dim) < 1:
+            raise ValueError("Invalid model dimensions")
+        self.config = {"hidden": list(hidden), "embedding_dim": embedding_dim, "architecture": architecture}
         self.embedding = nn.Embedding(SCHEMA["cardVocabulary"], embedding_dim, padding_idx=0)
-        sizes = [SCHEMA["featureSize"] + SCHEMA["cardInputs"] * embedding_dim, *hidden]
+        self.spatial = Spatial() if architecture == "spatial-v3" else None
+        extra = 2 * SPATIAL["cells"] * len(SPATIAL["kernels"]) * SPATIAL["channels"] if self.spatial else 0
+        sizes = [SCHEMA["featureSize"] + SCHEMA["cardInputs"] * embedding_dim + extra, *hidden]
         self.trunk = nn.ModuleList(nn.Linear(a, b) for a, b in zip(sizes, sizes[1:]))
-        self.heads = nn.ModuleDict({name: nn.Linear(sizes[-1], size) for name, size in
+        self.towers = nn.ModuleDict({name: nn.Linear(sizes[-1], 64) for name in ("policy", *VALUE_HEADS)}) if self.spatial else None
+        self.heads = nn.ModuleDict({name: nn.Linear(64 if self.towers else sizes[-1], size) for name, size in
                                    [("policy", SCHEMA["actionSize"]), *[(h, 2) for h in VALUE_HEADS]]})
 
     def forward(self, numeric, cards):
         x = torch.cat((numeric, self.embedding(cards).flatten(1)), dim=1)
+        if self.spatial is not None:
+            x = torch.cat((x, self.spatial(numeric)), dim=1)
         for layer in self.trunk:
             x = F.relu(layer(x))
-        out = {name: head(x) for name, head in self.heads.items()}
+        out = {name: head(F.relu(self.towers[name](x)) if self.towers else x) for name, head in self.heads.items()}
         out["rank"] = out["rank"].tanh()
         return out
 
@@ -38,13 +70,18 @@ def export(model, path):
         return {"weight": module.weight.detach().cpu().tolist(), "bias": module.bias.detach().cpu().tolist()}
     data = {"version": SCHEMA["version"], "embedding": model.embedding.weight.detach().cpu().tolist(),
             "trunk": [layer(m) for m in model.trunk], "heads": {k: layer(m) for k, m in model.heads.items()}}
+    if model.spatial is not None:
+        data.update(architecture=model.config["architecture"],
+                    spatial={"version": SPATIAL["version"], "filters": {k: layer(m) for k, m in model.spatial.filters.items()}},
+                    towers={k: layer(m) for k, m in model.towers.items()})
     Path(path).write_text(json.dumps(data, separators=(",", ":"), allow_nan=False) + "\n")
 
 
 def save(model, optimizer, prefix, steps):
     prefix = Path(prefix)
     prefix.parent.mkdir(parents=True, exist_ok=True)
-    torch.save({"schema": SCHEMA, "config": model.config, "model": model.state_dict(),
+    torch.save({"schema": SCHEMA, "spatialSchema": SPATIAL if model.spatial else None,
+                "config": model.config, "model": model.state_dict(),
                 "optimizer": optimizer.state_dict(), "steps": steps}, str(prefix) + ".pt")
     export(model, str(prefix) + ".json")
 
@@ -53,6 +90,8 @@ def load(path, device="cpu"):
     checkpoint = torch.load(path, map_location=device, weights_only=True)
     if checkpoint["schema"] != SCHEMA:
         raise ValueError("Incompatible checkpoint schema")
+    if checkpoint["config"].get("architecture") == "spatial-v3" and checkpoint.get("spatialSchema") != SPATIAL:
+        raise ValueError("Incompatible spatial checkpoint schema")
     model = Model(**checkpoint["config"]).to(device)
     model.load_state_dict(checkpoint["model"])
     return model, checkpoint
@@ -163,7 +202,7 @@ def run(args):
     torch.manual_seed(args.seed)
     random.seed(args.seed)
     model, checkpoint = load(args.resume, args.device) if args.resume else (
-        Model(args.hidden, args.embedding_dim).to(args.device), None)
+        Model(args.hidden, args.embedding_dim, args.architecture).to(args.device), None)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
     steps = 0
     if checkpoint:
@@ -253,7 +292,8 @@ if __name__ == "__main__":
     parser.add_argument("--out", required=True, help="Checkpoint prefix; writes .pt and .json")
     parser.add_argument("--resume", help="Trusted .pt checkpoint, including Adam state")
     parser.add_argument("--data", nargs="+")
-    parser.add_argument("--hidden", type=int, nargs="+", default=[128, 128])
+    parser.add_argument("--architecture", choices=ARCHITECTURES, default="ffn-v2")
+    parser.add_argument("--hidden", type=int, nargs="+", help="Default: 128 128 for ffn-v2, 512 128 for spatial-v3")
     parser.add_argument("--embedding-dim", type=int, default=8)
     parser.add_argument("--epochs", type=int, default=5)
     parser.add_argument("--batch-size", type=int, default=64)
@@ -263,7 +303,7 @@ if __name__ == "__main__":
     parser.add_argument("--threads", type=int, default=1)
     parser.add_argument("--device", default="cpu", help="cpu, cuda, or mps")
     args = parser.parse_args()
-    if (min(*args.hidden, args.embedding_dim, args.epochs, args.batch_size, args.threads) < 1
+    if (min(*(args.hidden or []), args.embedding_dim, args.epochs, args.batch_size, args.threads) < 1
             or not 0 <= args.validation < 1 or not math.isfinite(args.lr) or args.lr <= 0):
         parser.error("Invalid architecture or training parameters")
     run(args)

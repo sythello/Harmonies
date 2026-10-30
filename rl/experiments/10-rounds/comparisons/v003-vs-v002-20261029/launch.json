@@ -1,0 +1,10 @@
+{
+  "pid": 71173,
+  "command": [
+    "caffeinate",
+    "-i",
+    "/Users/mac/Desktop/syt/Projects/Harmonies/.venv-rl/bin/python",
+    "-u",
+    "/Users/mac/Desktop/syt/Projects/Harmonies/rl/experiments/10-rounds/comparisons/v003-vs-v002-20261029/run_match.py"
+  ]
+}

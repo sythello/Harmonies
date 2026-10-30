@@ -14,14 +14,14 @@ import torch
 from loop_metrics import atomic_json, collection_metrics, dashboard, game_metrics, repair_tail, error_records
 from gatekeeper import gatekeeper, file_hash
 from replay import ReplayBuffer, sampling_passes, window_size
-from train import Model, VALUE_HEADS, load, loss_components, save
+from train import ARCHITECTURES, Model, VALUE_HEADS, load, loss_components, save
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULTS = dict(games_per_iteration=2000, simulations=64, train_rows=400_000,
                 cheap_search_probability=0.75, cheap_simulations=16, max_window_passes=2,
                 min_rows=100_000, taper_scale=50_000, expand_window_per_row=0.4,
                 taper_window_exponent=0.65, batch_size=64, lr=0.001, seed=1729,
-                threads=1, device="cpu", hidden=[128, 128], embedding_dim=8,
+                threads=1, device="cpu", hidden=[128, 128], embedding_dim=8, architecture="ffn-v2",
                 initial=None, wait_for_min_rows=False, gate_games=100, gate_simulations=128)
 # Preserve historical runs' sampling/training semantics on resume.
 LEGACY_PLAY_DEFAULTS = dict(cheap_search_probability=0.0, cheap_simulations=16, max_window_passes=0)
@@ -238,7 +238,7 @@ def run(directory, config, iterations):
     initial = directory / "initial"
     if not Path(str(initial) + ".pt").exists() or not Path(str(initial) + ".json").exists():
         model, old = load(config["initial"], config["device"]) if config["initial"] else (
-            Model(config["hidden"], config["embedding_dim"]).to(config["device"]), None)
+            Model(config["hidden"], config["embedding_dim"], config.get("architecture", "ffn-v2")).to(config["device"]), None)
         checkpoint(model, optimizer_for(model, config, old), initial, old["steps"] if old else 0)
     history = []
     while (directory / f"iteration-{len(history)+1:04d}" / "metrics.json").exists():
@@ -342,12 +342,20 @@ def main():
         saved = json.loads(config_path.read_text()) if config_path.exists() else None
         baseline = {**DEFAULTS, **(LEGACY_PLAY_DEFAULTS if saved else {}), **(saved or {})}
         config = {k: getattr(args, k) if getattr(args, k) is not None else baseline[k] for k in DEFAULTS}
+        if not saved and args.hidden is None and config["architecture"] == "spatial-v3":
+            config["hidden"] = [512, 128]
         if config["initial"]:
             config["initial"] = str(Path(config["initial"]).resolve())
+            if not saved:
+                model, _ = load(config["initial"])
+                for key in ("architecture", "hidden", "embedding_dim"):
+                    if getattr(args, key) is not None and config[key] != model.config[key]:
+                        parser.error(f"--{key.replace('_', '-')} disagrees with initial checkpoint")
+                    config[key] = model.config[key]
         if saved and any(config[k] != saved[k] for k in saved):
             parser.error("Resume requires the original configuration; use a new output directory to change it")
         ints = ("games_per_iteration", "simulations", "cheap_simulations", "train_rows", "min_rows", "taper_scale", "batch_size", "threads", "embedding_dim", "gate_games", "gate_simulations")
-        if (args.iterations < 1 or any(config[k] < 1 for k in ints) or min(config["hidden"]) < 1 or config["seed"] < 0 or
+        if (config["architecture"] not in ARCHITECTURES or args.iterations < 1 or any(config[k] < 1 for k in ints) or min(config["hidden"]) < 1 or config["seed"] < 0 or
                 config["max_window_passes"] < 0 or not 0 <= config["cheap_search_probability"] <= 1 or
                 (config["cheap_search_probability"] > 0 and config["cheap_simulations"] > config["simulations"]) or
                 config["simulations"] > 100000 or config["gate_simulations"] > 100000 or config["gate_games"] % 2 != 0 or not 0 < config["expand_window_per_row"] <= 1 or

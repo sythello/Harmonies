@@ -3,6 +3,7 @@
   "include": [
     "src/game",
     "scripts/rl.ts",
+    "scripts/benchmark-rl-scaling.ts",
     "scripts/mcts-audit.ts",
     "scripts/nn-fit.ts",
     "scripts/value-variance.ts",
@@ -10,6 +11,7 @@
     "tests/nn-fit.test.ts",
     "tests/mcts-audit.test.ts",
     "tests/rl.test.ts",
+    "tests/rl-spatial.test.ts",
     "tests/rl-reuse.test.ts",
     "tests/rl-diagnostics.test.ts",
     "tests/helpers/rl-parity.ts"

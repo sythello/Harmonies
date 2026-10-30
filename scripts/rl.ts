@@ -9,6 +9,7 @@ import { dirname } from "node:path";
 import { createServer } from "node:http";
 import { parseArgs } from "node:util";
 import { schema } from "../src/game/ai/rl/encoding";
+import { spatialSchema } from "../src/game/ai/rl/spatial";
 import {
   Network,
   uniformEvaluator,
@@ -72,9 +73,10 @@ function write(path: string, value: unknown) {
 }
 async function main() {
   const command = positionals[0];
-  if (command === "schema") {
-    if (args.output) write(args.output, schema);
-    else console.log(JSON.stringify(schema));
+  if (command === "schema" || command === "spatial-schema") {
+    const value = command === "schema" ? schema : spatialSchema;
+    if (args.output) write(args.output, value);
+    else console.log(JSON.stringify(value));
     return;
   }
   if (

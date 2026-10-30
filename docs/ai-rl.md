@@ -13,7 +13,7 @@
 | `rl/train.py` | 网络、损失、训练、验证、checkpoint 与 JSON 导出 |
 | `rl/loop.py`、`rl/replay.py`、`rl/loop_metrics.py` | 自动多轮 self-play、最近窗口 replay 采样、训练及监控大盘 |
 
-完整自动迭代入口与指标口径见 [Self-play loop](ai-selfplay-loop.md)。默认每轮 1000 局、每个原子动作新增 32 次模拟、从增长窗口消费 400,000 行进行一遍训练；下方独立 CLI 仍可单独使用。
+完整自动迭代入口与指标口径见 [Self-play loop](ai-selfplay-loop.md)。当前默认每轮 2000 局，25% expensive64 / 75% cheap16，仅 expensive 进入 replay，训练消费 `min(400000, 2W)`；下方独立 CLI 仍可单独使用。
 
 ## 快速运行
 
@@ -57,7 +57,7 @@ npm run rl -- evaluate --model rl/runs/iteration-1.json --opponent heuristic --h
 
 ## 模型与输入
 
-默认架构：
+默认保留的 `ffn-v2` 架构（v001/v002 使用）：
 
 ```text
 1614 个数值特征 + 5 个市场牌 ID 的共享 8 维 embedding
@@ -70,7 +70,9 @@ npm run rl -- evaluate --model rl/runs/iteration-1.json --opponent heuristic --h
 └─ absolute: Linear(128,2)
 ```
 
-后三个 head 均输出 `[当前行动玩家, 对手]`，共享 FFN，head 参数分离。只有市场牌使用 embedding；零 ID 表示空市场槽位，对应 embedding 恒为零。默认模型共 343,555 个参数。具体输入：
+后三个 head 均输出 `[当前行动玩家, 对手]`，共享 FFN，head 参数分离。只有市场牌使用 embedding；零 ID 表示空市场槽位，对应 embedding 恒为零。默认模型共 343,555 个参数。
+
+新增可选 `--architecture spatial-v3`：双向 3 格／6 格三角与 7 格六边形共 5 组 kernel ×16 channel，保留旧输入；拼接 5334 维，主干 `512 → 128`，每个 head 增加 64 维 ReLU 隐层，总参数 2,900,467。输入 schema 仍为 v2，旧模型保持兼容；完整结构图和跑图测速见 [网络扩容文档](ai-rl-scaling.md)。以下是共同的原始输入：
 
 - 双方版图按引擎 A 面 23 格固定顺序展开。14 种合法非空堆叠，每种分“未入住／已入住”，另加空格，共 29 类 one-hot。保留树／山高度及建筑底层，而非仅地形顶层颜色；入住动物的具体 ID 不影响后续放置或计分，计分所需完成数在卡牌特征中。
 - 双方持牌分别使用固定 `32×3` 矩阵，第 i 行始终表示第 i 号动物牌，记录 `[是否持有, 入住数量, 总目标数]`。未持有为 `[0,0,0]`，已完成牌为 `[1,总目标数,总目标数]`；入住数量和总目标数均使用原始整数，不转成完成比例。卡牌 ID 由行位置确定，不使用持牌 embedding，不随拿牌或持牌数组重排而移动。额外记录空牌位 `/4`、已完成回合数 `/20`、当前分数 `/100`。

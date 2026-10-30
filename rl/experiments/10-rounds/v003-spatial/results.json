@@ -1,0 +1,1641 @@
+{
+  "formatVersion": 1,
+  "version": "v003-spatial",
+  "trainingStatus": "complete-verified",
+  "config": {
+    "games_per_iteration": 2000,
+    "simulations": 64,
+    "train_rows": 400000,
+    "cheap_search_probability": 0.75,
+    "cheap_simulations": 16,
+    "max_window_passes": 2,
+    "min_rows": 100000,
+    "taper_scale": 50000,
+    "expand_window_per_row": 0.4,
+    "taper_window_exponent": 0.65,
+    "batch_size": 64,
+    "lr": 0.001,
+    "seed": 1729,
+    "threads": 1,
+    "device": "cpu",
+    "hidden": [
+      512,
+      128
+    ],
+    "embedding_dim": 8,
+    "architecture": "spatial-v3",
+    "initial": null,
+    "wait_for_min_rows": false,
+    "gate_games": 100,
+    "gate_simulations": 128
+  },
+  "architecture": {
+    "id": "spatial-v3",
+    "featureSchema": "harmonies-rl-v2",
+    "spatialSchema": "harmonies-spatial-v1",
+    "kernelSizes": [
+      3,
+      3,
+      6,
+      6,
+      7
+    ],
+    "channelsPerKernel": 16,
+    "anchorsPerPlayer": 23,
+    "players": 2,
+    "boundaryCategory": 29,
+    "numericFeatures": 1614,
+    "marketEmbeddingFeatures": 40,
+    "spatialFeatures": 3680,
+    "trunkInput": 5334,
+    "hidden": [
+      512,
+      128
+    ],
+    "towerHidden": 64,
+    "parameters": 2900467,
+    "weightSharing": "all anchors and both players; separate weights per kernel/orientation"
+  },
+  "trainingGames": 20000,
+  "gateGames": 1000,
+  "replayRows": 485403,
+  "expensive": 485403,
+  "cheap": 1453848,
+  "expensiveFraction": 0.25030437008927675,
+  "trainingRowsConsumed": 2794616,
+  "trainingSteps": 43671,
+  "selfplaySimulations": 54327360,
+  "gateSimulations": 13106048,
+  "promotedIterations": [
+    1,
+    3,
+    4,
+    5,
+    6,
+    8,
+    9
+  ],
+  "best": {
+    "prefix": "iteration-0009/model",
+    "json": "run/iteration-0009/model.json",
+    "pt": "run/iteration-0009/model.pt",
+    "jsonSha256": "7dd6efe6fe0c15776ea467bc5249421d2ac8b0179631463c6dff3f674e20bd1f",
+    "ptSha256": "165b120014bdb5a48d7360eab67b360d64f95e6611fd17c6483b947a07098c03"
+  },
+  "latest": {
+    "prefix": "iteration-0010/model",
+    "json": "run/iteration-0010/model.json",
+    "pt": "run/iteration-0010/model.pt",
+    "jsonSha256": "8706c2f08f8a4f0fd4cb39cef50bc8701f00f587d5e3d5cd9b280fae8712a7e2",
+    "ptSha256": "4f3287fc0bb4509a28252df1eca2b903054a853f5a5ad973bb864653591c9dcc"
+  },
+  "duration": {
+    "selfplaySeconds": 44797.16863027202,
+    "trainingSeconds": 611.1100824999739,
+    "gateSeconds": 10941.47345676,
+    "iterationSeconds": 56376.48588204401,
+    "processWallSeconds": 56378.460436,
+    "selfplayGamesPerSecond": 0.4464567875944921,
+    "gateGamesPerSecond": 0.09139536863585473,
+    "trainingRowsPerSecond": 4573.015697217071
+  },
+  "iterations": [
+    {
+      "iteration": 1,
+      "newRows": 45491,
+      "decisions": 181754,
+      "cheap": 136263,
+      "cumulativeRows": 45491,
+      "windowRows": 45491,
+      "trainingRows": 90982,
+      "steps": 1422,
+      "loss": {
+        "policy": 2.176948290661455,
+        "rank": 0.49925020097263284,
+        "relative": 0.006225586492299325,
+        "absolute": 0.004721850115685157
+      },
+      "gate": {
+        "wins": 92,
+        "draws": 0,
+        "losses": 8,
+        "winRate": 0.92,
+        "promoted": true,
+        "meanCandidateScore": 38.45,
+        "meanIncumbentScore": 23.16
+      },
+      "best": "iteration-0001/model",
+      "selfplayTerminal": {
+        "score": {
+          "count": 4000,
+          "mean": 21.853,
+          "std": 7.353835121893882,
+          "meanAbs": 21.853,
+          "rms": 23.057157240215023,
+          "min": 2,
+          "max": 50
+        },
+        "settledAnimals": {
+          "count": 4000,
+          "mean": 0.965,
+          "std": 1.3018352430319284,
+          "meanAbs": 0.965,
+          "rms": 1.6204937519163718,
+          "min": 0,
+          "max": 7
+        },
+        "completedAnimalCards": {
+          "count": 4000,
+          "mean": 0.0215,
+          "std": 0.14504395885385918,
+          "meanAbs": 0.0215,
+          "rms": 0.14662878298615178,
+          "min": 0,
+          "max": 1
+        }
+      },
+      "gateTerminal": {
+        "score": {
+          "count": 200,
+          "mean": 30.805,
+          "std": 11.126858271767466,
+          "meanAbs": 30.805,
+          "rms": 32.752938799442106,
+          "min": 6,
+          "max": 60
+        },
+        "settledAnimals": {
+          "count": 200,
+          "mean": 1.455,
+          "std": 1.7966566171642258,
+          "meanAbs": 1.455,
+          "rms": 2.3119256043393785,
+          "min": 0,
+          "max": 7
+        },
+        "completedAnimalCards": {
+          "count": 200,
+          "mean": 0.055,
+          "std": 0.22798026230355994,
+          "meanAbs": 0.055,
+          "rms": 0.2345207879911715,
+          "min": 0,
+          "max": 1
+        }
+      },
+      "gateCandidateTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 38.45,
+          "std": 7.982950582334827,
+          "meanAbs": 38.45,
+          "rms": 39.26996307612219,
+          "min": 18,
+          "max": 60
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 2.5,
+          "std": 1.9157244060668017,
+          "meanAbs": 2.5,
+          "rms": 3.1496031496047245,
+          "min": 0,
+          "max": 7
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.1,
+          "std": 0.3,
+          "meanAbs": 0.1,
+          "rms": 0.31622776601683794,
+          "min": 0,
+          "max": 1
+        }
+      },
+      "gateIncumbentTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 23.16,
+          "std": 8.185010690280132,
+          "meanAbs": 23.16,
+          "rms": 24.563794495150784,
+          "min": 6,
+          "max": 46
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 0.41,
+          "std": 0.7758221445666527,
+          "meanAbs": 0.41,
+          "rms": 0.8774964387392122,
+          "min": 0,
+          "max": 4
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.01,
+          "std": 0.099498743710662,
+          "meanAbs": 0.01,
+          "rms": 0.1,
+          "min": 0,
+          "max": 1
+        }
+      },
+      "selfplaySeconds": 6006.73764694701,
+      "trainSeconds": 23.639319750014693,
+      "gateSeconds": 1516.2781315800005,
+      "seconds": 7549.122811959009
+    },
+    {
+      "iteration": 2,
+      "newRows": 47410,
+      "decisions": 188022,
+      "cheap": 140612,
+      "cumulativeRows": 92901,
+      "windowRows": 92901,
+      "trainingRows": 185802,
+      "steps": 2904,
+      "loss": {
+        "policy": 2.1168198973314816,
+        "rank": 0.319270443488721,
+        "relative": 0.005895004751910062,
+        "absolute": 0.005768690652829289
+      },
+      "gate": {
+        "wins": 47,
+        "draws": 0,
+        "losses": 53,
+        "winRate": 0.47,
+        "promoted": false,
+        "meanCandidateScore": 40.24,
+        "meanIncumbentScore": 41.85
+      },
+      "best": "iteration-0001/model",
+      "selfplayTerminal": {
+        "score": {
+          "count": 4000,
+          "mean": 29.4605,
+          "std": 8.860414197428922,
+          "meanAbs": 29.4605,
+          "rms": 30.764069951812292,
+          "min": 4,
+          "max": 63
+        },
+        "settledAnimals": {
+          "count": 4000,
+          "mean": 1.68225,
+          "std": 1.6511465523992717,
+          "meanAbs": 1.68225,
+          "rms": 2.3571699132646335,
+          "min": 0,
+          "max": 10
+        },
+        "completedAnimalCards": {
+          "count": 4000,
+          "mean": 0.05675,
+          "std": 0.2335153902850945,
+          "meanAbs": 0.05675,
+          "rms": 0.24031229681395833,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateTerminal": {
+        "score": {
+          "count": 200,
+          "mean": 41.045,
+          "std": 10.700139017788501,
+          "meanAbs": 41.045,
+          "rms": 42.41680091661793,
+          "min": 9,
+          "max": 77
+        },
+        "settledAnimals": {
+          "count": 200,
+          "mean": 2.755,
+          "std": 2.175999770220576,
+          "meanAbs": 2.755,
+          "rms": 3.5106979363083917,
+          "min": 0,
+          "max": 12
+        },
+        "completedAnimalCards": {
+          "count": 200,
+          "mean": 0.165,
+          "std": 0.3972090129893832,
+          "meanAbs": 0.165,
+          "rms": 0.4301162633521313,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateCandidateTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 40.24,
+          "std": 10.577447707268515,
+          "meanAbs": 40.24,
+          "rms": 41.60697056984563,
+          "min": 9,
+          "max": 62
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 2.59,
+          "std": 1.970253790758947,
+          "meanAbs": 2.59,
+          "rms": 3.254228019054596,
+          "min": 0,
+          "max": 8
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.17,
+          "std": 0.375632799419859,
+          "meanAbs": 0.17,
+          "rms": 0.41231056256176607,
+          "min": 0,
+          "max": 1
+        }
+      },
+      "gateIncumbentTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 41.85,
+          "std": 10.76138931551126,
+          "meanAbs": 41.85,
+          "rms": 43.21145681413669,
+          "min": 22,
+          "max": 77
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 2.92,
+          "std": 2.3523605165875408,
+          "meanAbs": 2.92,
+          "rms": 3.749666651850535,
+          "min": 0,
+          "max": 12
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.16,
+          "std": 0.417612260356422,
+          "meanAbs": 0.16,
+          "rms": 0.4472135954999579,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "selfplaySeconds": 4459.918041114004,
+      "trainSeconds": 41.236253749986645,
+      "gateSeconds": 1066.357969922,
+      "seconds": 5570.078428583976
+    },
+    {
+      "iteration": 3,
+      "newRows": 47247,
+      "decisions": 188349,
+      "cheap": 141102,
+      "cumulativeRows": 140148,
+      "windowRows": 114365,
+      "trainingRows": 228730,
+      "steps": 3574,
+      "loss": {
+        "policy": 2.062211912217109,
+        "rank": 0.2783638094432112,
+        "relative": 0.006103600646330763,
+        "absolute": 0.006105142643575289
+      },
+      "gate": {
+        "wins": 56,
+        "draws": 0,
+        "losses": 44,
+        "winRate": 0.56,
+        "promoted": true,
+        "meanCandidateScore": 41.1,
+        "meanIncumbentScore": 39.72
+      },
+      "best": "iteration-0003/model",
+      "selfplayTerminal": {
+        "score": {
+          "count": 4000,
+          "mean": 29.5595,
+          "std": 8.898143612574481,
+          "meanAbs": 29.5595,
+          "rms": 30.869742467341705,
+          "min": 2,
+          "max": 63
+        },
+        "settledAnimals": {
+          "count": 4000,
+          "mean": 1.7225,
+          "std": 1.657104025099209,
+          "meanAbs": 1.7225,
+          "rms": 2.390188277102873,
+          "min": 0,
+          "max": 9
+        },
+        "completedAnimalCards": {
+          "count": 4000,
+          "mean": 0.06325,
+          "std": 0.24647400978602188,
+          "meanAbs": 0.06325,
+          "rms": 0.25446021299998944,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateTerminal": {
+        "score": {
+          "count": 200,
+          "mean": 40.41,
+          "std": 8.634344213662098,
+          "meanAbs": 40.41,
+          "rms": 41.32214902446387,
+          "min": 21,
+          "max": 62
+        },
+        "settledAnimals": {
+          "count": 200,
+          "mean": 2.375,
+          "std": 1.916865931670757,
+          "meanAbs": 2.375,
+          "rms": 3.0520484924063704,
+          "min": 0,
+          "max": 8
+        },
+        "completedAnimalCards": {
+          "count": 200,
+          "mean": 0.15,
+          "std": 0.3840572873934304,
+          "meanAbs": 0.15,
+          "rms": 0.41231056256176607,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateCandidateTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 41.1,
+          "std": 8.489405161729527,
+          "meanAbs": 41.1,
+          "rms": 41.967606555532804,
+          "min": 23,
+          "max": 62
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 2.36,
+          "std": 1.9210413842496992,
+          "meanAbs": 2.36,
+          "rms": 3.043024810940588,
+          "min": 0,
+          "max": 8
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.14,
+          "std": 0.3746998799039039,
+          "meanAbs": 0.14,
+          "rms": 0.4,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateIncumbentTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 39.72,
+          "std": 8.722476712493991,
+          "meanAbs": 39.72,
+          "rms": 40.66644808684427,
+          "min": 21,
+          "max": 62
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 2.39,
+          "std": 1.912563724428548,
+          "meanAbs": 2.39,
+          "rms": 3.0610455730027932,
+          "min": 0,
+          "max": 8
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.16,
+          "std": 0.39293765408777,
+          "meanAbs": 0.16,
+          "rms": 0.4242640687119285,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "selfplaySeconds": 4730.831536018001,
+      "trainSeconds": 49.79937650001375,
+      "gateSeconds": 1030.4681053390002,
+      "seconds": 5813.66533345799
+    },
+    {
+      "iteration": 4,
+      "newRows": 48173,
+      "decisions": 192705,
+      "cheap": 144532,
+      "cumulativeRows": 188321,
+      "windowRows": 128846,
+      "trainingRows": 257692,
+      "steps": 4027,
+      "loss": {
+        "policy": 1.9905916229081244,
+        "rank": 0.2607726349691365,
+        "relative": 0.006657298944847477,
+        "absolute": 0.006629271830437596
+      },
+      "gate": {
+        "wins": 57,
+        "draws": 1,
+        "losses": 42,
+        "winRate": 0.575,
+        "promoted": true,
+        "meanCandidateScore": 46.73,
+        "meanIncumbentScore": 44.09
+      },
+      "best": "iteration-0004/model",
+      "selfplayTerminal": {
+        "score": {
+          "count": 4000,
+          "mean": 33.711,
+          "std": 9.629406991087247,
+          "meanAbs": 33.711,
+          "rms": 35.059335418686985,
+          "min": 8,
+          "max": 75
+        },
+        "settledAnimals": {
+          "count": 4000,
+          "mean": 2.01375,
+          "std": 1.8327741097854915,
+          "meanAbs": 2.01375,
+          "rms": 2.7229120441174737,
+          "min": 0,
+          "max": 10
+        },
+        "completedAnimalCards": {
+          "count": 4000,
+          "mean": 0.09975,
+          "std": 0.3070829488916635,
+          "meanAbs": 0.09975,
+          "rms": 0.3228776858192588,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateTerminal": {
+        "score": {
+          "count": 200,
+          "mean": 45.41,
+          "std": 10.809343180785794,
+          "meanAbs": 45.41,
+          "rms": 46.678796042743,
+          "min": 21,
+          "max": 74
+        },
+        "settledAnimals": {
+          "count": 200,
+          "mean": 2.67,
+          "std": 2.0545315767833796,
+          "meanAbs": 2.67,
+          "rms": 3.3689761055846033,
+          "min": 0,
+          "max": 8
+        },
+        "completedAnimalCards": {
+          "count": 200,
+          "mean": 0.205,
+          "std": 0.4277557714397317,
+          "meanAbs": 0.205,
+          "rms": 0.4743416490252569,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateCandidateTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 46.73,
+          "std": 10.612120429018905,
+          "meanAbs": 46.73,
+          "rms": 47.91982888116359,
+          "min": 21,
+          "max": 69
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 2.77,
+          "std": 2.00925359275528,
+          "meanAbs": 2.77,
+          "rms": 3.4219877264537346,
+          "min": 0,
+          "max": 8
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.19,
+          "std": 0.41701318923986086,
+          "meanAbs": 0.19,
+          "rms": 0.458257569495584,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateIncumbentTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 44.09,
+          "std": 10.8435188015699,
+          "meanAbs": 44.09,
+          "rms": 45.403854461928674,
+          "min": 23,
+          "max": 74
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 2.57,
+          "std": 2.0940630363004837,
+          "meanAbs": 2.57,
+          "rms": 3.315116890850155,
+          "min": 0,
+          "max": 8
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.22,
+          "std": 0.43772137256478577,
+          "meanAbs": 0.22,
+          "rms": 0.4898979485566356,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "selfplaySeconds": 4213.015227830003,
+      "trainSeconds": 54.59482299996307,
+      "gateSeconds": 1039.3961262080002,
+      "seconds": 5309.590985916962
+    },
+    {
+      "iteration": 5,
+      "newRows": 49192,
+      "decisions": 195581,
+      "cheap": 146389,
+      "cumulativeRows": 237513,
+      "windowRows": 141884,
+      "trainingRows": 283768,
+      "steps": 4434,
+      "loss": {
+        "policy": 1.9355497122086496,
+        "rank": 0.24729791227146822,
+        "relative": 0.007026047540131702,
+        "absolute": 0.007136226751913572
+      },
+      "gate": {
+        "wins": 52,
+        "draws": 0,
+        "losses": 48,
+        "winRate": 0.52,
+        "promoted": true,
+        "meanCandidateScore": 50.9,
+        "meanIncumbentScore": 48.34
+      },
+      "best": "iteration-0005/model",
+      "selfplayTerminal": {
+        "score": {
+          "count": 4000,
+          "mean": 36.22625,
+          "std": 10.19093032737934,
+          "meanAbs": 36.22625,
+          "rms": 37.632382996562946,
+          "min": 6,
+          "max": 71
+        },
+        "settledAnimals": {
+          "count": 4000,
+          "mean": 2.196,
+          "std": 1.9270661638874778,
+          "meanAbs": 2.196,
+          "rms": 2.9216433731720235,
+          "min": 0,
+          "max": 10
+        },
+        "completedAnimalCards": {
+          "count": 4000,
+          "mean": 0.12825,
+          "std": 0.347565731193396,
+          "meanAbs": 0.12825,
+          "rms": 0.3704726710568541,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateTerminal": {
+        "score": {
+          "count": 200,
+          "mean": 49.62,
+          "std": 11.017513331056174,
+          "meanAbs": 49.62,
+          "rms": 50.828436922651875,
+          "min": 24,
+          "max": 77
+        },
+        "settledAnimals": {
+          "count": 200,
+          "mean": 3.785,
+          "std": 2.2997336802334303,
+          "meanAbs": 3.785,
+          "rms": 4.428882477555709,
+          "min": 0,
+          "max": 11
+        },
+        "completedAnimalCards": {
+          "count": 200,
+          "mean": 0.38,
+          "std": 0.5528109984434101,
+          "meanAbs": 0.38,
+          "rms": 0.6708203932499369,
+          "min": 0,
+          "max": 3
+        }
+      },
+      "gateCandidateTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 50.9,
+          "std": 10.292230079045058,
+          "meanAbs": 50.9,
+          "rms": 51.93014538781882,
+          "min": 31,
+          "max": 73
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 4.21,
+          "std": 2.2772571220659295,
+          "meanAbs": 4.21,
+          "rms": 4.7864391775097275,
+          "min": 0,
+          "max": 10
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.43,
+          "std": 0.5523585791856591,
+          "meanAbs": 0.43,
+          "rms": 0.7,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateIncumbentTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 48.34,
+          "std": 11.557006532835384,
+          "meanAbs": 48.34,
+          "rms": 49.702313829438566,
+          "min": 24,
+          "max": 77
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 3.36,
+          "std": 2.24285532302019,
+          "meanAbs": 3.36,
+          "rms": 4.039801975344831,
+          "min": 0,
+          "max": 11
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.33,
+          "std": 0.5487257967327579,
+          "meanAbs": 0.33,
+          "rms": 0.6403124237432849,
+          "min": 0,
+          "max": 3
+        }
+      },
+      "selfplaySeconds": 4266.087083538995,
+      "trainSeconds": 59.90205924998736,
+      "gateSeconds": 1069.4515739170001,
+      "seconds": 5398.080642667017
+    },
+    {
+      "iteration": 6,
+      "newRows": 48987,
+      "decisions": 196740,
+      "cheap": 147753,
+      "cumulativeRows": 286500,
+      "windowRows": 153715,
+      "trainingRows": 307430,
+      "steps": 4804,
+      "loss": {
+        "policy": 1.8771933112904327,
+        "rank": 0.24375007716235492,
+        "relative": 0.007069385131439395,
+        "absolute": 0.007504520500042747
+      },
+      "gate": {
+        "wins": 51,
+        "draws": 0,
+        "losses": 49,
+        "winRate": 0.51,
+        "promoted": true,
+        "meanCandidateScore": 47.4,
+        "meanIncumbentScore": 47.52
+      },
+      "best": "iteration-0006/model",
+      "selfplayTerminal": {
+        "score": {
+          "count": 4000,
+          "mean": 36.98175,
+          "std": 10.12382916378482,
+          "meanAbs": 36.98175,
+          "rms": 38.34242754443177,
+          "min": 10,
+          "max": 81
+        },
+        "settledAnimals": {
+          "count": 4000,
+          "mean": 2.30975,
+          "std": 1.9424996621621324,
+          "meanAbs": 2.30975,
+          "rms": 3.0179877402004136,
+          "min": 0,
+          "max": 10
+        },
+        "completedAnimalCards": {
+          "count": 4000,
+          "mean": 0.1385,
+          "std": 0.35258722325121195,
+          "meanAbs": 0.1385,
+          "rms": 0.3788139384975162,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateTerminal": {
+        "score": {
+          "count": 200,
+          "mean": 47.46,
+          "std": 11.497321427184682,
+          "meanAbs": 47.46,
+          "rms": 48.83277587850193,
+          "min": 15,
+          "max": 86
+        },
+        "settledAnimals": {
+          "count": 200,
+          "mean": 3.65,
+          "std": 2.4366985862022412,
+          "meanAbs": 3.65,
+          "rms": 4.3886216514983385,
+          "min": 0,
+          "max": 11
+        },
+        "completedAnimalCards": {
+          "count": 200,
+          "mean": 0.36,
+          "std": 0.5295280917949491,
+          "meanAbs": 0.36,
+          "rms": 0.6403124237432849,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateCandidateTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 47.4,
+          "std": 11.619810669714049,
+          "meanAbs": 47.4,
+          "rms": 48.803483482226966,
+          "min": 24,
+          "max": 86
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 3.42,
+          "std": 2.384030201150984,
+          "meanAbs": 3.42,
+          "rms": 4.168932717135166,
+          "min": 0,
+          "max": 11
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.36,
+          "std": 0.5748043145279966,
+          "meanAbs": 0.36,
+          "rms": 0.6782329983125268,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateIncumbentTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 47.52,
+          "std": 11.373196560334282,
+          "meanAbs": 47.52,
+          "rms": 48.86205071423016,
+          "min": 15,
+          "max": 77
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 3.88,
+          "std": 2.4669008897805362,
+          "meanAbs": 3.88,
+          "rms": 4.59782557302906,
+          "min": 0,
+          "max": 10
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.36,
+          "std": 0.48,
+          "meanAbs": 0.36,
+          "rms": 0.6,
+          "min": 0,
+          "max": 1
+        }
+      },
+      "selfplaySeconds": 4137.4709572090005,
+      "trainSeconds": 64.26327633298934,
+      "gateSeconds": 1006.8131095030002,
+      "seconds": 5211.160967874981
+    },
+    {
+      "iteration": 7,
+      "newRows": 49283,
+      "decisions": 198549,
+      "cheap": 149266,
+      "cumulativeRows": 335783,
+      "windowRows": 164776,
+      "trainingRows": 329552,
+      "steps": 5150,
+      "loss": {
+        "policy": 1.8332042529489563,
+        "rank": 0.23725849404101257,
+        "relative": 0.007277143163675344,
+        "absolute": 0.007839610974818082
+      },
+      "gate": {
+        "wins": 48,
+        "draws": 0,
+        "losses": 52,
+        "winRate": 0.48,
+        "promoted": false,
+        "meanCandidateScore": 52.18,
+        "meanIncumbentScore": 52.2
+      },
+      "best": "iteration-0006/model",
+      "selfplayTerminal": {
+        "score": {
+          "count": 4000,
+          "mean": 38.6185,
+          "std": 10.629979198004115,
+          "meanAbs": 38.6185,
+          "rms": 40.054774996247325,
+          "min": 5,
+          "max": 81
+        },
+        "settledAnimals": {
+          "count": 4000,
+          "mean": 2.3855,
+          "std": 1.9599463640620374,
+          "meanAbs": 2.3855,
+          "rms": 3.087393722867234,
+          "min": 0,
+          "max": 11
+        },
+        "completedAnimalCards": {
+          "count": 4000,
+          "mean": 0.135,
+          "std": 0.35110539728121526,
+          "meanAbs": 0.135,
+          "rms": 0.3761648574760805,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateTerminal": {
+        "score": {
+          "count": 200,
+          "mean": 52.19,
+          "std": 11.677923616807934,
+          "meanAbs": 52.19,
+          "rms": 53.480557214748615,
+          "min": 19,
+          "max": 84
+        },
+        "settledAnimals": {
+          "count": 200,
+          "mean": 3.885,
+          "std": 2.429356910789356,
+          "meanAbs": 3.885,
+          "rms": 4.582030117753483,
+          "min": 0,
+          "max": 11
+        },
+        "completedAnimalCards": {
+          "count": 200,
+          "mean": 0.355,
+          "std": 0.5186279977016282,
+          "meanAbs": 0.355,
+          "rms": 0.6284902544988268,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateCandidateTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 52.18,
+          "std": 11.886446062637903,
+          "meanAbs": 52.18,
+          "rms": 53.51672635728011,
+          "min": 19,
+          "max": 84
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 3.76,
+          "std": 2.634843448859913,
+          "meanAbs": 3.76,
+          "rms": 4.591296113299598,
+          "min": 0,
+          "max": 11
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.32,
+          "std": 0.5075431016179808,
+          "meanAbs": 0.32,
+          "rms": 0.6,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateIncumbentTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 52.2,
+          "std": 11.465600725648876,
+          "meanAbs": 52.2,
+          "rms": 53.444363594302445,
+          "min": 25,
+          "max": 83
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 4.01,
+          "std": 2.197703346678073,
+          "meanAbs": 4.01,
+          "rms": 4.57274534606947,
+          "min": 0,
+          "max": 11
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.39,
+          "std": 0.5271622141238881,
+          "meanAbs": 0.39,
+          "rms": 0.6557438524302001,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "selfplaySeconds": 4133.772002886006,
+      "trainSeconds": 70.57326120795915,
+      "gateSeconds": 1058.9917861219997,
+      "seconds": 5266.011616667034
+    },
+    {
+      "iteration": 8,
+      "newRows": 49541,
+      "decisions": 198553,
+      "cheap": 149012,
+      "cumulativeRows": 385324,
+      "windowRows": 175238,
+      "trainingRows": 350476,
+      "steps": 5477,
+      "loss": {
+        "policy": 1.8001239741052215,
+        "rank": 0.2306707534385863,
+        "relative": 0.007356643697761173,
+        "absolute": 0.007927949981956284
+      },
+      "gate": {
+        "wins": 61,
+        "draws": 0,
+        "losses": 39,
+        "winRate": 0.61,
+        "promoted": true,
+        "meanCandidateScore": 53.39,
+        "meanIncumbentScore": 51.32
+      },
+      "best": "iteration-0008/model",
+      "selfplayTerminal": {
+        "score": {
+          "count": 4000,
+          "mean": 38.49225,
+          "std": 10.579907369041564,
+          "meanAbs": 38.49225,
+          "rms": 39.919766407132194,
+          "min": 7,
+          "max": 78
+        },
+        "settledAnimals": {
+          "count": 4000,
+          "mean": 2.359,
+          "std": 1.9705631174869789,
+          "meanAbs": 2.359,
+          "rms": 3.0737599125501003,
+          "min": 0,
+          "max": 11
+        },
+        "completedAnimalCards": {
+          "count": 4000,
+          "mean": 0.13675,
+          "std": 0.3522065267708706,
+          "meanAbs": 0.13675,
+          "rms": 0.3778227097462512,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateTerminal": {
+        "score": {
+          "count": 200,
+          "mean": 52.355,
+          "std": 11.22047124678819,
+          "meanAbs": 52.355,
+          "rms": 53.54386052574095,
+          "min": 16,
+          "max": 77
+        },
+        "settledAnimals": {
+          "count": 200,
+          "mean": 3.72,
+          "std": 2.09322717352895,
+          "meanAbs": 3.72,
+          "rms": 4.268489194082608,
+          "min": 0,
+          "max": 10
+        },
+        "completedAnimalCards": {
+          "count": 200,
+          "mean": 0.29,
+          "std": 0.4856953777832356,
+          "meanAbs": 0.29,
+          "rms": 0.565685424949238,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateCandidateTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 53.39,
+          "std": 11.816001861882055,
+          "meanAbs": 53.39,
+          "rms": 54.681898284532885,
+          "min": 22,
+          "max": 77
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 3.77,
+          "std": 2.266517151931571,
+          "meanAbs": 3.77,
+          "rms": 4.398863489584555,
+          "min": 0,
+          "max": 10
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.32,
+          "std": 0.5268775948927796,
+          "meanAbs": 0.32,
+          "rms": 0.6164414002968976,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateIncumbentTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 51.32,
+          "std": 10.489880838217378,
+          "meanAbs": 51.32,
+          "rms": 52.381103462985585,
+          "min": 16,
+          "max": 74
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 3.67,
+          "std": 1.9029188106695463,
+          "meanAbs": 3.67,
+          "rms": 4.1340053217188775,
+          "min": 0,
+          "max": 8
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.26,
+          "std": 0.4386342439892262,
+          "meanAbs": 0.26,
+          "rms": 0.5099019513592785,
+          "min": 0,
+          "max": 1
+        }
+      },
+      "selfplaySeconds": 4209.514333984003,
+      "trainSeconds": 72.80013729201164,
+      "gateSeconds": 1045.8693079639997,
+      "seconds": 5330.946746792004
+    },
+    {
+      "iteration": 9,
+      "newRows": 49895,
+      "decisions": 199144,
+      "cheap": 149249,
+      "cumulativeRows": 435219,
+      "windowRows": 185240,
+      "trainingRows": 370480,
+      "steps": 5789,
+      "loss": {
+        "policy": 1.775410715685733,
+        "rank": 0.22656744316081923,
+        "relative": 0.007338823945044545,
+        "absolute": 0.008080356561240348
+      },
+      "gate": {
+        "wins": 50,
+        "draws": 0,
+        "losses": 50,
+        "winRate": 0.5,
+        "promoted": true,
+        "meanCandidateScore": 48.73,
+        "meanIncumbentScore": 50.33
+      },
+      "best": "iteration-0009/model",
+      "selfplayTerminal": {
+        "score": {
+          "count": 4000,
+          "mean": 39.54475,
+          "std": 10.664426728029035,
+          "meanAbs": 39.54475,
+          "rms": 40.9575054172004,
+          "min": 8,
+          "max": 79
+        },
+        "settledAnimals": {
+          "count": 4000,
+          "mean": 2.42275,
+          "std": 1.9643147501100728,
+          "meanAbs": 2.42275,
+          "rms": 3.1190142673607633,
+          "min": 0,
+          "max": 11
+        },
+        "completedAnimalCards": {
+          "count": 4000,
+          "mean": 0.14275,
+          "std": 0.35619157415638003,
+          "meanAbs": 0.14275,
+          "rms": 0.38373167708699785,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateTerminal": {
+        "score": {
+          "count": 200,
+          "mean": 49.53,
+          "std": 12.213889634346621,
+          "meanAbs": 49.53,
+          "rms": 51.0137236437412,
+          "min": 21,
+          "max": 95
+        },
+        "settledAnimals": {
+          "count": 200,
+          "mean": 3.45,
+          "std": 2.2220486043288967,
+          "meanAbs": 3.45,
+          "rms": 4.1036569057366385,
+          "min": 0,
+          "max": 9
+        },
+        "completedAnimalCards": {
+          "count": 200,
+          "mean": 0.275,
+          "std": 0.4575751304430781,
+          "meanAbs": 0.275,
+          "rms": 0.5338539126015656,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateCandidateTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 48.73,
+          "std": 12.245697203507873,
+          "meanAbs": 48.73,
+          "rms": 50.24509926351027,
+          "min": 25,
+          "max": 80
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 3.27,
+          "std": 2.148743819071971,
+          "meanAbs": 3.27,
+          "rms": 3.9127995093027703,
+          "min": 0,
+          "max": 8
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.28,
+          "std": 0.44899888641287294,
+          "meanAbs": 0.28,
+          "rms": 0.5291502622129182,
+          "min": 0,
+          "max": 1
+        }
+      },
+      "gateIncumbentTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 50.33,
+          "std": 12.129348704691456,
+          "meanAbs": 50.33,
+          "rms": 51.77093779332184,
+          "min": 21,
+          "max": 95
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 3.63,
+          "std": 2.278837422897913,
+          "meanAbs": 3.63,
+          "rms": 4.286023798347368,
+          "min": 0,
+          "max": 9
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.27,
+          "std": 0.4659399102888697,
+          "meanAbs": 0.27,
+          "rms": 0.5385164807134504,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "selfplaySeconds": 4186.148110772997,
+      "trainSeconds": 85.11225687502883,
+      "gateSeconds": 1026.897819122,
+      "seconds": 5301.043992458028
+    },
+    {
+      "iteration": 10,
+      "newRows": 50184,
+      "decisions": 199854,
+      "cheap": 149670,
+      "cumulativeRows": 485403,
+      "windowRows": 194852,
+      "trainingRows": 389704,
+      "steps": 6090,
+      "loss": {
+        "policy": 1.761549333902228,
+        "rank": 0.2168670438698519,
+        "relative": 0.007496459663412582,
+        "absolute": 0.008320210385597542
+      },
+      "gate": {
+        "wins": 46,
+        "draws": 0,
+        "losses": 54,
+        "winRate": 0.46,
+        "promoted": false,
+        "meanCandidateScore": 50.18,
+        "meanIncumbentScore": 50.92
+      },
+      "best": "iteration-0009/model",
+      "selfplayTerminal": {
+        "score": {
+          "count": 4000,
+          "mean": 39.90325,
+          "std": 11.027120632218546,
+          "meanAbs": 39.90325,
+          "rms": 41.39887377695195,
+          "min": 8,
+          "max": 88
+        },
+        "settledAnimals": {
+          "count": 4000,
+          "mean": 2.489,
+          "std": 2.0111884546208,
+          "meanAbs": 2.489,
+          "rms": 3.2,
+          "min": 0,
+          "max": 12
+        },
+        "completedAnimalCards": {
+          "count": 4000,
+          "mean": 0.16275,
+          "std": 0.3798189535818348,
+          "meanAbs": 0.16275,
+          "rms": 0.41321907022788773,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateTerminal": {
+        "score": {
+          "count": 200,
+          "mean": 50.55,
+          "std": 11.41917247439586,
+          "meanAbs": 50.55,
+          "rms": 51.823739733832404,
+          "min": 24,
+          "max": 77
+        },
+        "settledAnimals": {
+          "count": 200,
+          "mean": 3.78,
+          "std": 2.4065743287918617,
+          "meanAbs": 3.78,
+          "rms": 4.481071300481616,
+          "min": 0,
+          "max": 10
+        },
+        "completedAnimalCards": {
+          "count": 200,
+          "mean": 0.335,
+          "std": 0.5317659259486264,
+          "meanAbs": 0.335,
+          "rms": 0.6284902544988268,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateCandidateTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 50.18,
+          "std": 11.160985619558868,
+          "meanAbs": 50.18,
+          "rms": 51.40622530394543,
+          "min": 25,
+          "max": 74
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 3.52,
+          "std": 2.137662274541982,
+          "meanAbs": 3.52,
+          "rms": 4.1182520563948,
+          "min": 0,
+          "max": 10
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.34,
+          "std": 0.5141984052872977,
+          "meanAbs": 0.34,
+          "rms": 0.6164414002968976,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "gateIncumbentTerminal": {
+        "score": {
+          "count": 100,
+          "mean": 50.92,
+          "std": 11.65991423639127,
+          "meanAbs": 50.92,
+          "rms": 52.2379172632294,
+          "min": 24,
+          "max": 77
+        },
+        "settledAnimals": {
+          "count": 100,
+          "mean": 4.04,
+          "std": 2.622670394845681,
+          "meanAbs": 4.04,
+          "rms": 4.8166378315169185,
+          "min": 0,
+          "max": 10
+        },
+        "completedAnimalCards": {
+          "count": 100,
+          "mean": 0.33,
+          "std": 0.5487257967327579,
+          "meanAbs": 0.33,
+          "rms": 0.6403124237432849,
+          "min": 0,
+          "max": 2
+        }
+      },
+      "selfplaySeconds": 4453.673689971999,
+      "trainSeconds": 89.18931854201946,
+      "gateSeconds": 1080.9495270829998,
+      "seconds": 5626.784355667012
+    }
+  ],
+  "anomalies": {
+    "illegalMoves": 0,
+    "maskConflicts": 0,
+    "nonFiniteTrainingRecords": 0,
+    "clippedBatches": [
+      {
+        "iteration": 2,
+        "step": 9,
+        "batchRows": 64,
+        "before": 5.373682022094727,
+        "after": 5.000190639987503
+      }
+    ],
+    "maximumGlobalGradnorm": 5.373682022094727
+  },
+  "verification": "run/verification.json",
+  "browserInteractionVerified": false,
+  "benchmarkNotFormalTraining": true,
+  "independentComparison": {
+    "path": "../comparisons/v003-vs-v002-20261029/result.json",
+    "overall": {
+      "games": 400,
+      "wins": 214,
+      "draws": 5,
+      "losses": 181,
+      "scoreRate": 0.54125,
+      "strictWinRate": 0.535,
+      "meanCandidateScore": 52.61,
+      "meanOpponentScore": 51.0525,
+      "meanMargin": 1.5575
+    },
+    "byCandidateSeat": {
+      "first": {
+        "games": 200,
+        "wins": 89,
+        "draws": 4,
+        "losses": 107,
+        "scoreRate": 0.455,
+        "strictWinRate": 0.445,
+        "meanCandidateScore": 51.945,
+        "meanOpponentScore": 50.78,
+        "meanMargin": 1.165
+      },
+      "second": {
+        "games": 200,
+        "wins": 125,
+        "draws": 1,
+        "losses": 74,
+        "scoreRate": 0.6275,
+        "strictWinRate": 0.625,
+        "meanCandidateScore": 53.275,
+        "meanOpponentScore": 51.325,
+        "meanMargin": 1.95
+      }
+    },
+    "scoreRateConfidenceInterval": {
+      "level": 0.95,
+      "bounds": [
+        0.4925,
+        0.58875
+      ],
+      "method": "percentile bootstrap of 200 paired-seed means; 20000 resamples; RNG seed 20261029"
+    },
+    "terminalMeans": {
+      "v003": {
+        "score": 52.61,
+        "settledAnimals": 3.3125,
+        "completedAnimalCards": 0.27
+      },
+      "v002": {
+        "score": 51.0525,
+        "settledAnimals": 3.4225,
+        "completedAnimalCards": 0.2725
+      }
+    },
+    "elapsedSeconds": 1707.9531419277191
+  }
+}

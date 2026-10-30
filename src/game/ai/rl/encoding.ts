@@ -24,7 +24,8 @@ const STACKS = [
   [3, 6],
   [6, 6],
 ];
-const CELL_TYPES = 1 + 2 * (STACKS.length - 1);
+export const CELL_TYPES = 1 + 2 * (STACKS.length - 1);
+export const PLAYER_FEATURE_SIZE = CELLS * CELL_TYPES + CARD_COUNT * 3 + 3;
 export const FEATURE_SIZE =
   2 * CELLS * CELL_TYPES +
   2 * (CARD_COUNT * 3 + 3) +

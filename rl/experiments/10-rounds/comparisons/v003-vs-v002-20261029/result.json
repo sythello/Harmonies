@@ -1,0 +1,2977 @@
+{
+  "formatVersion": 1,
+  "id": "v003-vs-v002-20261029",
+  "date": "2026-10-30",
+  "status": "complete",
+  "configuration": {
+    "candidate": {
+      "version": "v003-spatial",
+      "path": "rl/experiments/10-rounds/v003-spatial/run/iteration-0009/model.json",
+      "sha256": "7dd6efe6fe0c15776ea467bc5249421d2ac8b0179631463c6dff3f674e20bd1f"
+    },
+    "opponent": {
+      "version": "v002-playout-cap",
+      "path": "rl/experiments/10-rounds/v002-playout-cap/run/iteration-0010/model.json",
+      "sha256": "f4128e2cf621490b100afd6df08f7fbf79f9c9e16777a10850ce54206790acf3"
+    },
+    "games": 400,
+    "pairedSeeds": 200,
+    "seed": 3000001729,
+    "simulations": 128,
+    "noiseWeight": 0,
+    "temperature": 0,
+    "treeReuse": "within-turn",
+    "workers": 4,
+    "shards": [
+      [
+        0,
+        100
+      ],
+      [
+        100,
+        100
+      ],
+      [
+        200,
+        100
+      ],
+      [
+        300,
+        100
+      ]
+    ],
+    "ruleScope": "A-side, two players, no spirits",
+    "trainingAndGateSeedOverlap": 0,
+    "replaySha256Before": {
+      "rl/experiments/10-rounds/v003-spatial/run/replay.sqlite3": "73b4dc9d47d8b53f408ec10147962d2f74eaee4c349b44e181917f30ff6b0bc8",
+      "rl/experiments/10-rounds/v002-playout-cap/run/replay.sqlite3": "2f44ba50719be6a4779528805e18116a131105319cf264f39e6d3bb1e9166e59"
+    }
+  },
+  "overall": {
+    "games": 400,
+    "wins": 214,
+    "draws": 5,
+    "losses": 181,
+    "scoreRate": 0.54125,
+    "strictWinRate": 0.535,
+    "meanCandidateScore": 52.61,
+    "meanOpponentScore": 51.0525,
+    "meanMargin": 1.5575
+  },
+  "byCandidateSeat": {
+    "first": {
+      "games": 200,
+      "wins": 89,
+      "draws": 4,
+      "losses": 107,
+      "scoreRate": 0.455,
+      "strictWinRate": 0.445,
+      "meanCandidateScore": 51.945,
+      "meanOpponentScore": 50.78,
+      "meanMargin": 1.165
+    },
+    "second": {
+      "games": 200,
+      "wins": 125,
+      "draws": 1,
+      "losses": 74,
+      "scoreRate": 0.6275,
+      "strictWinRate": 0.625,
+      "meanCandidateScore": 53.275,
+      "meanOpponentScore": 51.325,
+      "meanMargin": 1.95
+    }
+  },
+  "scoreRateConfidenceInterval": {
+    "level": 0.95,
+    "bounds": [
+      0.4925,
+      0.58875
+    ],
+    "method": "percentile bootstrap of 200 paired-seed means; 20000 resamples; RNG seed 20261029"
+  },
+  "terminalMeans": {
+    "v003": {
+      "score": 52.61,
+      "settledAnimals": 3.3125,
+      "completedAnimalCards": 0.27
+    },
+    "v002": {
+      "score": 51.0525,
+      "settledAnimals": 3.4225,
+      "completedAnimalCards": 0.2725
+    }
+  },
+  "elapsedSeconds": 1707.9531419277191,
+  "gamesPerSecond": 0.2341984625810818,
+  "sumGameSeconds": 6436.527459168999,
+  "verification": {
+    "passed": true,
+    "games": 400,
+    "pairedSeeds": 200,
+    "actions": 42779,
+    "reusedDecisions": 35445,
+    "additionalSimulations": 5475712,
+    "illegalMoves": 0,
+    "maskConflictRecords": 0,
+    "modelHashes": [
+      "7dd6efe6fe0c15776ea467bc5249421d2ac8b0179631463c6dff3f674e20bd1f",
+      "f4128e2cf621490b100afd6df08f7fbf79f9c9e16777a10850ce54206790acf3"
+    ],
+    "gamesSha256": "f0bf074943fc872a465faabf5f4db0ba5599159dd447d967f94ed21765ccde8d",
+    "checks": [
+      "seed pairs",
+      "model identities",
+      "serving settings",
+      "128 new simulations per action",
+      "active player mapping",
+      "legal action membership",
+      "complete engine replay",
+      "terminal scores and ranks",
+      "animal and card totals",
+      "outcome",
+      "no training samples",
+      "no error records"
+    ],
+    "executionSourcesUnchanged": true,
+    "replayDatabasesUnchanged": true,
+    "modelsUnchanged": true,
+    "trainingAndGateSeedOverlap": 0,
+    "outcomesMatchProductionGateSummary": true
+  },
+  "source": {
+    "commit": "1a5e1439720fc76013149e7e8ede6a50f4df8947",
+    "sourceSha256": {
+      "rl/experiments/10-rounds/v003-spatial/run/source/scripts/rl.ts": "2cde427d46bcd0978b50a98a5d8bac2acab070044b68c8dd9ccb71e7d334a271",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/actions.ts": "36865421b602abe23744fbc870c9b6749ca7ce1dd5cbe2c7c39be97d07610a70",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/canonical.ts": "7e2f0d92af398f74893f2f1c9fc0200d68d870aebf88dad9c2b0148dbe3ef928",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/config.ts": "ca9447ca83d08099e38e0c6ba8bee3a5bede3ce307ca3bb21042cf4b4840df79",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/evaluate.ts": "171cc033e433cb18057c342a5ecd66ec9398e04683306c15ce43e953c53ce5c0",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/log.ts": "8e49f6cd53384bc3e39432c54aa6b1636fbe096c019376b5199bb641c8b25489",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/observation.ts": "ef7286eb8be76b8bef928a275ea7ff28dd1fe72560623925b4423d15bbdf9894",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/projects.ts": "ec9531d942ea7f6b0891a7a357867774629a19c2f8ea22ff194a54a4d15e9219",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/rl/encoding.ts": "9bea1ad6a18637006273ae73a8a4d576460c7a37e887417730261a328f3625b6",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/rl/mcts.ts": "8cf5c19657bbd1aa63580385d68f15f9dd8544225644ea7d5193efaa9aed35db",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/rl/network.ts": "202949a353ca2dfd50a715ddec595a4538b0224016c367c4183411999d7879f1",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/rl/spatial.ts": "c019ce9aa3a203309b2b37ba69f9bc9b7556b71cc8aa52a577b6a601d7883005",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/rl/trajectory.ts": "05e60468ec8c0dc64b5c903f4e09526b9bab948ae5b4c8b11ed31f5ba6530c64",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/rl/worker.ts": "d310f150d3d6b6872b020617614a0c9bc66de8dcfbda463b7c246db6ea9e23f1",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/search-v2.ts": "410f38aa8bf2ec921b0a75f93d7246ebc5a8d531dc6a4e50a20548b9a1fa21d3",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/search.ts": "3b7262acf430bd273a985791eeabfb30150694c2127f255d7811d99219478d18",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/types.ts": "c6a9c9b4e1a61b73e49e845e03d54202b4bac19989b8fc53254ce50e26ea6b6a",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/ai/worker.ts": "9ef8b8ace68aa08fdba8d3e5b614a8edf716e6e593239980fbc2d461bed77cee",
+      "rl/experiments/10-rounds/v003-spatial/run/source/src/game/engine.ts": "369f11ed56ce7695b743fa98fdd619a07baae02ca49f33c6f3faa06d5c2bce8a",
+      "rl/experiments/10-rounds/comparisons/v003-vs-v002-20261029/run_match.py": "ec5bc9b2ff1c8b7d38f0ccbd43d49151b7439c12bd0547de58bfba4b5b104a74"
+    }
+  },
+  "artifacts": {
+    "config.json": "506ac30bab877a1ef8c89ea9d1168de2954558b53700389ac141de72675db4ab",
+    "games.jsonl": "f0bf074943fc872a465faabf5f4db0ba5599159dd447d967f94ed21765ccde8d",
+    "source.json": "72518a3bb74f71824524f754297341ca4d6703b4e8ceee10d3d3cb65f577b68b",
+    "replay-verification.json": "4b5b106c6e6c5729a0e4426991fa6075f2ccc43d65f2e5a4152037d8a22b4332",
+    "verification.json": "e4d60987f7358891209edf95973a6b7239a26256832f626fdc48564061dc7777",
+    "gate-metrics.json": "354815bbe000fde6e142128bdec0a4694f8841f1a6aa1421246c644ba8d13cdf"
+  },
+  "perGame": [
+    {
+      "seed": 3000001729,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 52,
+      "incumbentScore": 66
+    },
+    {
+      "seed": 3000001729,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 58,
+      "incumbentScore": 33
+    },
+    {
+      "seed": 3000001730,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 34,
+      "incumbentScore": 54
+    },
+    {
+      "seed": 3000001730,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 52,
+      "incumbentScore": 60
+    },
+    {
+      "seed": 3000001731,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 55,
+      "incumbentScore": 59
+    },
+    {
+      "seed": 3000001731,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 46,
+      "incumbentScore": 63
+    },
+    {
+      "seed": 3000001732,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 62,
+      "incumbentScore": 61
+    },
+    {
+      "seed": 3000001732,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 52,
+      "incumbentScore": 35
+    },
+    {
+      "seed": 3000001733,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 66,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001733,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 53,
+      "incumbentScore": 48
+    },
+    {
+      "seed": 3000001734,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 87,
+      "incumbentScore": 69
+    },
+    {
+      "seed": 3000001734,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 60,
+      "incumbentScore": 65
+    },
+    {
+      "seed": 3000001735,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 47,
+      "incumbentScore": 45
+    },
+    {
+      "seed": 3000001735,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 42,
+      "incumbentScore": 50
+    },
+    {
+      "seed": 3000001736,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 31,
+      "incumbentScore": 66
+    },
+    {
+      "seed": 3000001736,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 48,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001737,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 71,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001737,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 69,
+      "incumbentScore": 34
+    },
+    {
+      "seed": 3000001738,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 71,
+      "incumbentScore": 66
+    },
+    {
+      "seed": 3000001738,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 66,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001739,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 55,
+      "incumbentScore": 36
+    },
+    {
+      "seed": 3000001739,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 80,
+      "incumbentScore": 61
+    },
+    {
+      "seed": 3000001740,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 62,
+      "incumbentScore": 38
+    },
+    {
+      "seed": 3000001740,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 54,
+      "incumbentScore": 68
+    },
+    {
+      "seed": 3000001741,
+      "first": 0,
+      "result": 0.5,
+      "candidateScore": 40,
+      "incumbentScore": 40
+    },
+    {
+      "seed": 3000001741,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 53,
+      "incumbentScore": 52
+    },
+    {
+      "seed": 3000001742,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 26,
+      "incumbentScore": 45
+    },
+    {
+      "seed": 3000001742,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 73,
+      "incumbentScore": 54
+    },
+    {
+      "seed": 3000001743,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 54,
+      "incumbentScore": 52
+    },
+    {
+      "seed": 3000001743,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 58,
+      "incumbentScore": 52
+    },
+    {
+      "seed": 3000001744,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 54,
+      "incumbentScore": 50
+    },
+    {
+      "seed": 3000001744,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 33,
+      "incumbentScore": 34
+    },
+    {
+      "seed": 3000001745,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 37,
+      "incumbentScore": 53
+    },
+    {
+      "seed": 3000001745,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 32,
+      "incumbentScore": 60
+    },
+    {
+      "seed": 3000001746,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 43,
+      "incumbentScore": 58
+    },
+    {
+      "seed": 3000001746,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 51,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001747,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 63,
+      "incumbentScore": 53
+    },
+    {
+      "seed": 3000001747,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 50,
+      "incumbentScore": 59
+    },
+    {
+      "seed": 3000001748,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 58,
+      "incumbentScore": 41
+    },
+    {
+      "seed": 3000001748,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 69,
+      "incumbentScore": 63
+    },
+    {
+      "seed": 3000001749,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 56,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001749,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 59,
+      "incumbentScore": 55
+    },
+    {
+      "seed": 3000001750,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 41,
+      "incumbentScore": 54
+    },
+    {
+      "seed": 3000001750,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 49,
+      "incumbentScore": 58
+    },
+    {
+      "seed": 3000001751,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 53,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001751,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 42,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001752,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 66,
+      "incumbentScore": 47
+    },
+    {
+      "seed": 3000001752,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 59,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001753,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 58,
+      "incumbentScore": 52
+    },
+    {
+      "seed": 3000001753,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 48,
+      "incumbentScore": 41
+    },
+    {
+      "seed": 3000001754,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 51,
+      "incumbentScore": 52
+    },
+    {
+      "seed": 3000001754,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 61,
+      "incumbentScore": 36
+    },
+    {
+      "seed": 3000001755,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 47,
+      "incumbentScore": 50
+    },
+    {
+      "seed": 3000001755,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 59,
+      "incumbentScore": 40
+    },
+    {
+      "seed": 3000001756,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 50,
+      "incumbentScore": 48
+    },
+    {
+      "seed": 3000001756,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 60,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001757,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 58,
+      "incumbentScore": 43
+    },
+    {
+      "seed": 3000001757,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 63,
+      "incumbentScore": 48
+    },
+    {
+      "seed": 3000001758,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 50,
+      "incumbentScore": 50
+    },
+    {
+      "seed": 3000001758,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 37,
+      "incumbentScore": 53
+    },
+    {
+      "seed": 3000001759,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 56,
+      "incumbentScore": 58
+    },
+    {
+      "seed": 3000001759,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 67,
+      "incumbentScore": 68
+    },
+    {
+      "seed": 3000001760,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 65,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001760,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 61,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001761,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 61,
+      "incumbentScore": 43
+    },
+    {
+      "seed": 3000001761,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 43,
+      "incumbentScore": 59
+    },
+    {
+      "seed": 3000001762,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 46,
+      "incumbentScore": 58
+    },
+    {
+      "seed": 3000001762,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 47,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001763,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 38,
+      "incumbentScore": 55
+    },
+    {
+      "seed": 3000001763,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 37,
+      "incumbentScore": 53
+    },
+    {
+      "seed": 3000001764,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 58,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001764,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 58,
+      "incumbentScore": 72
+    },
+    {
+      "seed": 3000001765,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 35,
+      "incumbentScore": 39
+    },
+    {
+      "seed": 3000001765,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 54,
+      "incumbentScore": 45
+    },
+    {
+      "seed": 3000001766,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 56,
+      "incumbentScore": 52
+    },
+    {
+      "seed": 3000001766,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 48,
+      "incumbentScore": 57
+    },
+    {
+      "seed": 3000001767,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 57,
+      "incumbentScore": 61
+    },
+    {
+      "seed": 3000001767,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 56,
+      "incumbentScore": 63
+    },
+    {
+      "seed": 3000001768,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 49,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001768,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 51,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001769,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 37,
+      "incumbentScore": 47
+    },
+    {
+      "seed": 3000001769,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 51,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001770,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 50,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001770,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 49,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001771,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 63,
+      "incumbentScore": 69
+    },
+    {
+      "seed": 3000001771,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 78,
+      "incumbentScore": 66
+    },
+    {
+      "seed": 3000001772,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 55,
+      "incumbentScore": 54
+    },
+    {
+      "seed": 3000001772,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 37,
+      "incumbentScore": 42
+    },
+    {
+      "seed": 3000001773,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 58,
+      "incumbentScore": 59
+    },
+    {
+      "seed": 3000001773,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 45,
+      "incumbentScore": 60
+    },
+    {
+      "seed": 3000001774,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 44,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001774,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 58,
+      "incumbentScore": 58
+    },
+    {
+      "seed": 3000001775,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 63,
+      "incumbentScore": 39
+    },
+    {
+      "seed": 3000001775,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 46,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001776,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 59,
+      "incumbentScore": 41
+    },
+    {
+      "seed": 3000001776,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 45,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001777,
+      "first": 0,
+      "result": 0.5,
+      "candidateScore": 57,
+      "incumbentScore": 57
+    },
+    {
+      "seed": 3000001777,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 36,
+      "incumbentScore": 43
+    },
+    {
+      "seed": 3000001778,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 72,
+      "incumbentScore": 77
+    },
+    {
+      "seed": 3000001778,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 55,
+      "incumbentScore": 48
+    },
+    {
+      "seed": 3000001779,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 61,
+      "incumbentScore": 58
+    },
+    {
+      "seed": 3000001779,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 71,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001780,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 30,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001780,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 32,
+      "incumbentScore": 29
+    },
+    {
+      "seed": 3000001781,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 51,
+      "incumbentScore": 54
+    },
+    {
+      "seed": 3000001781,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 44,
+      "incumbentScore": 47
+    },
+    {
+      "seed": 3000001782,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 50,
+      "incumbentScore": 54
+    },
+    {
+      "seed": 3000001782,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 40,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001783,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 46,
+      "incumbentScore": 48
+    },
+    {
+      "seed": 3000001783,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 48,
+      "incumbentScore": 45
+    },
+    {
+      "seed": 3000001784,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 51,
+      "incumbentScore": 59
+    },
+    {
+      "seed": 3000001784,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 57,
+      "incumbentScore": 67
+    },
+    {
+      "seed": 3000001785,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 63,
+      "incumbentScore": 53
+    },
+    {
+      "seed": 3000001785,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 43,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001786,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 49,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001786,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 61,
+      "incumbentScore": 60
+    },
+    {
+      "seed": 3000001787,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 48,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001787,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 61,
+      "incumbentScore": 60
+    },
+    {
+      "seed": 3000001788,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 49,
+      "incumbentScore": 43
+    },
+    {
+      "seed": 3000001788,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 50,
+      "incumbentScore": 59
+    },
+    {
+      "seed": 3000001789,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 37,
+      "incumbentScore": 52
+    },
+    {
+      "seed": 3000001789,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 63,
+      "incumbentScore": 52
+    },
+    {
+      "seed": 3000001790,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 65,
+      "incumbentScore": 47
+    },
+    {
+      "seed": 3000001790,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 70,
+      "incumbentScore": 62
+    },
+    {
+      "seed": 3000001791,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 61,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001791,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 53,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001792,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 69,
+      "incumbentScore": 68
+    },
+    {
+      "seed": 3000001792,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 48,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001793,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 62,
+      "incumbentScore": 38
+    },
+    {
+      "seed": 3000001793,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 51,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001794,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 60,
+      "incumbentScore": 65
+    },
+    {
+      "seed": 3000001794,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 67,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001795,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 54,
+      "incumbentScore": 38
+    },
+    {
+      "seed": 3000001795,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 31,
+      "incumbentScore": 31
+    },
+    {
+      "seed": 3000001796,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 57,
+      "incumbentScore": 64
+    },
+    {
+      "seed": 3000001796,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 68,
+      "incumbentScore": 62
+    },
+    {
+      "seed": 3000001797,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 42,
+      "incumbentScore": 38
+    },
+    {
+      "seed": 3000001797,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 42,
+      "incumbentScore": 31
+    },
+    {
+      "seed": 3000001798,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 37,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001798,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 78,
+      "incumbentScore": 54
+    },
+    {
+      "seed": 3000001799,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 40,
+      "incumbentScore": 34
+    },
+    {
+      "seed": 3000001799,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 52,
+      "incumbentScore": 55
+    },
+    {
+      "seed": 3000001800,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 56,
+      "incumbentScore": 59
+    },
+    {
+      "seed": 3000001800,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 64,
+      "incumbentScore": 72
+    },
+    {
+      "seed": 3000001801,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 82,
+      "incumbentScore": 73
+    },
+    {
+      "seed": 3000001801,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 50,
+      "incumbentScore": 39
+    },
+    {
+      "seed": 3000001802,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 34,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001802,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 37,
+      "incumbentScore": 61
+    },
+    {
+      "seed": 3000001803,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 49,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001803,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 53,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001804,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 50,
+      "incumbentScore": 37
+    },
+    {
+      "seed": 3000001804,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 48,
+      "incumbentScore": 59
+    },
+    {
+      "seed": 3000001805,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 61,
+      "incumbentScore": 30
+    },
+    {
+      "seed": 3000001805,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 43,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001806,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 47,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001806,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 48,
+      "incumbentScore": 59
+    },
+    {
+      "seed": 3000001807,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 59,
+      "incumbentScore": 62
+    },
+    {
+      "seed": 3000001807,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 42,
+      "incumbentScore": 55
+    },
+    {
+      "seed": 3000001808,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 68,
+      "incumbentScore": 71
+    },
+    {
+      "seed": 3000001808,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 50,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001809,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 59,
+      "incumbentScore": 40
+    },
+    {
+      "seed": 3000001809,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 46,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001810,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 42,
+      "incumbentScore": 37
+    },
+    {
+      "seed": 3000001810,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 47,
+      "incumbentScore": 37
+    },
+    {
+      "seed": 3000001811,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 47,
+      "incumbentScore": 30
+    },
+    {
+      "seed": 3000001811,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 48,
+      "incumbentScore": 45
+    },
+    {
+      "seed": 3000001812,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 48,
+      "incumbentScore": 61
+    },
+    {
+      "seed": 3000001812,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 43,
+      "incumbentScore": 35
+    },
+    {
+      "seed": 3000001813,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 55,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001813,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 34,
+      "incumbentScore": 57
+    },
+    {
+      "seed": 3000001814,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 43,
+      "incumbentScore": 48
+    },
+    {
+      "seed": 3000001814,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 54,
+      "incumbentScore": 42
+    },
+    {
+      "seed": 3000001815,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 37,
+      "incumbentScore": 50
+    },
+    {
+      "seed": 3000001815,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 60,
+      "incumbentScore": 59
+    },
+    {
+      "seed": 3000001816,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 46,
+      "incumbentScore": 30
+    },
+    {
+      "seed": 3000001816,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 54,
+      "incumbentScore": 47
+    },
+    {
+      "seed": 3000001817,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 46,
+      "incumbentScore": 50
+    },
+    {
+      "seed": 3000001817,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 73,
+      "incumbentScore": 79
+    },
+    {
+      "seed": 3000001818,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 41,
+      "incumbentScore": 43
+    },
+    {
+      "seed": 3000001818,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 58,
+      "incumbentScore": 53
+    },
+    {
+      "seed": 3000001819,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 37,
+      "incumbentScore": 33
+    },
+    {
+      "seed": 3000001819,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 42,
+      "incumbentScore": 57
+    },
+    {
+      "seed": 3000001820,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 53,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001820,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 56,
+      "incumbentScore": 52
+    },
+    {
+      "seed": 3000001821,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 49,
+      "incumbentScore": 37
+    },
+    {
+      "seed": 3000001821,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 44,
+      "incumbentScore": 35
+    },
+    {
+      "seed": 3000001822,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 64,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001822,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 66,
+      "incumbentScore": 55
+    },
+    {
+      "seed": 3000001823,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 37,
+      "incumbentScore": 39
+    },
+    {
+      "seed": 3000001823,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 73,
+      "incumbentScore": 54
+    },
+    {
+      "seed": 3000001824,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 54,
+      "incumbentScore": 55
+    },
+    {
+      "seed": 3000001824,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 70,
+      "incumbentScore": 67
+    },
+    {
+      "seed": 3000001825,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 77,
+      "incumbentScore": 69
+    },
+    {
+      "seed": 3000001825,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 38,
+      "incumbentScore": 63
+    },
+    {
+      "seed": 3000001826,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 70,
+      "incumbentScore": 30
+    },
+    {
+      "seed": 3000001826,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 53,
+      "incumbentScore": 42
+    },
+    {
+      "seed": 3000001827,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 51,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001827,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 57,
+      "incumbentScore": 47
+    },
+    {
+      "seed": 3000001828,
+      "first": 0,
+      "result": 0.5,
+      "candidateScore": 67,
+      "incumbentScore": 67
+    },
+    {
+      "seed": 3000001828,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 59,
+      "incumbentScore": 59
+    },
+    {
+      "seed": 3000001829,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 49,
+      "incumbentScore": 53
+    },
+    {
+      "seed": 3000001829,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 68,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001830,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 45,
+      "incumbentScore": 68
+    },
+    {
+      "seed": 3000001830,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 54,
+      "incumbentScore": 52
+    },
+    {
+      "seed": 3000001831,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 71,
+      "incumbentScore": 74
+    },
+    {
+      "seed": 3000001831,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 54,
+      "incumbentScore": 38
+    },
+    {
+      "seed": 3000001832,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 38,
+      "incumbentScore": 41
+    },
+    {
+      "seed": 3000001832,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 31,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001833,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 47,
+      "incumbentScore": 31
+    },
+    {
+      "seed": 3000001833,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 39,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001834,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 59,
+      "incumbentScore": 54
+    },
+    {
+      "seed": 3000001834,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 64,
+      "incumbentScore": 53
+    },
+    {
+      "seed": 3000001835,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 43,
+      "incumbentScore": 34
+    },
+    {
+      "seed": 3000001835,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 52,
+      "incumbentScore": 32
+    },
+    {
+      "seed": 3000001836,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 57,
+      "incumbentScore": 58
+    },
+    {
+      "seed": 3000001836,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 53,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001837,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 49,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001837,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 61,
+      "incumbentScore": 42
+    },
+    {
+      "seed": 3000001838,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 81,
+      "incumbentScore": 54
+    },
+    {
+      "seed": 3000001838,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 56,
+      "incumbentScore": 39
+    },
+    {
+      "seed": 3000001839,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 47,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001839,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 62,
+      "incumbentScore": 43
+    },
+    {
+      "seed": 3000001840,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 49,
+      "incumbentScore": 62
+    },
+    {
+      "seed": 3000001840,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 59,
+      "incumbentScore": 36
+    },
+    {
+      "seed": 3000001841,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 50,
+      "incumbentScore": 29
+    },
+    {
+      "seed": 3000001841,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 37,
+      "incumbentScore": 32
+    },
+    {
+      "seed": 3000001842,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 39,
+      "incumbentScore": 40
+    },
+    {
+      "seed": 3000001842,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 45,
+      "incumbentScore": 38
+    },
+    {
+      "seed": 3000001843,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 28,
+      "incumbentScore": 31
+    },
+    {
+      "seed": 3000001843,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 57,
+      "incumbentScore": 54
+    },
+    {
+      "seed": 3000001844,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 45,
+      "incumbentScore": 65
+    },
+    {
+      "seed": 3000001844,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 46,
+      "incumbentScore": 48
+    },
+    {
+      "seed": 3000001845,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 47,
+      "incumbentScore": 55
+    },
+    {
+      "seed": 3000001845,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 66,
+      "incumbentScore": 43
+    },
+    {
+      "seed": 3000001846,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 59,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001846,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 58,
+      "incumbentScore": 65
+    },
+    {
+      "seed": 3000001847,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 53,
+      "incumbentScore": 65
+    },
+    {
+      "seed": 3000001847,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 65,
+      "incumbentScore": 58
+    },
+    {
+      "seed": 3000001848,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 40,
+      "incumbentScore": 43
+    },
+    {
+      "seed": 3000001848,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 62,
+      "incumbentScore": 72
+    },
+    {
+      "seed": 3000001849,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 67,
+      "incumbentScore": 62
+    },
+    {
+      "seed": 3000001849,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 65,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001850,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 60,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001850,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 53,
+      "incumbentScore": 62
+    },
+    {
+      "seed": 3000001851,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 44,
+      "incumbentScore": 65
+    },
+    {
+      "seed": 3000001851,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 58,
+      "incumbentScore": 40
+    },
+    {
+      "seed": 3000001852,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 39,
+      "incumbentScore": 53
+    },
+    {
+      "seed": 3000001852,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 59,
+      "incumbentScore": 64
+    },
+    {
+      "seed": 3000001853,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 23,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001853,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 49,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001854,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 63,
+      "incumbentScore": 67
+    },
+    {
+      "seed": 3000001854,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 56,
+      "incumbentScore": 36
+    },
+    {
+      "seed": 3000001855,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 49,
+      "incumbentScore": 23
+    },
+    {
+      "seed": 3000001855,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 55,
+      "incumbentScore": 50
+    },
+    {
+      "seed": 3000001856,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 58,
+      "incumbentScore": 66
+    },
+    {
+      "seed": 3000001856,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 67,
+      "incumbentScore": 64
+    },
+    {
+      "seed": 3000001857,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 48,
+      "incumbentScore": 70
+    },
+    {
+      "seed": 3000001857,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 51,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001858,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 41,
+      "incumbentScore": 55
+    },
+    {
+      "seed": 3000001858,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 45,
+      "incumbentScore": 42
+    },
+    {
+      "seed": 3000001859,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 32,
+      "incumbentScore": 34
+    },
+    {
+      "seed": 3000001859,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 48,
+      "incumbentScore": 38
+    },
+    {
+      "seed": 3000001860,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 55,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001860,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 66,
+      "incumbentScore": 39
+    },
+    {
+      "seed": 3000001861,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 49,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001861,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 63,
+      "incumbentScore": 52
+    },
+    {
+      "seed": 3000001862,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 61,
+      "incumbentScore": 62
+    },
+    {
+      "seed": 3000001862,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 57,
+      "incumbentScore": 45
+    },
+    {
+      "seed": 3000001863,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 61,
+      "incumbentScore": 70
+    },
+    {
+      "seed": 3000001863,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 72,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001864,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 69,
+      "incumbentScore": 76
+    },
+    {
+      "seed": 3000001864,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 36,
+      "incumbentScore": 66
+    },
+    {
+      "seed": 3000001865,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 62,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001865,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 62,
+      "incumbentScore": 55
+    },
+    {
+      "seed": 3000001866,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 64,
+      "incumbentScore": 63
+    },
+    {
+      "seed": 3000001866,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 46,
+      "incumbentScore": 43
+    },
+    {
+      "seed": 3000001867,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 53,
+      "incumbentScore": 53
+    },
+    {
+      "seed": 3000001867,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 55,
+      "incumbentScore": 75
+    },
+    {
+      "seed": 3000001868,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 70,
+      "incumbentScore": 61
+    },
+    {
+      "seed": 3000001868,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 64,
+      "incumbentScore": 58
+    },
+    {
+      "seed": 3000001869,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 75,
+      "incumbentScore": 55
+    },
+    {
+      "seed": 3000001869,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 66,
+      "incumbentScore": 54
+    },
+    {
+      "seed": 3000001870,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 55,
+      "incumbentScore": 61
+    },
+    {
+      "seed": 3000001870,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 50,
+      "incumbentScore": 38
+    },
+    {
+      "seed": 3000001871,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 50,
+      "incumbentScore": 54
+    },
+    {
+      "seed": 3000001871,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 42,
+      "incumbentScore": 38
+    },
+    {
+      "seed": 3000001872,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 41,
+      "incumbentScore": 42
+    },
+    {
+      "seed": 3000001872,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 51,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001873,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 56,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001873,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 52,
+      "incumbentScore": 69
+    },
+    {
+      "seed": 3000001874,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 48,
+      "incumbentScore": 40
+    },
+    {
+      "seed": 3000001874,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 55,
+      "incumbentScore": 48
+    },
+    {
+      "seed": 3000001875,
+      "first": 0,
+      "result": 0.5,
+      "candidateScore": 38,
+      "incumbentScore": 38
+    },
+    {
+      "seed": 3000001875,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 30,
+      "incumbentScore": 35
+    },
+    {
+      "seed": 3000001876,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 49,
+      "incumbentScore": 40
+    },
+    {
+      "seed": 3000001876,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 70,
+      "incumbentScore": 68
+    },
+    {
+      "seed": 3000001877,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 63,
+      "incumbentScore": 40
+    },
+    {
+      "seed": 3000001877,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 66,
+      "incumbentScore": 60
+    },
+    {
+      "seed": 3000001878,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 32,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001878,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 51,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001879,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 65,
+      "incumbentScore": 70
+    },
+    {
+      "seed": 3000001879,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 60,
+      "incumbentScore": 50
+    },
+    {
+      "seed": 3000001880,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 36,
+      "incumbentScore": 55
+    },
+    {
+      "seed": 3000001880,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 64,
+      "incumbentScore": 75
+    },
+    {
+      "seed": 3000001881,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 50,
+      "incumbentScore": 45
+    },
+    {
+      "seed": 3000001881,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 47,
+      "incumbentScore": 43
+    },
+    {
+      "seed": 3000001882,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 56,
+      "incumbentScore": 47
+    },
+    {
+      "seed": 3000001882,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 52,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001883,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 41,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001883,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 62,
+      "incumbentScore": 50
+    },
+    {
+      "seed": 3000001884,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 28,
+      "incumbentScore": 29
+    },
+    {
+      "seed": 3000001884,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 51,
+      "incumbentScore": 43
+    },
+    {
+      "seed": 3000001885,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 49,
+      "incumbentScore": 40
+    },
+    {
+      "seed": 3000001885,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 47,
+      "incumbentScore": 40
+    },
+    {
+      "seed": 3000001886,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 58,
+      "incumbentScore": 37
+    },
+    {
+      "seed": 3000001886,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 45,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001887,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 42,
+      "incumbentScore": 43
+    },
+    {
+      "seed": 3000001887,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 15,
+      "incumbentScore": 53
+    },
+    {
+      "seed": 3000001888,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 78,
+      "incumbentScore": 61
+    },
+    {
+      "seed": 3000001888,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 46,
+      "incumbentScore": 36
+    },
+    {
+      "seed": 3000001889,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 51,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001889,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 56,
+      "incumbentScore": 60
+    },
+    {
+      "seed": 3000001890,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 38,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001890,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 49,
+      "incumbentScore": 32
+    },
+    {
+      "seed": 3000001891,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 58,
+      "incumbentScore": 55
+    },
+    {
+      "seed": 3000001891,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 45,
+      "incumbentScore": 42
+    },
+    {
+      "seed": 3000001892,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 48,
+      "incumbentScore": 66
+    },
+    {
+      "seed": 3000001892,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 36,
+      "incumbentScore": 42
+    },
+    {
+      "seed": 3000001893,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 40,
+      "incumbentScore": 34
+    },
+    {
+      "seed": 3000001893,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 50,
+      "incumbentScore": 47
+    },
+    {
+      "seed": 3000001894,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 37,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001894,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 47,
+      "incumbentScore": 65
+    },
+    {
+      "seed": 3000001895,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 60,
+      "incumbentScore": 50
+    },
+    {
+      "seed": 3000001895,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 51,
+      "incumbentScore": 59
+    },
+    {
+      "seed": 3000001896,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 49,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001896,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 74,
+      "incumbentScore": 68
+    },
+    {
+      "seed": 3000001897,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 67,
+      "incumbentScore": 52
+    },
+    {
+      "seed": 3000001897,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 54,
+      "incumbentScore": 57
+    },
+    {
+      "seed": 3000001898,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 44,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001898,
+      "first": 1,
+      "result": 0.5,
+      "candidateScore": 47,
+      "incumbentScore": 47
+    },
+    {
+      "seed": 3000001899,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 56,
+      "incumbentScore": 63
+    },
+    {
+      "seed": 3000001899,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 41,
+      "incumbentScore": 63
+    },
+    {
+      "seed": 3000001900,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 46,
+      "incumbentScore": 39
+    },
+    {
+      "seed": 3000001900,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 52,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001901,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 50,
+      "incumbentScore": 54
+    },
+    {
+      "seed": 3000001901,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 48,
+      "incumbentScore": 53
+    },
+    {
+      "seed": 3000001902,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 64,
+      "incumbentScore": 41
+    },
+    {
+      "seed": 3000001902,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 56,
+      "incumbentScore": 48
+    },
+    {
+      "seed": 3000001903,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 44,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001903,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 56,
+      "incumbentScore": 65
+    },
+    {
+      "seed": 3000001904,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 45,
+      "incumbentScore": 53
+    },
+    {
+      "seed": 3000001904,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 37,
+      "incumbentScore": 35
+    },
+    {
+      "seed": 3000001905,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 46,
+      "incumbentScore": 58
+    },
+    {
+      "seed": 3000001905,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 79,
+      "incumbentScore": 61
+    },
+    {
+      "seed": 3000001906,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 49,
+      "incumbentScore": 50
+    },
+    {
+      "seed": 3000001906,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 66,
+      "incumbentScore": 52
+    },
+    {
+      "seed": 3000001907,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 59,
+      "incumbentScore": 58
+    },
+    {
+      "seed": 3000001907,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 57,
+      "incumbentScore": 20
+    },
+    {
+      "seed": 3000001908,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 37,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001908,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 55,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001909,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 55,
+      "incumbentScore": 35
+    },
+    {
+      "seed": 3000001909,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 56,
+      "incumbentScore": 48
+    },
+    {
+      "seed": 3000001910,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 38,
+      "incumbentScore": 42
+    },
+    {
+      "seed": 3000001910,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 48,
+      "incumbentScore": 60
+    },
+    {
+      "seed": 3000001911,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 57,
+      "incumbentScore": 45
+    },
+    {
+      "seed": 3000001911,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 58,
+      "incumbentScore": 57
+    },
+    {
+      "seed": 3000001912,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 39,
+      "incumbentScore": 48
+    },
+    {
+      "seed": 3000001912,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 49,
+      "incumbentScore": 44
+    },
+    {
+      "seed": 3000001913,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 68,
+      "incumbentScore": 52
+    },
+    {
+      "seed": 3000001913,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 78,
+      "incumbentScore": 35
+    },
+    {
+      "seed": 3000001914,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 70,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001914,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 45,
+      "incumbentScore": 43
+    },
+    {
+      "seed": 3000001915,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 50,
+      "incumbentScore": 69
+    },
+    {
+      "seed": 3000001915,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 55,
+      "incumbentScore": 70
+    },
+    {
+      "seed": 3000001916,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 63,
+      "incumbentScore": 56
+    },
+    {
+      "seed": 3000001916,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 56,
+      "incumbentScore": 59
+    },
+    {
+      "seed": 3000001917,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 34,
+      "incumbentScore": 48
+    },
+    {
+      "seed": 3000001917,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 62,
+      "incumbentScore": 72
+    },
+    {
+      "seed": 3000001918,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 46,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001918,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 30,
+      "incumbentScore": 48
+    },
+    {
+      "seed": 3000001919,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 49,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001919,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 47,
+      "incumbentScore": 57
+    },
+    {
+      "seed": 3000001920,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 46,
+      "incumbentScore": 45
+    },
+    {
+      "seed": 3000001920,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 42,
+      "incumbentScore": 63
+    },
+    {
+      "seed": 3000001921,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 60,
+      "incumbentScore": 48
+    },
+    {
+      "seed": 3000001921,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 63,
+      "incumbentScore": 65
+    },
+    {
+      "seed": 3000001922,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 56,
+      "incumbentScore": 58
+    },
+    {
+      "seed": 3000001922,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 61,
+      "incumbentScore": 49
+    },
+    {
+      "seed": 3000001923,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 43,
+      "incumbentScore": 63
+    },
+    {
+      "seed": 3000001923,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 37,
+      "incumbentScore": 55
+    },
+    {
+      "seed": 3000001924,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 71,
+      "incumbentScore": 51
+    },
+    {
+      "seed": 3000001924,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 64,
+      "incumbentScore": 61
+    },
+    {
+      "seed": 3000001925,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 33,
+      "incumbentScore": 39
+    },
+    {
+      "seed": 3000001925,
+      "first": 1,
+      "result": 0,
+      "candidateScore": 29,
+      "incumbentScore": 46
+    },
+    {
+      "seed": 3000001926,
+      "first": 0,
+      "result": 0,
+      "candidateScore": 32,
+      "incumbentScore": 68
+    },
+    {
+      "seed": 3000001926,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 62,
+      "incumbentScore": 50
+    },
+    {
+      "seed": 3000001927,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 56,
+      "incumbentScore": 50
+    },
+    {
+      "seed": 3000001927,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 58,
+      "incumbentScore": 58
+    },
+    {
+      "seed": 3000001928,
+      "first": 0,
+      "result": 1,
+      "candidateScore": 73,
+      "incumbentScore": 58
+    },
+    {
+      "seed": 3000001928,
+      "first": 1,
+      "result": 1,
+      "candidateScore": 63,
+      "incumbentScore": 60
+    }
+  ]
+}

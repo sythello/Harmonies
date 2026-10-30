@@ -1,0 +1,220 @@
+{
+  "hardware": {
+    "node": "v24.17.0",
+    "cpu": "Apple M4",
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "torch": "2.6.0",
+  "threads": 1,
+  "device": "cpu",
+  "samples": 512,
+  "sourceGames": 21,
+  "source": "rl/experiments/10-rounds/v002-playout-cap/run/iteration-0010/games.jsonl",
+  "sourceSubsetSha256": "464608c7f6a0e233325ac5303d3f5798f04192d55d46f6637d2da233946ce2c4",
+  "batchSize": 64,
+  "warmupSteps": 10,
+  "stepsPerRepeat": 100,
+  "repeats": 3,
+  "timingScope": "Prebuilt tensors; forward + losses + backward + clip + AdamW. Excludes JSON/SQLite parsing and per-parameter monitoring.",
+  "models": {
+    "ffn-v2": {
+      "parameters": 343555,
+      "config": {
+        "hidden": [
+          128,
+          128
+        ],
+        "embedding_dim": 8,
+        "architecture": "ffn-v2"
+      },
+      "trainMsPerStep": [
+        1.2905133300228044,
+        1.341136249830015,
+        1.352431250270456
+      ],
+      "firstLoss": {
+        "policy": 2.2945103645324707,
+        "rank": 1.0070616006851196,
+        "relative": 0.009942683391273022,
+        "absolute": 0.23505409061908722
+      },
+      "lastLoss": {
+        "policy": 1.661550760269165,
+        "rank": 0.00125316740013659,
+        "relative": 0.018874280154705048,
+        "absolute": 0.01583111472427845
+      },
+      "forwardMs": [
+        0.06863784583333322,
+        0.07150572916666534,
+        0.06734027916666795
+      ],
+      "predictMs": [
+        0.10823940833333338,
+        0.09010867916666712,
+        0.10167031249999733
+      ],
+      "search": {
+        "16": [
+          {
+            "ms": 5.423184083333335,
+            "nnCalls": 17
+          },
+          {
+            "ms": 4.6399445000000314,
+            "nnCalls": 17
+          },
+          {
+            "ms": 4.622600750000022,
+            "nnCalls": 17
+          }
+        ],
+        "128": [
+          {
+            "ms": 39.05458333333333,
+            "nnCalls": 129
+          },
+          {
+            "ms": 38.46374649999999,
+            "nnCalls": 129
+          },
+          {
+            "ms": 37.861083333333376,
+            "nnCalls": 129
+          }
+        ]
+      },
+      "servingGames": [
+        {
+          "seconds": 3.370507667,
+          "decisions": 91,
+          "simulations": 11648,
+          "reusedDecisions": 75
+        },
+        {
+          "seconds": 3.4068973330000007,
+          "decisions": 91,
+          "simulations": 11648,
+          "reusedDecisions": 75
+        }
+      ],
+      "medianTrainMsPerStep": 1.341136249830015,
+      "trainRowsPerSecond": 47720.72935028921,
+      "medianPredictMs": 0.10167031249999733,
+      "medianSearchMs": {
+        "16": 4.6399445000000314,
+        "128": 38.46374649999999
+      }
+    },
+    "spatial-v3": {
+      "parameters": 2900467,
+      "config": {
+        "hidden": [
+          512,
+          128
+        ],
+        "embedding_dim": 8,
+        "architecture": "spatial-v3"
+      },
+      "trainMsPerStep": [
+        9.99355582986027,
+        10.096969170263037,
+        9.976224169950001
+      ],
+      "firstLoss": {
+        "policy": 2.317530632019043,
+        "rank": 1.003685712814331,
+        "relative": 0.010978790000081062,
+        "absolute": 0.155424565076828
+      },
+      "lastLoss": {
+        "policy": 1.7016626596450806,
+        "rank": 4.038753831991926e-05,
+        "relative": 0.0007589328452013433,
+        "absolute": 0.0019959306810051203
+      },
+      "forwardMs": [
+        0.9404795125000002,
+        0.9271571166666661,
+        1.3095975666666655
+      ],
+      "predictMs": [
+        0.9435800333333333,
+        0.9586045166666679,
+        1.3343001708333342
+      ],
+      "search": {
+        "16": [
+          {
+            "ms": 19.17235766666666,
+            "nnCalls": 17
+          },
+          {
+            "ms": 19.2129200833333,
+            "nnCalls": 17
+          },
+          {
+            "ms": 25.7250208333334,
+            "nnCalls": 17
+          }
+        ],
+        "128": [
+          {
+            "ms": 149.28318408333334,
+            "nnCalls": 129
+          },
+          {
+            "ms": 171.77842366666673,
+            "nnCalls": 129
+          },
+          {
+            "ms": 198.3578229166666,
+            "nnCalls": 129
+          }
+        ]
+      },
+      "servingGames": [
+        {
+          "seconds": 15.505003834000002,
+          "decisions": 84,
+          "simulations": 10752,
+          "reusedDecisions": 68
+        },
+        {
+          "seconds": 15.535207333000002,
+          "decisions": 84,
+          "simulations": 10752,
+          "reusedDecisions": 68
+        }
+      ],
+      "medianTrainMsPerStep": 9.99355582986027,
+      "trainRowsPerSecond": 6404.126928352272,
+      "medianPredictMs": 0.9586045166666679,
+      "medianSearchMs": {
+        "16": 19.2129200833333,
+        "128": 171.77842366666673
+      }
+    }
+  },
+  "newOverOldLatencyRatio": {
+    "parameters": 8.442511388278442,
+    "medianTrainMsPerStep": 7.451558953183857,
+    "medianPredictMs": 9.428558770945973,
+    "search16": 4.140765063748752,
+    "search128": 4.46598262773666
+  },
+  "servingPositions": 12,
+  "sourceSha256": {
+    "rl/train.py": "6a63b6f7b8cc699e34d529583d692e51e9b406c3c27a3f5e65ac8d00a760cdb8",
+    "rl/spatial.json": "f866f6b514cb43959b257c10f4ebb3f6020396adcb88ffb65de627bc0067c432",
+    "rl/benchmark_scaling.py": "c347c672ad7180067ce66482aa4454639454078aa3dd9a85d5d7069b364f4d3f",
+    "scripts/benchmark-rl-scaling.ts": "48bdc0162b4b0ad9f289904cd8677a1c6f58e1b186aa2f3af89f105d69435f30",
+    "src/game/ai/rl/encoding.ts": "9bea1ad6a18637006273ae73a8a4d576460c7a37e887417730261a328f3625b6",
+    "src/game/ai/rl/mcts.ts": "8cf5c19657bbd1aa63580385d68f15f9dd8544225644ea7d5193efaa9aed35db",
+    "src/game/ai/rl/network.ts": "202949a353ca2dfd50a715ddec595a4538b0224016c367c4183411999d7879f1",
+    "src/game/ai/rl/spatial.ts": "c019ce9aa3a203309b2b37ba69f9bc9b7556b71cc8aa52a577b6a601d7883005",
+    "src/game/ai/rl/trajectory.ts": "05e60468ec8c0dc64b5c903f4e09526b9bab948ae5b4c8b11ed31f5ba6530c64",
+    "src/game/ai/rl/worker.ts": "d310f150d3d6b6872b020617614a0c9bc66de8dcfbda463b7c246db6ea9e23f1"
+  }
+}
